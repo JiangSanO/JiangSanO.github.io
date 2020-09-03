@@ -1,0 +1,344 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2020-09-03 Thu 09:12 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Linux 程序设计</title>
+<meta name="generator" content="Org mode" />
+<meta name="author" content="JiangSan" />
+
+<link rel='stylesheet'href='../static/org-manual.css' type='text/css'/>
+<script type='text/javascript' defer src='../static/org-manual.js'></script>
+<script type='text/javascript'>window.onload =  function () {init();  }</script>
+<meta name='viewport' content='width=device-width, initial-scale=1.0'>
+<script type="text/javascript">
+// @license magnet:?xt=urn:btih:1f739d935676111cfff4b4693e3816e664797050&amp;dn=gpl-3.0.txt GPL-v3-or-Later
+<!--/*--><![CDATA[/*><!--*/
+     function CodeHighlightOn(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(null != target) {
+         elem.cacheClassElem = elem.className;
+         elem.cacheClassTarget = target.className;
+         target.className = "code-highlighted";
+         elem.className   = "code-highlighted";
+       }
+     }
+     function CodeHighlightOff(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(elem.cacheClassElem)
+         elem.className = elem.cacheClassElem;
+       if(elem.cacheClassTarget)
+         target.className = elem.cacheClassTarget;
+     }
+    /*]]>*///-->
+// @license-end
+</script>
+</head>
+<body>
+<div id="content">
+<h1 class="title">Linux 程序设计</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#orgfe1a1f5">1. Linux程序设计</a></li>
+<li><a href="#orgd8acfe7">2. 文件操作</a>
+<ul>
+<li><a href="#org4a76075">2.1. 底层系统调用</a></li>
+<li><a href="#org060e241">2.2. 特殊的文件</a>
+<ul>
+<li><a href="#orgf9d1897">2.2.1. 目录</a>
+<ul>
+<li><a href="#org269010c">2.2.1.1. 删除目录的文件</a></li>
+<li><a href="#org64f038e">2.2.1.2. 进入家目录</a></li>
+</ul>
+</li>
+<li><a href="#orge0be23a">2.2.2. 设备文件</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#orgf4ea9b0">3. 进程管理</a>
+<ul>
+<li><a href="#orgdb5e5d1">3.1. 进程的定义</a></li>
+<li><a href="#org8c7492a">3.2. 进程的组成</a></li>
+<li><a href="#org83fa0d9">3.3. 操作系统如何管理多个进程?</a>
+<ul>
+<li><a href="#orgae603ce">3.3.1. 当程序被装载到内存中时,那部分可以被共享,那部分是不能共享的?</a></li>
+<li><a href="#org47d0082">3.3.2. 当物理内存不够时,Linux如何处理即将装入内存的数据?</a></li>
+</ul>
+</li>
+<li><a href="#orgeb26542">3.4. ps命令输出细节</a>
+<ul>
+<li><a href="#orgb9f958d">3.4.1. 系统的进程状态</a></li>
+</ul>
+</li>
+<li><a href="#orgc4b6430">3.5. 父进程和子进程</a>
+<ul>
+<li><a href="#orgb5bc032">3.5.1. 进程号为1的进程</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-orgfe1a1f5" class="outline-2">
+<h2 id="orgfe1a1f5"><span class="section-number-2">1</span> Linux程序设计</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+学习Linux程序设计主要认识Linux的系统API，通过系统所提供的API来操控硬件资源。
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgd8acfe7" class="outline-2">
+<h2 id="orgd8acfe7"><span class="section-number-2">2</span> 文件操作</h2>
+<div class="outline-text-2" id="text-2">
+<p>
+在Linux中，一切（或几乎一切）都是文件。 —— 意味着操作硬件资源就像操作文件一样。
+</p>
+</div>
+
+<div id="outline-container-org4a76075" class="outline-3">
+<h3 id="org4a76075"><span class="section-number-3">2.1</span> 底层系统调用</h3>
+<div class="outline-text-3" id="text-2-1">
+<p>
+文件操作的5个基本的函数—— <code>open</code> 、 <code>close</code> 、 <code>read</code> 、 <code>write</code> 和 <code>ioctl</code> 。
+</p>
+
+<ul class="org-ul">
+<li><code>open</code> ：打开文件或设备。</li>
+<li><code>read</code> ：从打开的文件或设备里读数据。</li>
+<li><code>write</code> ：向文件或设备写数据。</li>
+<li><code>close</code> ：关闭文件或设备。</li>
+<li><p>
+<code>ioctl</code> ：把控制信息传递给设备驱动程序。
+</p>
+
+<p>
+系统调用ioctl用于提供一些与特定硬件设备有关的必要控制（与正常的输入输出相反），所以它
+</p></li>
+</ul>
+<p>
+的用法随设备的不同而不同。例如，ioctl调用可以用于回绕磁带机或设置串行口的流控特性。因此，
+ioctl并不需要具备可移植性。此外，每个驱动程序都定义了它自己的一组ioctl命令。
+</p>
+</div>
+</div>
+<div id="outline-container-org060e241" class="outline-3">
+<h3 id="org060e241"><span class="section-number-3">2.2</span> 特殊的文件</h3>
+<div class="outline-text-3" id="text-2-2">
+</div>
+<div id="outline-container-orgf9d1897" class="outline-4">
+<h4 id="orgf9d1897"><span class="section-number-4">2.2.1</span> 目录</h4>
+<div class="outline-text-4" id="text-2-2-1">
+<p>
+目录是用于保存其他文件的节点号和名字的文件。
+</p>
+</div>
+
+<div id="outline-container-org269010c" class="outline-5">
+<h5 id="org269010c"><span class="section-number-5">2.2.1.1</span> 删除目录的文件</h5>
+<div class="outline-text-5" id="text-2-2-1-1">
+<p>
+删除一个文件时，实质上是删除了该文件对应的目录项，同时指向该文件的链接数减1;
+</p>
+
+<p>
+如果指向某个文件的链接数（即ls -l命令的输出中跟在访问权限后面的那个数字）变为零，
+就表示该节点以及其指向的数据不再被使用，磁盘上的相应位置就会被标记为可用空间。
+</p>
+</div>
+</div>
+
+<div id="outline-container-org64f038e" class="outline-5">
+<h5 id="org64f038e"><span class="section-number-5">2.2.1.2</span> 进入家目录</h5>
+<div class="outline-text-5" id="text-2-2-1-2">
+<p>
+进入自己的家目录： <code>cd ~</code>
+</p>
+
+<p>
+进入他人的家目录： <code>cd ~user</code> 其中user表示别人的家目录名。
+</p>
+
+<p>
+<b>糟糕的是，标准库函数不能理解文件名参数中的shell波浪线速记符号</b>
+</p>
+</div>
+</div>
+</div>
+<div id="outline-container-orge0be23a" class="outline-4">
+<h4 id="orge0be23a"><span class="section-number-4">2.2.2</span> 设备文件</h4>
+<div class="outline-text-4" id="text-2-2-2">
+<p>
+UNIX和Linux中比较重要的设备文件有3个： <code>/dev/console、/dev/tty和/dev/null</code> 。
+</p>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-orgf4ea9b0" class="outline-2">
+<h2 id="orgf4ea9b0"><span class="section-number-2">3</span> 进程管理</h2>
+<div class="outline-text-2" id="text-3">
+</div>
+<div id="outline-container-orgdb5e5d1" class="outline-3">
+<h3 id="orgdb5e5d1"><span class="section-number-3">3.1</span> 进程的定义</h3>
+<div class="outline-text-3" id="text-3-1">
+<blockquote>
+<p>
+“一个其中运行着一个或多个线程的地址空间和这些线程所需要的系统资源。”
+                UNIX标准（特别是IEEE Std 1003.1, 2004年版）
+</p>
+</blockquote>
+</div>
+</div>
+
+<div id="outline-container-org8c7492a" class="outline-3">
+<h3 id="org8c7492a"><span class="section-number-3">3.2</span> 进程的组成</h3>
+<div class="outline-text-3" id="text-3-2">
+<p>
+正在运行的程序或进程由程序代码、数据、变量（占用着系统内存）、打开的文件（文件描
+述符）和环境组成
+</p>
+</div>
+</div>
+<div id="outline-container-org83fa0d9" class="outline-3">
+<h3 id="org83fa0d9"><span class="section-number-3">3.3</span> 操作系统如何管理多个进程?</h3>
+<div class="outline-text-3" id="text-3-3">
+</div>
+<div id="outline-container-orgae603ce" class="outline-4">
+<h4 id="orgae603ce"><span class="section-number-4">3.3.1</span> 当程序被装载到内存中时,那部分可以被共享,那部分是不能共享的?</h4>
+</div>
+<div id="outline-container-org47d0082" class="outline-4">
+<h4 id="org47d0082"><span class="section-number-4">3.3.2</span> 当物理内存不够时,Linux如何处理即将装入内存的数据?</h4>
+</div>
+</div>
+<div id="outline-container-orgeb26542" class="outline-3">
+<h3 id="orgeb26542"><span class="section-number-3">3.4</span> ps命令输出细节</h3>
+<div class="outline-text-3" id="text-3-4">
+
+<div class="figure">
+<p><img src="./Material/Image/image-9XPUJx20200902-204442.png" alt="image-9XPUJx20200902-204442.png" />
+</p>
+</div>
+
+<ul class="org-ul">
+<li>CMD一列显示启动进程所使用的命令。</li>
+<li>TTY一列显示了进程是从哪一个终端启动的</li>
+<li>TIME一列是进程目前为止所占用的CPU时间</li>
+<li>STAT一列用来表明进程的当前状态</li>
+</ul>
+</div>
+
+<div id="outline-container-orgb9f958d" class="outline-4">
+<h4 id="orgb9f958d"><span class="section-number-4">3.4.1</span> 系统的进程状态</h4>
+<div class="outline-text-4" id="text-3-4-1">
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">STAT代码</th>
+<th scope="col" class="org-left">说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left">S</td>
+<td class="org-left">睡眠。通常是在等待某个事件的发生，如一个信号或有输入可用</td>
+</tr>
+
+<tr>
+<td class="org-left">R</td>
+<td class="org-left">运行。严格来说，应是“可运行”，即在运行队列中，处于正在执行或即将运行状态</td>
+</tr>
+
+<tr>
+<td class="org-left">D</td>
+<td class="org-left">不可中断的睡眠（等待）。通常是在等待输入或输出完成</td>
+</tr>
+
+<tr>
+<td class="org-left">T</td>
+<td class="org-left">停止。通常是被shell作业控制所停止，或者进程正处于调试器的控制之下</td>
+</tr>
+
+<tr>
+<td class="org-left">Z</td>
+<td class="org-left">死（Defunct）进程或僵尸（zombie）进程</td>
+</tr>
+
+<tr>
+<td class="org-left">N</td>
+<td class="org-left">低优先级任务，nice</td>
+</tr>
+
+<tr>
+<td class="org-left">W</td>
+<td class="org-left">分页。（不适用于2.6版本开始的Linux内核）</td>
+</tr>
+
+<tr>
+<td class="org-left">s</td>
+<td class="org-left">进程是会话期首进程</td>
+</tr>
+
+<tr>
+<td class="org-left">+</td>
+<td class="org-left">进程属于前台进程组</td>
+</tr>
+
+<tr>
+<td class="org-left">l</td>
+<td class="org-left">进程是多线程的</td>
+</tr>
+
+<tr>
+<td class="org-left">&lt;</td>
+<td class="org-left">高优先级任务</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgc4b6430" class="outline-3">
+<h3 id="orgc4b6430"><span class="section-number-3">3.5</span> 父进程和子进程</h3>
+<div class="outline-text-3" id="text-3-5">
+<p>
+每个进程都是由另一个我们称之为父进程的进程启动的，被父进程启动的进程叫做子进程。
+</p>
+</div>
+
+<div id="outline-container-orgb5bc032" class="outline-4">
+<h4 id="orgb5bc032"><span class="section-number-4">3.5.1</span> 进程号为1的进程</h4>
+<div class="outline-text-4" id="text-3-5-1">
+<p>
+Linux系统启动时，它将运行一个名为 <code>init</code> 的进程，该进程是系统运行的第一个进程，
+它的进程号为1。
+</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="author">Author: JiangSan</p>
+<p class="date">Created: 2020-09-03 Thu 09:12</p>
+</div>
+</body>
+</html>

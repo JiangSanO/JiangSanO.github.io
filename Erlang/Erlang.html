@@ -1,0 +1,1874 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2020-09-03 Thu 09:12 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Erlang程序设计</title>
+<meta name="generator" content="Org mode" />
+<meta name="author" content="JiangSan" />
+
+<link rel='stylesheet'href='../static/org-manual.css' type='text/css'/>
+<script type='text/javascript' defer src='../static/org-manual.js'></script>
+<script type='text/javascript'>window.onload =  function () {init();  }</script>
+<meta name='viewport' content='width=device-width, initial-scale=1.0'>
+<script type="text/javascript">
+// @license magnet:?xt=urn:btih:1f739d935676111cfff4b4693e3816e664797050&amp;dn=gpl-3.0.txt GPL-v3-or-Later
+<!--/*--><![CDATA[/*><!--*/
+     function CodeHighlightOn(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(null != target) {
+         elem.cacheClassElem = elem.className;
+         elem.cacheClassTarget = target.className;
+         target.className = "code-highlighted";
+         elem.className   = "code-highlighted";
+       }
+     }
+     function CodeHighlightOff(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(elem.cacheClassElem)
+         elem.className = elem.cacheClassElem;
+       if(elem.cacheClassTarget)
+         target.className = elem.cacheClassTarget;
+     }
+    /*]]>*///-->
+// @license-end
+</script>
+</head>
+<body>
+<div id="content">
+<h1 class="title">Erlang程序设计</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#orgfb77142">1. Erlang基本概念</a>
+<ul>
+<li><a href="#orga56d979">1.1. 使用erl</a>
+<ul>
+<li><a href="#orgc419886">1.1.1. 如何停止eshell</a></li>
+<li><a href="#org1e12c7c">1.1.2. 关于目录的命令</a></li>
+<li><a href="#org1c99aed">1.1.3. erl里面的快捷键</a></li>
+</ul>
+</li>
+<li><a href="#org5699aa8">1.2. 模式匹配</a>
+<ul>
+<li><a href="#org57c9ce3">1.2.1. <code>=</code> 运算符</a></li>
+<li><a href="#org4486ec0">1.2.2. 模式匹配的一些例子</a></li>
+</ul>
+</li>
+<li><a href="#orgf674531">1.3. 变量与原子</a>
+<ul>
+<li><a href="#org2131fec">1.3.1. 一次性赋值就像是代数</a></li>
+<li><a href="#org9672cb1">1.3.2. 没有副作用意味着并行变得简单</a></li>
+<li><a href="#org3a10bb0">1.3.3. 原子的语法</a></li>
+<li><a href="#orgfc954d2">1.3.4. 原子返回的值</a></li>
+<li><a href="#org8fbcac5">1.3.5. 如何让shell忘记所有的变量绑定？</a></li>
+</ul>
+</li>
+<li><a href="#orgd5f8cd6">1.4. Erlang的注释</a></li>
+<li><a href="#org996f4fd">1.5. 附注</a>
+<ul>
+<li><a href="#org4c52d09">1.5.1. <code>-import()</code></a></li>
+<li><a href="#org7d0fc9c">1.5.2. <code>-module()</code></a></li>
+<li><a href="#org75e3bc5">1.5.3. <code>-export()</code></a></li>
+</ul>
+</li>
+<li><a href="#org8867d9b">1.6. 进程，模块和编译</a>
+<ul>
+<li><a href="#org58fed5d">1.6.1. 在Eshell内编译文件</a></li>
+<li><a href="#org71fb967">1.6.2. 在Eshell外编译文件</a></li>
+</ul>
+</li>
+<li><a href="#org6dadb9d">1.7. 递归</a>
+<ul>
+<li><a href="#orga9f75a0">1.7.1. 对函数的自身调用最终会消耗存储空间吗？</a></li>
+<li><a href="#org3e7339c">1.7.2. Erlang如何编写无限循环？</a></li>
+</ul>
+</li>
+<li><a href="#org33a1031">1.8. 并发</a>
+<ul>
+<li><a href="#org8a7e50b">1.8.1. 进程 —— 并发的基本单元</a></li>
+<li><a href="#org7d9edf3">1.8.2. [Code] 文件服务器进程</a></li>
+</ul>
+</li>
+<li><a href="#orge7a8b86">1.9. 如何编写Erlang程序</a></li>
+</ul>
+</li>
+<li><a href="#orge53dad5">2. Erlang数据结构</a>
+<ul>
+<li><a href="#org85d311c">2.1. 基本数据类型</a>
+<ul>
+<li><a href="#orgd5a28b5">2.1.1. 整数</a>
+<ul>
+<li><a href="#orgcb8f674">2.1.1.1. 整数运算时需要考虑其溢出问题吗？</a></li>
+<li><a href="#orgd031d09">2.1.1.2. 整数的其他进制表示</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#orge38aa0f">2.2. 元组</a>
+<ul>
+<li><a href="#org13ba47c">2.2.1. 如何使得匿名的元组的含义更加清晰？</a></li>
+<li><a href="#org4b0cdc7">2.2.2. 嵌套的元组</a>
+<ul>
+<li><a href="#org52ef6eb">2.2.2.1. 使用变量进行元组嵌套</a></li>
+</ul>
+</li>
+<li><a href="#org98db0eb">2.2.3. 使用模式匹配提取元组的值</a>
+<ul>
+<li><a href="#org5812257">2.2.3.1. 使用相同的变量提取元组值的条件</a></li>
+<li><a href="#orgec90ccf">2.2.3.2. 对不感兴趣的值应该如何处理？</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#orgce2acd4">2.3. 列表</a>
+<ul>
+<li><a href="#orgc9c9f99">2.3.1. 列表内部允许同时存在哪些类型？</a></li>
+<li><a href="#org223c917">2.3.2. 列表头和列表尾</a></li>
+<li><a href="#orgcf52e5b">2.3.3. 增加列表元素</a></li>
+<li><a href="#org2469ce9">2.3.4. 提取列表元素</a></li>
+<li><a href="#org95b1e54">2.3.5. 列表推导</a>
+<ul>
+<li><a href="#org6a8ce39">2.3.5.1. 具有约束(过滤器)的列表推导</a></li>
+<li><a href="#org8583141">2.3.5.2. 使用多个生成器</a></li>
+<li><a href="#org8d2bed2">2.3.5.3. 位串</a></li>
+</ul>
+</li>
+<li><a href="#org1a3b302">2.3.6. [Code] 快速排序(Quicksort)</a></li>
+<li><a href="#orgedbdd1d">2.3.7. [Code] 毕达哥拉斯三元数组</a></li>
+<li><a href="#org7e4a5bd">2.3.8. [Code] 回文构词</a></li>
+</ul>
+</li>
+<li><a href="#org1a14d33">2.4. 字符串</a>
+<ul>
+<li><a href="#org79af4db">2.4.1. 字符串使用哪种编码方式呈现？</a></li>
+<li><a href="#org31d98ac">2.4.2. 字符串字面量</a></li>
+<li><a href="#org538bc56">2.4.3. 查看字符对应的整数</a></li>
+<li><a href="#org95ef779">2.4.4. 使用数字代码表示一个字符</a></li>
+<li><a href="#org8eb9e41">2.4.5. 将数字列表打印为字符串</a></li>
+<li><a href="#orgb33f79d">2.4.6. 将数字列表打印为数字</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#orgc31fbd6">3. Erlang运算符</a>
+<ul>
+<li><a href="#org092dc6e">3.1. 算术运算符</a>
+<ul>
+<li><a href="#org86aa6f6">3.1.1. rem</a></li>
+<li><a href="#orgdd88783">3.1.2. div</a></li>
+<li><a href="#orgb7a1cc6">3.1.3. /</a></li>
+</ul>
+</li>
+<li><a href="#orgd3373de">3.2. 逻辑运算符</a>
+<ul>
+<li><a href="#org7929e25">3.2.1. <code>=:=</code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#orgdfdd9af">4. Erlang表达式</a>
+<ul>
+<li><a href="#org17b2031">4.1. 函数</a>
+<ul>
+<li><a href="#orgff747d9">4.1.1. 函数的导出声明</a></li>
+<li><a href="#orgb48b9ac">4.1.2. 函数的子句声明顺序</a></li>
+<li><a href="#orga6e71ab">4.1.3. 函数的分隔符号</a></li>
+<li><a href="#org82a8b95">4.1.4. 什么是高阶函数？</a></li>
+<li><a href="#org1cd53f3">4.1.5. 定义匿名函数</a>
+<ul>
+<li><a href="#orge13b4b7">4.1.5.1. 具有多个子句的匿名函数</a></li>
+<li><a href="#orgf01562f">4.1.5.2. 返回匿名函数</a></li>
+<li><a href="#orge137964">4.1.5.3. 在自己的函数中使用传递的函数参数</a></li>
+</ul>
+</li>
+<li><a href="#org893d852">4.1.6. 定义自己的控制抽象</a></li>
+<li><a href="#org44fc612">4.1.7. 内置函数</a></li>
+</ul>
+</li>
+<li><a href="#org975e830">4.2. 模块</a></li>
+<li><a href="#orge8dd63e">4.3. 关卡</a>
+<ul>
+<li><a href="#org3764c86">4.3.1. 可以在哪里使用关卡？</a></li>
+<li><a href="#orgde7c9a4">4.3.2. 关卡序列</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-orgfb77142" class="outline-2">
+<h2 id="orgfb77142"><span class="section-number-2">1</span> Erlang基本概念</h2>
+<div class="outline-text-2" id="text-1">
+</div>
+<div id="outline-container-orga56d979" class="outline-3">
+<h3 id="orga56d979"><span class="section-number-3">1.1</span> 使用erl</h3>
+<div class="outline-text-3" id="text-1-1">
+
+<div class="figure">
+<p><img src="./Material/Image/image-0cVLBY20200901-114847.png" alt="image-0cVLBY20200901-114847.png" />
+</p>
+</div>
+
+<ul class="org-ul">
+<li><code>$</code> 是操作系统提示符。</li>
+<li>请注意每一条表达式都必须以一个句号后接一个空白字符结尾</li>
+<li>空白字符是指空格、制表（Tab）或者回车符。</li>
+</ul>
+</div>
+<div id="outline-container-orgc419886" class="outline-4">
+<h4 id="orgc419886"><span class="section-number-4">1.1.1</span> 如何停止eshell</h4>
+<div class="outline-text-4" id="text-1-1-1">
+<p>
+要立即停止系统，应执行表达式 <code>erlang:halt()</code> 。也可以立即输入函数 <code>halt().</code>
+</p>
+
+<p>
+使用 <code>Ctrl C</code> 选择 <code>abort</code> . 停止系统最简单的方式是按Ctrl+C（Windows里是
+Ctrl+Break） 后接a（“abort”的简写）
+<img src="./Material/Image/image-a5LLcP20200901-114954.png" alt="image-a5LLcP20200901-114954.png" />
+</p>
+
+<p>
+输入a会立即停止系统，这可能导致某些数据的损坏。要实现受控关闭，可以输入 <code>q()</code>
+(q()是 <code>init:stop()</code> 命令在shell里的别名。).
+<img src="./Material/Image/image-Kz18R120200901-115055.png" alt="image-Kz18R120200901-115055.png" />
+</p>
+</div>
+</div>
+
+<div id="outline-container-org1e12c7c" class="outline-4">
+<h4 id="org1e12c7c"><span class="section-number-4">1.1.2</span> 关于目录的命令</h4>
+<div class="outline-text-4" id="text-1-1-2">
+<ul class="org-ul">
+<li> <code>pwd()</code> 打印当前工作目录。</li>
+<li> <code>ls()</code> 列出当前工作目录里所有的文件名。</li>
+<li> <code>cd(Dir)</code> 修改当前工作目录至Dir。</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org1c99aed" class="outline-4">
+<h4 id="org1c99aed"><span class="section-number-4">1.1.3</span> erl里面的快捷键</h4>
+<div class="outline-text-4" id="text-1-1-3">
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<tbody>
+<tr>
+<td class="org-left">命令</td>
+<td class="org-left">说明</td>
+</tr>
+
+<tr>
+<td class="org-left">^A</td>
+<td class="org-left">行首</td>
+</tr>
+
+<tr>
+<td class="org-left">^D</td>
+<td class="org-left">删除当前字符</td>
+</tr>
+
+<tr>
+<td class="org-left">^E</td>
+<td class="org-left">行尾</td>
+</tr>
+
+<tr>
+<td class="org-left">^F或右箭头键</td>
+<td class="org-left">向前的字符</td>
+</tr>
+
+<tr>
+<td class="org-left">^B或左箭头键</td>
+<td class="org-left">向后的字符</td>
+</tr>
+
+<tr>
+<td class="org-left">^P或上箭头键</td>
+<td class="org-left">前一行</td>
+</tr>
+
+<tr>
+<td class="org-left">^N或下箭头键</td>
+<td class="org-left">下一行</td>
+</tr>
+
+<tr>
+<td class="org-left">^T</td>
+<td class="org-left">调换最近两个字符的位置</td>
+</tr>
+
+<tr>
+<td class="org-left">Tab</td>
+<td class="org-left">尝试扩展当前模块或函数的名称</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org5699aa8" class="outline-3">
+<h3 id="org5699aa8"><span class="section-number-3">1.2</span> 模式匹配</h3>
+<div class="outline-text-3" id="text-1-2">
+</div>
+<div id="outline-container-org57c9ce3" class="outline-4">
+<h4 id="org57c9ce3"><span class="section-number-4">1.2.1</span> <code>=</code> 运算符</h4>
+<div class="outline-text-4" id="text-1-2-1">
+
+<div class="figure">
+<p><img src="./Material/Image/image-GU38cO20200901-115135.png" alt="image-GU38cO20200901-115135.png" />
+</p>
+</div>
+
+<p>
+<code>=</code> 不是一个赋值操作符，它实际上是一个模式匹配操作符。
+</p>
+
+<p>
+绑定变量的意思是给变量一个值，一旦这个值被绑定，以后就不能改动了。在命令式语言里，
+变量其实是伪装起来的内存地址。
+</p>
+
+<p>
+当一个变量与另一个值进行模式匹配时，若变量一开始是没有值的话，那么变量将与右边的
+值绑定。否则就会与右边的值进行模式匹配。
+</p>
+</div>
+</div>
+<div id="outline-container-org4486ec0" class="outline-4">
+<h4 id="org4486ec0"><span class="section-number-4">1.2.2</span> 模式匹配的一些例子</h4>
+<div class="outline-text-4" id="text-1-2-2">
+
+<div class="figure">
+<p><img src="./Material/Image/image-xCmbUj20200901-115214.png" alt="image-xCmbUj20200901-115214.png" />
+</p>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgf674531" class="outline-3">
+<h3 id="orgf674531"><span class="section-number-3">1.3</span> 变量与原子</h3>
+<div class="outline-text-3" id="text-1-3">
+<p>
+Erlang的变量以大写字母开头。以小写字母开头的名称（比如monday或friday）不是变量，
+而是符号常量，它们被称为原子（atom）。
+</p>
+</div>
+
+<div id="outline-container-org2131fec" class="outline-4">
+<h4 id="org2131fec"><span class="section-number-4">1.3.1</span> 一次性赋值就像是代数</h4>
+<div class="outline-text-4" id="text-1-3-1">
+
+<div class="figure">
+<p><img src="./Material/Image/image-AwhO6v20200901-115254.png" alt="image-AwhO6v20200901-115254.png" />
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org9672cb1" class="outline-4">
+<h4 id="org9672cb1"><span class="section-number-4">1.3.2</span> 没有副作用意味着并行变得简单</h4>
+<div class="outline-text-4" id="text-1-3-2">
+
+<div class="figure">
+<p><img src="./Material/Image/image-xBNgQz20200901-115311.png" alt="image-xBNgQz20200901-115311.png" />
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org3a10bb0" class="outline-4">
+<h4 id="org3a10bb0"><span class="section-number-4">1.3.3</span> 原子的语法</h4>
+<div class="outline-text-4" id="text-1-3-3">
+<p>
+原子被用于表示常量值。在C程序里，这些常量的值无关紧要，而在这里它们之所以值得注
+意仅仅是因为其各不相同，可以用来比较是否相等。
+</p>
+
+<p>
+在Erlang里，原子是全局性的，而且不需要宏定义或包含文件就能实现。
+</p>
+
+<ul class="org-ul">
+<li>原子以小写字母开头，后接一串字母、数字、下划线（_）或at（@）符号</li>
+<li>原子还可以放在单引号（&rsquo;）内。可以用这种引号形式创建以大写字母开头,例如
+<code>'Monday'、'Tuesday'、'+'、'*'</code> 和 <code>'an atom with spaces'</code> 。</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-orgfc954d2" class="outline-4">
+<h4 id="orgfc954d2"><span class="section-number-4">1.3.4</span> 原子返回的值</h4>
+<div class="outline-text-4" id="text-1-3-4">
+<p>
+一个原子的值就是它本身。
+</p>
+</div>
+</div>
+
+<div id="outline-container-org8fbcac5" class="outline-4">
+<h4 id="org8fbcac5"><span class="section-number-4">1.3.5</span> 如何让shell忘记所有的变量绑定？</h4>
+<div class="outline-text-4" id="text-1-3-5">
+<p>
+<code>f()</code> 命令让shell忘记现有的任何绑定。在这个命令之后，所有变量都会变成未绑定状态
+<img src="./Material/Image/image-XcUaLi20200901-115435.png" alt="image-XcUaLi20200901-115435.png" />
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgd5f8cd6" class="outline-3">
+<h3 id="orgd5f8cd6"><span class="section-number-3">1.4</span> Erlang的注释</h3>
+<div class="outline-text-3" id="text-1-4">
+<p>
+Erlang的注释由 <code>%</code> 开始,一直到行尾。
+</p>
+</div>
+</div>
+
+<div id="outline-container-org996f4fd" class="outline-3">
+<h3 id="org996f4fd"><span class="section-number-3">1.5</span> 附注</h3>
+<div class="outline-text-3" id="text-1-5">
+<p>
+在erlang中，存在一种叫做附注的语句，不能在shell里输入附注，附注是以连字符开头的
+事物(例如 <code>-module</code> 和 <code>-export</code> ) 。
+</p>
+</div>
+<div id="outline-container-org4c52d09" class="outline-4">
+<h4 id="org4c52d09"><span class="section-number-4">1.5.1</span> <code>-import()</code></h4>
+<div class="outline-text-4" id="text-1-5-1">
+<div class="org-src-container">
+<pre class="src src-erlang">-import(lists, [map/2, sum/1]).
+</pre>
+</div>
+<p>
+<code>-import(lists, [map/2, sum/1]).</code> 声明的意思是map/2函数是从lists模块里导入的。
+</p>
+</div>
+</div>
+
+<div id="outline-container-org7d0fc9c" class="outline-4">
+<h4 id="org7d0fc9c"><span class="section-number-4">1.5.2</span> <code>-module()</code></h4>
+<div class="outline-text-4" id="text-1-5-2">
+<div class="org-src-container">
+<pre class="src src-erlang">-module(mylists).
+</pre>
+</div>
+<p>
+设置本模块为mylists,模块名与文件名同名。
+</p>
+</div>
+</div>
+
+<div id="outline-container-org75e3bc5" class="outline-4">
+<h4 id="org75e3bc5"><span class="section-number-4">1.5.3</span> <code>-export()</code></h4>
+<div class="outline-text-4" id="text-1-5-3">
+<div class="org-src-container">
+<pre class="src src-erlang">-export([total/1, sum/1]).
+</pre>
+</div>
+<p>
+从本模块导出函数 <code>total/1</code> 和函数 <code>sum/1</code> 。
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org8867d9b" class="outline-3">
+<h3 id="org8867d9b"><span class="section-number-3">1.6</span> 进程，模块和编译</h3>
+<div class="outline-text-3" id="text-1-6">
+<p>
+Erlang程序是由许多并行的进程构成的。进程负责执行模块里定义的函数。模块则是扩展名
+为 <code>.erl</code> 的文件，运行前必须先编译它们。编译某个模块之后，就可以在shell或者直接
+从操作系统环境的命令行里执行该模块中的函数了。
+</p>
+</div>
+
+<div id="outline-container-org58fed5d" class="outline-4">
+<h4 id="org58fed5d"><span class="section-number-4">1.6.1</span> 在Eshell内编译文件</h4>
+<div class="outline-text-4" id="text-1-6-1">
+<p>
+创建hello.erl文件， <b>文件名与模块名相同</b> 。
+</p>
+
+
+<div class="figure">
+<p><img src="./Material/Image/image-6YCpxs20200901-115531.png" alt="image-6YCpxs20200901-115531.png" />
+</p>
+</div>
+
+<p>
+打开eshell进行编译执行。
+<img src="./Material/Image/image-4iyiBB20200901-115542.png" alt="image-4iyiBB20200901-115542.png" />
+</p>
+
+<p>
+<code>c(hello)</code> 命令编译了hello.erl文件里的代码。 <code>{ok, hello}</code> 的意思是编译成功。现
+在代码已准备好运行了。第2行里执行了 <code>hello:start()</code> 函数。第3行里停止了Erlang
+shell。
+</p>
+</div>
+</div>
+<div id="outline-container-org71fb967" class="outline-4">
+<h4 id="org71fb967"><span class="section-number-4">1.6.2</span> 在Eshell外编译文件</h4>
+<div class="outline-text-4" id="text-1-6-2">
+
+<div class="figure">
+<p><img src="./Material/Image/image-ZhAQbF20200901-115600.png" alt="image-ZhAQbF20200901-115600.png" />
+</p>
+</div>
+
+<p>
+erlc从命令行启动了Erlang编译器。编译器编译了hello.erl里的代码并生成一个名为
+hello.beam的目标代码文件。
+</p>
+
+<p>
+<code>$erl -noshell ...</code> 命令加载了hello模块并执行 <code>hello:start()</code> 函数。随后，它执行
+了 <code>init:stop()</code> ，这个表达式终止了Erlang会话。
+</p>
+
+<p>
+在Erlang shell之外运行Erlang编译器（erlc）是编译Erlang代码的首选方式。可以在
+Erlang shell里编译模块，但要这么做必须首先启动Erlang shell。使用erlc的优点在于自
+动化。我们可以在 <code>rakefile</code> 或 <code>makefile</code> 内运行erlc来自动化构建过程。
+</p>
+</div>
+</div>
+</div>
+<div id="outline-container-org6dadb9d" class="outline-3">
+<h3 id="org6dadb9d"><span class="section-number-3">1.7</span> 递归</h3>
+<div class="outline-text-3" id="text-1-7">
+</div>
+<div id="outline-container-orga9f75a0" class="outline-4">
+<h4 id="orga9f75a0"><span class="section-number-4">1.7.1</span> 对函数的自身调用最终会消耗存储空间吗？</h4>
+<div class="outline-text-4" id="text-1-7-1">
+<p>
+不用担心最后的自身调用，这不会耗尽栈空间。Erlang对代码采用了一种所谓“尾部调用”的
+优化，意思是此函数的运行空间是固定的。这是用Erlang编写循环的标准方式，只要在最后
+调用自身即可。
+</p>
+</div>
+</div>
+
+<div id="outline-container-org3e7339c" class="outline-4">
+<h4 id="org3e7339c"><span class="section-number-4">1.7.2</span> Erlang如何编写无限循环？</h4>
+<div class="outline-text-4" id="text-1-7-2">
+
+<div class="figure">
+<p><img src="./Material/Image/image-YSSb3a20200901-115629.png" alt="image-YSSb3a20200901-115629.png" />
+</p>
+</div>
+
+<p>
+无限的调用自身就是编写无限循环的方式之一.
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org33a1031" class="outline-3">
+<h3 id="org33a1031"><span class="section-number-3">1.8</span> 并发</h3>
+<div class="outline-text-3" id="text-1-8">
+</div>
+<div id="outline-container-org8a7e50b" class="outline-4">
+<h4 id="org8a7e50b"><span class="section-number-4">1.8.1</span> 进程 —— 并发的基本单元</h4>
+<div class="outline-text-4" id="text-1-8-1">
+<p>
+Erlang的基本并发单元是进程（process）。一个进程是一个轻量级的虚拟机，只能通过发
+送和接收消息来与其他进程通信。如果你想让一个进程做点什么，就要给它发送一个消息，
+还可能需要等待答复。
+</p>
+</div>
+</div>
+<div id="outline-container-org7d9edf3" class="outline-4">
+<h4 id="org7d9edf3"><span class="section-number-4">1.8.2</span> [Code] 文件服务器进程</h4>
+<div class="outline-text-4" id="text-1-8-2">
+<div class="org-src-container">
+<pre class="src src-erlang">%% ---
+%%  Excerpted from "Programming Erlang, Second Edition",
+%%  published by The Pragmatic Bookshelf.
+%%  Copyrights apply to this code. It may not be used to create training material,
+%%  courses, books, articles, and the like. Contact us if you are in doubt.
+%%  We make no guarantees that this code is fit for any purpose.
+%%  Visit http://www.pragmaticprogrammer.com/titles/jaerlang2 for more book information.
+%%---
+-module(afile_server).
+-export([start/1, loop/1]).
+
+start(Dir) -&gt; spawn(afile_server, loop, [Dir]).
+
+loop(Dir) -&gt;
+    receive
+	{Client, list_dir} -&gt;
+	    Client ! {self(), file:list_dir(Dir)};
+	{Client, {get_file, File}} -&gt;
+	    Full = filename:join(Dir, File),
+	    Client ! {self(), file:read_file(Full)}
+    end,
+    loop(Dir).
+</pre>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-orge7a8b86" class="outline-3">
+<h3 id="orge7a8b86"><span class="section-number-3">1.9</span> 如何编写Erlang程序</h3>
+<div class="outline-text-3" id="text-1-9">
+
+<div class="figure">
+<p><img src="./Material/Image/image-5YiPsL20200901-115702.png" alt="image-5YiPsL20200901-115702.png" />
+</p>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orge53dad5" class="outline-2">
+<h2 id="orge53dad5"><span class="section-number-2">2</span> Erlang数据结构</h2>
+<div class="outline-text-2" id="text-2">
+</div>
+<div id="outline-container-org85d311c" class="outline-3">
+<h3 id="org85d311c"><span class="section-number-3">2.1</span> 基本数据类型</h3>
+<div class="outline-text-3" id="text-2-1">
+</div>
+<div id="outline-container-orgd5a28b5" class="outline-4">
+<h4 id="orgd5a28b5"><span class="section-number-4">2.1.1</span> 整数</h4>
+<div class="outline-text-4" id="text-2-1-1">
+</div>
+<div id="outline-container-orgcb8f674" class="outline-5">
+<h5 id="orgcb8f674"><span class="section-number-5">2.1.1.1</span> 整数运算时需要考虑其溢出问题吗？</h5>
+<div class="outline-text-5" id="text-2-1-1-1">
+<p>
+在Erlang里，整数运算是精确的，因此无需担心运算溢出或无法用特定字长（word size）
+来表示某个整数.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgd031d09" class="outline-5">
+<h5 id="orgd031d09"><span class="section-number-5">2.1.1.2</span> 整数的其他进制表示</h5>
+<div class="outline-text-5" id="text-2-1-1-2">
+<dl class="org-dl">
+<dt>二进制</dt><dd><code>2#1001</code> -&gt; 9</dd>
+<dt>十六进制</dt><dd><code>16#af12</code> -&gt; 44818</dd>
+<dt>八进制</dt><dd><code>8#123</code> -&gt; 83</dd>
+</dl>
+
+<p>
+当然，其他进制如此类推。 <b>最大的进制为36,最小为2</b>
+</p>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-orge38aa0f" class="outline-3">
+<h3 id="orge38aa0f"><span class="section-number-3">2.2</span> 元组</h3>
+<div class="outline-text-3" id="text-2-2">
+<p>
+如果想把一些数量固定的项目归组成单一的实体，就会使用元组（tuple）。创建元组的方
+法是用大括号把想要表示的值括起来，并用逗号分隔它们。
+</p>
+</div>
+
+<div id="outline-container-org13ba47c" class="outline-4">
+<h4 id="org13ba47c"><span class="section-number-4">2.2.1</span> 如何使得匿名的元组的含义更加清晰？</h4>
+<div class="outline-text-4" id="text-2-2-1">
+<p>
+为了更容易记住元组的用途，一种常用的做法是将原子作为元组的第一个元素，用它来表示
+元组是什么。
+</p>
+</div>
+</div>
+
+<div id="outline-container-org4b0cdc7" class="outline-4">
+<h4 id="org4b0cdc7"><span class="section-number-4">2.2.2</span> 嵌套的元组</h4>
+<div class="outline-text-4" id="text-2-2-2">
+<div class="org-src-container">
+<pre class="src src-erlang">{person, {name, joe}, {footsize, 42}, {height, 123}, {weight, 55}}.
+</pre>
+</div>
+</div>
+
+<div id="outline-container-org52ef6eb" class="outline-5">
+<h5 id="org52ef6eb"><span class="section-number-5">2.2.2.1</span> 使用变量进行元组嵌套</h5>
+<div class="outline-text-5" id="text-2-2-2-1">
+<div class="org-src-container">
+<pre class="src src-erlang">F = {firstName, joe},
+L = {lastName, armstrong},
+P = {F, L}.
+</pre>
+</div>
+
+<p>
+如果试图用未定义的变量创建数据结构，就会得到一个错误
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org98db0eb" class="outline-4">
+<h4 id="org98db0eb"><span class="section-number-4">2.2.3</span> 使用模式匹配提取元组的值</h4>
+<div class="outline-text-4" id="text-2-2-3">
+<div class="org-src-container">
+<pre class="src src-erlang">Point = {point, 25, 24},
+{point, X, Y} = Point.
+</pre>
+</div>
+</div>
+
+<div id="outline-container-org5812257" class="outline-5">
+<h5 id="org5812257"><span class="section-number-5">2.2.3.1</span> 使用相同的变量提取元组值的条件</h5>
+<div class="outline-text-5" id="text-2-2-3-1">
+<div class="org-src-container">
+<pre class="src src-erlang">Point = {point, 10, 45},
+{point, C, C} = Point. %% Error
+Point1 = {point, 25, 25},
+{point, C, C} = Point1.
+</pre>
+</div>
+<p>
+模式 <code>{point, C, C}</code> 与 <code>{point, 10, 45}</code> 不匹配，因为C不能同时是10和45
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgec90ccf" class="outline-5">
+<h5 id="orgec90ccf"><span class="section-number-5">2.2.3.2</span> 对不感兴趣的值应该如何处理？</h5>
+<div class="outline-text-5" id="text-2-2-3-2">
+<div class="org-src-container">
+<pre class="src src-erlang">Person = {person, {name, joe}, {footsize, 42}},
+{_, {_, Who}, _} = Person.
+</pre>
+</div>
+<p>
+我们在这个例子中将 <code>_</code> 作为占位符，用于表示不感兴趣的那些变量。
+</p>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgce2acd4" class="outline-3">
+<h3 id="orgce2acd4"><span class="section-number-3">2.3</span> 列表</h3>
+<div class="outline-text-3" id="text-2-3">
+<p>
+列表（list）被用来存放任意数量的事物。创建列表的方法是用中括号把列表元素括起来，
+并用逗号分隔它们。
+</p>
+</div>
+
+<div id="outline-container-orgc9c9f99" class="outline-4">
+<h4 id="orgc9c9f99"><span class="section-number-4">2.3.1</span> 列表内部允许同时存在哪些类型？</h4>
+<div class="outline-text-4" id="text-2-3-1">
+<p>
+列表里的各元素可以是任何类型.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org223c917" class="outline-4">
+<h4 id="org223c917"><span class="section-number-4">2.3.2</span> 列表头和列表尾</h4>
+<div class="outline-text-4" id="text-2-3-2">
+<p>
+列表的第一个元素被称为列表头（head）。假设把列表头去掉，剩下的就被称为列表尾（tail）.
+</p>
+
+<p>
+如果T是一个列表，那么[H|T]也是一个列表，它的头是H，尾是T。竖线（|）把列表的头与
+尾分隔开。[]是一个空列表。
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgcf52e5b" class="outline-4">
+<h4 id="orgcf52e5b"><span class="section-number-4">2.3.3</span> 增加列表元素</h4>
+<div class="outline-text-4" id="text-2-3-3">
+<p>
+无论何时，只要用 <code>[...|T]</code> 语法构建一个列表，就应该确保T是列表。如果它是，那么新列表
+就是“格式正确的”。如果T不是列表，那么新列表就被称为“不正确的列表”。
+</p>
+</div>
+</div>
+
+<div id="outline-container-org2469ce9" class="outline-4">
+<h4 id="org2469ce9"><span class="section-number-4">2.3.4</span> 提取列表元素</h4>
+<div class="outline-text-4" id="text-2-3-4">
+<p>
+可以用模式匹配操作来提取某个列表里的元素。如果有一个非空列表L，那么表达式 <code>[X|Y]
+=L</code> （X和Y都是未绑定变量）会提取列表头作为X，列表尾作为Y。
+</p>
+<div class="org-src-container">
+<pre class="src src-erlang">[H1, H2 | T] = [1, 2, 3, 4].
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org95b1e54" class="outline-4">
+<h4 id="org95b1e54"><span class="section-number-4">2.3.5</span> 列表推导</h4>
+<div class="outline-text-4" id="text-2-3-5">
+<p>
+列表推导最常规的形式是下面这种表达式：
+</p>
+<div class="org-src-container">
+<pre class="src src-erlang">[X || Qualifier1, Qualifier2, ...]
+</pre>
+</div>
+
+<p>
+X是任意一条表达式，后面的限定符（ <b>Qualifier</b> ）可以是生成器、位串生成器或过滤器。
+</p>
+<ul class="org-ul">
+<li> 生成器（generator）的写法是 <code>Pattern &lt;- ListExpr</code> ，其中的ListExp必须是一个
+能够得出列表的表达式。</li>
+<li> 位串（bitstring）生成器的写法是 <code>BitStringPattern &lt;= BitStringExpr</code> ，其中的
+BitStringExpr必须是一个能够得出位串的表达式。更多有关位串模式和生成器的信息请
+参阅Erlang参考手册①。</li>
+<li> 过滤器（filter）既可以是判断函数（即返回true或false的函数），也可以是布尔表
+达式。</li>
+</ul>
+</div>
+
+<div id="outline-container-org6a8ce39" class="outline-5">
+<h5 id="org6a8ce39"><span class="section-number-5">2.3.5.1</span> 具有约束(过滤器)的列表推导</h5>
+<div class="outline-text-5" id="text-2-3-5-1">
+<div class="org-src-container">
+<label class="org-src-name"><span class="listing-number">Listing 1: </span>具有约束的列表推导</label><pre class="src src-erlang">[X || X &lt;- [1, 2, 3, 4, 5], X rem 2 =:= 0].
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org8583141" class="outline-5">
+<h5 id="org8583141"><span class="section-number-5">2.3.5.2</span> 使用多个生成器</h5>
+<div class="outline-text-5" id="text-2-3-5-2">
+<div class="org-src-container">
+<label class="org-src-name"><span class="listing-number">Listing 2: </span>使用多个生成器</label><pre class="src src-erlang">[X+Y || X &lt;- [1,2], Y &lt;- [3,4]].
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org8d2bed2" class="outline-5">
+<h5 id="org8d2bed2"><span class="section-number-5">2.3.5.3</span> 位串</h5>
+</div>
+</div>
+<div id="outline-container-org1a3b302" class="outline-4">
+<h4 id="org1a3b302"><span class="section-number-4">2.3.6</span> [Code] 快速排序(Quicksort)</h4>
+<div class="outline-text-4" id="text-2-3-6">
+<div class="org-src-container">
+<pre class="src src-erlang">qsort([]) -&gt; [];
+qsort([Pivot|T]) -&gt;
+	qsort([X || X &lt;- T, X &lt; Pivot])
+	++ [Pivot] ++
+	qsort([X || X &lt;- T, X &gt;= Pivot]).
+</pre>
+</div>
+
+<p>
+<b>注意这里的++是中缀插入操作符。展示这段代码是为了表现它的优雅，而不是效率。这样使用++一般不认为是良好的编程实践做法。</b>
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgedbdd1d" class="outline-4">
+<h4 id="orgedbdd1d"><span class="section-number-4">2.3.7</span> [Code] 毕达哥拉斯三元数组</h4>
+<div class="outline-text-4" id="text-2-3-7">
+<div class="org-src-container">
+<pre class="src src-erlang">pythag(N) -&gt;
+    [ {A,B,C} ||
+        A &lt;- lists:seq(1,N),
+        B &lt;- lists:seq(1,N),
+        C &lt;- lists:seq(1,N),
+        A+B+C =&lt; N,
+        A*A+B*B =:= C*C
+    ].
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org7e4a5bd" class="outline-4">
+<h4 id="org7e4a5bd"><span class="section-number-4">2.3.8</span> [Code] 回文构词</h4>
+<div class="outline-text-4" id="text-2-3-8">
+<div class="org-src-container">
+<pre class="src src-erlang">perms([]) -&gt; [[]];
+perms(L)  -&gt; [[H|T] || H &lt;- L, T &lt;- perms(L--[H])].
+</pre>
+</div>
+
+<p>
+perms十分简洁。它的工作方式如下：假设想要计算字符串&ldquo;cats&rdquo;的所有排列形式。首先，
+分离字符串的第一个字符，也就是c，并计算字符串移除c后的所有排列形式。&ldquo;cats&rdquo;移除c
+后是字符串&ldquo;ats&rdquo;，而&ldquo;ats&rdquo;的全部排列形式是以下字符串： <code>["ats", "ast", "tas",
+"tsa", "sat", "sta"]</code> 。接下来，把c附加到所有这些字符串的开头，形成 <code>["cats",
+"cast", "ctas", "ctsa", "csat", "csta"]</code> 。然后继续分离第二个字符并重复这一算法，
+以此类推。
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org1a14d33" class="outline-3">
+<h3 id="org1a14d33"><span class="section-number-3">2.4</span> 字符串</h3>
+<div class="outline-text-3" id="text-2-4">
+<p>
+要在Erlang里表示字符串，可以选择一个由整数组成的列表或者一个二进制型.
+</p>
+</div>
+
+<div id="outline-container-org79af4db" class="outline-4">
+<h4 id="org79af4db"><span class="section-number-4">2.4.1</span> 字符串使用哪种编码方式呈现？</h4>
+<div class="outline-text-4" id="text-2-4-1">
+<p>
+当字符串表示为一个整数列表时，列表里的每个元素都代表了一个Unicode代码点
+（codepoint）。
+</p>
+</div>
+</div>
+<div id="outline-container-org31d98ac" class="outline-4">
+<h4 id="org31d98ac"><span class="section-number-4">2.4.2</span> 字符串字面量</h4>
+<div class="outline-text-4" id="text-2-4-2">
+<p>
+字符串字面量（string literal）其实就是用双引号（&ldquo;）围起来的一串字符.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org538bc56" class="outline-4">
+<h4 id="org538bc56"><span class="section-number-4">2.4.3</span> 查看字符对应的整数</h4>
+<div class="outline-text-4" id="text-2-4-3">
+<p>
+不需要知道代表某个字符的是哪一个整数，可以把“美元符号语法”用于这个目的.
+<img src="./Material/Image/image-3u1PLS20200901-115730.png" alt="image-3u1PLS20200901-115730.png" />
+</p>
+</div>
+</div>
+
+<div id="outline-container-org95ef779" class="outline-4">
+<h4 id="org95ef779"><span class="section-number-4">2.4.4</span> 使用数字代码表示一个字符</h4>
+<div class="outline-text-4" id="text-2-4-4">
+<p>
+它里面的各个整数都代表Unicode字符。必须使用特殊的语法才能输入某些字符
+<img src="./Material/Image/image-uU6HV420200901-115745.png" alt="image-uU6HV420200901-115745.png" />
+</p>
+
+<p>
+<code>\x{221e}</code> 这种记法的作用是输入一个代表Unicode无穷大字符的十六进制整数
+</p>
+</div>
+</div>
+
+<div id="outline-container-org8eb9e41" class="outline-4">
+<h4 id="org8eb9e41"><span class="section-number-4">2.4.5</span> 将数字列表打印为字符串</h4>
+<div class="outline-text-4" id="text-2-4-5">
+<p>
+如果shell将某个整数列表打印成字符串，而你其实想让它打印成一列整数，那就必须使用
+格式化的写语句.
+<img src="./Material/Image/image-FWdtER20200901-115811.png" alt="image-FWdtER20200901-115811.png" />
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgb33f79d" class="outline-4">
+<h4 id="orgb33f79d"><span class="section-number-4">2.4.6</span> 将数字列表打印为数字</h4>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgc31fbd6" class="outline-2">
+<h2 id="orgc31fbd6"><span class="section-number-2">3</span> Erlang运算符</h2>
+<div class="outline-text-2" id="text-3">
+</div>
+<div id="outline-container-org092dc6e" class="outline-3">
+<h3 id="org092dc6e"><span class="section-number-3">3.1</span> 算术运算符</h3>
+<div class="outline-text-3" id="text-3-1">
+</div>
+<div id="outline-container-org86aa6f6" class="outline-4">
+<h4 id="org86aa6f6"><span class="section-number-4">3.1.1</span> rem</h4>
+</div>
+<div id="outline-container-orgdd88783" class="outline-4">
+<h4 id="orgdd88783"><span class="section-number-4">3.1.2</span> div</h4>
+</div>
+<div id="outline-container-orgb7a1cc6" class="outline-4">
+<h4 id="orgb7a1cc6"><span class="section-number-4">3.1.3</span> /</h4>
+</div>
+</div>
+<div id="outline-container-orgd3373de" class="outline-3">
+<h3 id="orgd3373de"><span class="section-number-3">3.2</span> 逻辑运算符</h3>
+<div class="outline-text-3" id="text-3-2">
+</div>
+<div id="outline-container-org7929e25" class="outline-4">
+<h4 id="org7929e25"><span class="section-number-4">3.2.1</span> <code>=:=</code></h4>
+</div>
+</div>
+</div>
+<div id="outline-container-orgdfdd9af" class="outline-2">
+<h2 id="orgdfdd9af"><span class="section-number-2">4</span> Erlang表达式</h2>
+<div class="outline-text-2" id="text-4">
+</div>
+<div id="outline-container-org17b2031" class="outline-3">
+<h3 id="org17b2031"><span class="section-number-3">4.1</span> 函数</h3>
+<div class="outline-text-3" id="text-4-1">
+</div>
+<div id="outline-container-orgff747d9" class="outline-4">
+<h4 id="orgff747d9"><span class="section-number-4">4.1.1</span> 函数的导出声明</h4>
+</div>
+<div id="outline-container-orgb48b9ac" class="outline-4">
+<h4 id="orgb48b9ac"><span class="section-number-4">4.1.2</span> 函数的子句声明顺序</h4>
+<div class="outline-text-4" id="text-4-1-2">
+<div class="org-src-container">
+<pre class="src src-erlang">-module(shop1).
+-export([total/1]).
+
+total([{What, N}|T]) -&gt; shop:cost(What) * N + total(T);
+total([])            -&gt; 0.
+</pre>
+</div>
+<p>
+这两个子句的顺序并不重要。因为子句1匹配一个非空列表，而子句2匹配空列表，
+这两种情况是互斥的
+</p>
+</div>
+</div>
+
+<div id="outline-container-orga6e71ab" class="outline-4">
+<h4 id="orga6e71ab"><span class="section-number-4">4.1.3</span> 函数的分隔符号</h4>
+<div class="outline-text-4" id="text-4-1-3">
+<ul class="org-ul">
+<li> 逗号（ <code>,</code> ）分隔函数调用、数据构造和模式中的参数。</li>
+<li> 分号（ <code>;</code> ）分隔子句。我们能在很多地方看到子句，例如函数定义，以及 <code>case、
+  if、 try..catch和receive</code> 表达式。</li>
+<li> 句号（ <code>.</code> ）（后接空白）分隔函数整体，以及shell里的表达式。</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-org82a8b95" class="outline-4">
+<h4 id="org82a8b95"><span class="section-number-4">4.1.4</span> 什么是高阶函数？</h4>
+</div>
+<div id="outline-container-org1cd53f3" class="outline-4">
+<h4 id="org1cd53f3"><span class="section-number-4">4.1.5</span> 定义匿名函数</h4>
+<div class="outline-text-4" id="text-4-1-5">
+</div>
+<div id="outline-container-orge13b4b7" class="outline-5">
+<h5 id="orge13b4b7"><span class="section-number-5">4.1.5.1</span> 具有多个子句的匿名函数</h5>
+</div>
+<div id="outline-container-orgf01562f" class="outline-5">
+<h5 id="orgf01562f"><span class="section-number-5">4.1.5.2</span> 返回匿名函数</h5>
+</div>
+<div id="outline-container-orge137964" class="outline-5">
+<h5 id="orge137964"><span class="section-number-5">4.1.5.3</span> 在自己的函数中使用传递的函数参数</h5>
+<div class="outline-text-5" id="text-4-1-5-3">
+<div class="org-src-container">
+<pre class="src src-erlang">-module(mylists).
+
+-compile(export_all).
+%% Some definitions copied from lists.erl
+%% for pedagogic purposes
+
+map(_, [])     -&gt; [];               %% (1)
+map(F,  [H|T]) -&gt; [F(H)|map(F, T)].   %% (2)
+</pre>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org893d852" class="outline-4">
+<h4 id="org893d852"><span class="section-number-4">4.1.6</span> 定义自己的控制抽象</h4>
+<div class="outline-text-4" id="text-4-1-6">
+<p>
+<a href="Material/Code/ErlangProgmming2th/lib_misc.erl">lib<sub>misc.erl</sub></a>
+</p>
+<div class="org-src-container">
+<pre class="src src-erlang">-module(lib_misc).
+
+%% commonly used routines
+
+-export([consult/1,
+	 dump/2,
+	 first/1,
+	 for/3,
+	 is_prefix/2,
+	 deliberate_error/1,
+	 deliberate_error1/1,
+	 duplicates/1,
+	 downcase_char/1,
+	 downcase_str/1,
+	 extract_attribute/2,
+	 eval_file/1,
+	 every/3,
+	 file_size_and_type/1,
+	 flush_buffer/0,
+	 foreachWordInFile/2,
+	 foreachWordInString/2,
+	 keep_alive/2,
+	 glurk/2,
+	 lookup/2,
+	 odds_and_evens1/1,
+	 odds_and_evens2/1,
+	 on_exit/2,
+	 make_global/2,
+	 make_test_strings/1,
+	 merge_kv/1,
+	 ndots/1,
+	 test_function_over_substrings/2,
+	 partition/2,
+	 pmap/2,
+	 pmap1/2,
+	 priority_receive/0,
+	 pythag/1,
+	 replace/3,
+	 split/2,
+	 safe/1,
+	 too_hot/0,
+	 ls/1,
+	 mini_shell/0,
+	 odd/1,
+	 outOfDate/2,
+	 exists/1,
+	 perms/1,
+	 qsort/1,
+	 random_seed/0,
+	 read_file_as_lines/1,
+	 remove_duplicates/1,
+	 remove_prefix/2,
+	 remove_leading_whitespace/1,
+	 remove_trailing_whitespace/1,
+	 rpc/2,
+	 spawn_monitor/3,
+	 sum/1,
+	 sqrt/1,
+	 string2term/1,
+	 string2value/1,
+	 term2string/1,
+	 term2file/2,
+	 file2term/1,
+	 longest_common_prefix/1,
+	 unconsult/2]).
+
+-export([complete/2,
+	 skip_blanks/1, trim_blanks/1, sleep/1, split_at_char/2,
+	 %% mk_tree/1,
+	 is_blank_line/1,
+	 have_common_prefix/1]).
+
+-import(lists, [all/2, any/2, filter/2, reverse/1, reverse/2,
+		foreach/2, map/2, member/2, sort/1]).
+
+-define(NYI(X),(begin
+		    io:format("*** NYI ~p ~p ~p~n",[?MODULE, ?LINE, X]),
+		    exit(nyi)
+		end)).
+
+glurk(X, Y) -&gt;
+    ?NYI({glurk, X, Y}).
+
+
+
+-include_lib("kernel/include/file.hrl").
+file_size_and_type(File) -&gt;
+    case file:read_file_info(File) of
+	{ok, Facts} -&gt;
+	    {Facts#file_info.type, Facts#file_info.size};
+	_ -&gt;
+	    error
+    end.
+
+ls(Dir) -&gt;
+    {ok, L} = file:list_dir(Dir),
+    lists:map(fun(I) -&gt; {I, file_size_and_type(I)} end, lists:sort(L)).
+
+
+
+consult(File) -&gt;
+    case file:open(File, read) of
+	{ok, S} -&gt;
+	    Val = consult1(S),
+	    file:close(S),
+	    {ok, Val};
+	{error, Why} -&gt;
+	    {error, Why}
+    end.
+consult1(S) -&gt;
+    case io:read(S, '') of
+	{ok, Term} -&gt; [Term|consult1(S)];
+	eof        -&gt; [];
+	Error      -&gt; Error
+    end.
+
+dump(File, Term) -&gt;
+    Out = File ++ ".tmp",
+    io:format("** dumping to ~s~n",[Out]),
+    {ok, S} = file:open(Out, [write]),
+    io:format(S, "~p.~n",[Term]),
+    file:close(S).
+
+partition(F, L) -&gt; partition(F, L, [], []).
+
+partition(F, [H|T], Yes, No) -&gt;
+    case F(H) of
+	true  -&gt; partition(F, T, [H|Yes], No);
+	false -&gt; partition(F, T, Yes, [H|No])
+    end;
+partition(_, [], Yes, No) -&gt;
+    {Yes, No}.
+
+remove_duplicates(L) -&gt;
+    remove_duplicates(lists:sort(L), []).
+
+remove_duplicates([H|X=[H|_]], L) -&gt; remove_duplicates(X, L);
+remove_duplicates([H|T], L)       -&gt; remove_duplicates(T, [H|L]);
+remove_duplicates([], L)          -&gt; L.
+
+%% is_prefix(A, B) -&gt; bool()
+%%    true if A is a prefix of B
+
+is_prefix([], _)         -&gt; true;
+is_prefix([H|T], [H|T1]) -&gt; is_prefix(T, T1);
+is_prefix(_, _)          -&gt; false.
+
+first([_])   -&gt; [];
+first([H|T]) -&gt; [H|first(T)].
+
+sleep(T) -&gt;
+    receive
+    after T -&gt;
+       true
+    end.
+
+flush_buffer() -&gt;
+    receive
+	_Any -&gt;
+	    flush_buffer()
+    after 0 -&gt;
+	true
+    end.
+
+priority_receive() -&gt;
+    receive
+	{alarm, X} -&gt;
+	    {alarm, X}
+    after 0 -&gt;
+	receive
+	    Any -&gt;
+		Any
+	end
+    end.
+
+duplicates(X) -&gt;  find_duplicates(sort(X), []).
+
+find_duplicates([H,H|T], [H|_]=L) -&gt;
+    find_duplicates(T, L);
+find_duplicates([H,H|T], L) -&gt;
+    find_duplicates(T, [H|L]);
+find_duplicates([_|T], L) -&gt;
+    find_duplicates(T, L);
+find_duplicates([], L) -&gt;
+    L.
+
+
+%% complete(A, L) -&gt; {yes, S}
+%%   error     - means no string will ever match
+%%   {more,L}  - means there are completions but I need more characters
+%%               L = [Str] = list of possible completions
+%%   {yes, S}  - means there is a unique completion
+%%
+%%   A = S = str(), L=[str()]
+%%   used to compute the smallest S
+%%   such that A ++ S is a member of all elements of L
+
+complete(Str, L) -&gt;
+    case filter(fun(I) -&gt; is_prefix(Str, I) end, L) of
+	[] -&gt;
+	    error;
+	[L1] -&gt;
+	    J = remove_prefix(Str, L1),
+	    {yes, J};
+	L1 -&gt;
+	    %% L1 is not empty so it's either more or a string
+	    %% We know that Str is a prefix of all elements in L1
+	    L2 = map(fun(I) -&gt; remove_prefix(Str, I) end, L1),
+	    %% L2 will also not be empty
+	    %% io:format("L1=~p L2=~p~n",[L1,L2]),
+	    case longest_common_prefix(L2) of
+		[] -&gt;
+		    {more, L1};
+		S -&gt;
+		    {yes, S}
+	    end
+    end.
+
+%% remove_prefix(X, Y) -&gt; Z
+%%   finds Z such that X ++ Z = Y
+%%
+remove_prefix([H|T], [H|T1]) -&gt; remove_prefix(T, T1);
+remove_prefix([], L)         -&gt; L.
+
+%% longest_common_prefix([str()]) -&gt; str()
+
+longest_common_prefix(L) -&gt;
+    longest_common_prefix(L, []).
+
+longest_common_prefix(Ls, L) -&gt;
+    case have_common_prefix(Ls) of
+	{yes, H, Ls1} -&gt;
+	    longest_common_prefix(Ls1, [H|L]);
+	no -&gt;
+	    reverse(L)
+    end.
+
+have_common_prefix([]) -&gt; no;
+have_common_prefix(L) -&gt;
+    case any(fun is_empty_list/1, L) of
+	true  -&gt; no;
+	false -&gt;
+	    %% All lists have heads and tails
+	    Heads = map(fun(I) -&gt; hd(I) end, L),
+	    H = hd(Heads),
+	    case all(fun(X) -&gt; hd(X) =:= H end, L) of
+		true -&gt;
+		    Tails = map(fun(I) -&gt; tl(I) end, L),
+		    {yes, H, Tails};
+		false -&gt;
+		    no
+	    end
+    end.
+
+is_empty_list([]) -&gt;	true;
+is_empty_list(X) when is_list(X) -&gt; false.
+
+skip_blanks([$\s|T]) -&gt; skip_blanks(T);
+skip_blanks(X)       -&gt; X.
+
+trim_blanks(X) -&gt; reverse(skip_blanks(reverse(X))).
+
+
+split_at_char(Str, C) -&gt; split_at_char(Str, C, []).
+
+split_at_char([C|T], C, L) -&gt; {yes, reverse(L), T};
+split_at_char([H|T], C, L) -&gt; split_at_char(T, C, [H|L]);
+split_at_char([], _, _)    -&gt; no.
+
+%% read file into line buffer
+read_file_as_lines(File) -&gt;
+    case file:read_file(File) of
+	{ok, Bin} -&gt;
+	    {ok, split_into_lines(binary_to_list(Bin), 1,  [])};
+	{error, _} -&gt;
+	    {error, eNoFile}
+    end.
+
+split_into_lines([], _, L) -&gt;
+    reverse(L);
+split_into_lines(Str, Ln, L) -&gt;
+    {Line, Rest} = get_line(Str, []),
+    split_into_lines(Rest, Ln+1, [{Ln,Line}|L]).
+
+get_line([$\n|T], L) -&gt; {reverse(L), T};
+get_line([H|T], L)   -&gt; get_line(T, [H|L]);
+get_line([], L)      -&gt; {reverse(L), []}.
+
+is_blank_line([$\s|T]) -&gt; is_blank_line(T);
+is_blank_line([$\n|T]) -&gt; is_blank_line(T);
+is_blank_line([$\r|T]) -&gt; is_blank_line(T);
+is_blank_line([$\t|T]) -&gt; is_blank_line(T);
+is_blank_line([]) -&gt; true;
+is_blank_line(_)  -&gt; false.
+
+%%----------------------------------------------------------------------
+%% lookup
+
+%%----------------------------------------------------------------------
+%% split(Pred, L) -&gt; {True, False}
+
+split(F, L) -&gt; split(F, L, [], []).
+
+split(F, [H|T], True, False) -&gt;
+    case F(H) of
+	true  -&gt; split(F, T, [H|True], False);
+	false -&gt; split(F, T, True, [H|False])
+    end;
+split(_, [], True, False) -&gt;
+    {reverse(True), reverse(False)}.
+
+%%----------------------------------------------------------------------
+
+outOfDate(In, Out) -&gt;
+    case exists(Out) of
+	true -&gt;
+	    case {last_modified(In), last_modified(Out)} of
+		{T1, T2} when T1 &gt; T2 -&gt;
+		    true;
+		_ -&gt;
+		    false
+	    end;
+	false -&gt;
+	    true
+    end.
+
+last_modified(File) -&gt;
+    case file:read_file_info(File) of
+        {ok, Info} -&gt;
+            Info#file_info.mtime;
+        _ -&gt;
+            0
+    end.
+
+exists(File) -&gt;
+    case file:read_file_info(File) of
+        {ok, _} -&gt;
+            true;
+        _ -&gt;
+            false
+    end.
+
+%%----------------------------------------------------------------------
+%% replace(Key,Val, [{Key,Val}]) -&gt; [{Key,Val}]
+%%  replace and Key with Key,Val in the association list Old
+
+replace(Key, Val, Old) -&gt;
+    replace(Key, Val, Old, []).
+
+replace(Key, Val1, [{Key,_Val}|T], L) -&gt;
+    reverse(L, [{Key, Val1}|T]);
+replace(Key, Val, [H|T], L) -&gt;
+    replace(Key, Val, T, [H|L]);
+replace(Key, Val, [], L) -&gt;
+    [{Key,Val}|L].
+
+%%----------------------------------------------------------------------
+%% make_test_strings(Str)
+%%
+
+make_test_strings(Str) -&gt;
+    L = length(Str),
+    make_test_strings(Str, L+1, 1).
+
+make_test_strings(_, Max, Max) -&gt; [];
+make_test_strings(Str, Max, N) -&gt;
+    [string:sub_string(Str, 1, N)|make_test_strings(Str, Max, N+1)].
+
+test_function_over_substrings(F, Str) -&gt;
+    L = make_test_strings(Str),
+    foreach(fun(S) -&gt;
+		    io:format("|~s|~n    =&gt; ~p~n", [S, F(S)])
+	    end, L).
+
+%%----------------------------------------------------------------------
+%% merge_kv(Kv) -&gt; Kv'
+%%    Take a association list of {Key, Val} where Key can occure
+%%    More than once and make it into a list {Key, [Val]} where
+%%    each Key occurs only once
+
+merge_kv(KV) -&gt;  merge_kv(KV, dict:new()).
+
+merge_kv([{Key,Val}|T], D0) -&gt;
+    case dict:find(Key, D0) of
+	{ok, L} -&gt; merge_kv(T, dict:store(Key, [Val|L], D0));
+	error   -&gt; merge_kv(T, dict:store(Key, [Val], D0))
+    end;
+merge_kv([], D) -&gt;
+    dict:to_list(D).
+
+
+%% rpc/2
+%%
+rpc(Pid, Q) -&gt;
+    Pid ! {self(), Q},
+    receive
+	{Pid, Reply} -&gt;
+	    Reply
+    end.
+
+%% odd(X)
+%%
+
+odd(X) -&gt;
+    case X band 1 of
+	1 -&gt; true;
+	0 -&gt; false
+    end.
+
+ndots([$.|T]) -&gt; 1 + ndots(T);
+ndots([_|T])  -&gt; ndots(T);
+ndots([])     -&gt; 0.
+
+term2file(File, Term) -&gt;
+    file:write_file(File, term_to_binary(Term)).
+
+file2term(File) -&gt;
+    {ok, Bin} = file:read_file(File),
+    binary_to_term(Bin).
+
+string2term(Str) -&gt;
+    {ok,Tokens,_} = erl_scan:string(Str ++ "."),
+    {ok,Term} = erl_parse:parse_term(Tokens),
+    Term.
+
+term2string(Term) -&gt;
+    lists:flatten(io_lib:format("~p",[Term])).
+
+downcase_str(Str) -&gt; map(fun downcase_char/1, Str).
+
+downcase_char(X) when $A =&lt; X, X =&lt; $Z -&gt; X+ $a - $A;
+downcase_char(X)                       -&gt; X.
+
+string2value(Str) -&gt;
+    {ok, Tokens, _} = erl_scan:string(Str ++ "."),
+    {ok, Exprs} = erl_parse:parse_exprs(Tokens),
+    Bindings = erl_eval:new_bindings(),
+    {value, Value, _} = erl_eval:exprs(Exprs, Bindings),
+    Value.
+
+mini_shell() -&gt;
+    mini_shell(erl_eval:new_bindings()).
+
+mini_shell(Bindings0) -&gt;
+    case io:get_line('&gt;&gt;&gt; ') of
+	"q\n" -&gt; void;
+	Str -&gt;
+	    {Value, Bindings1} = string2value(Str, Bindings0),
+	    io:format("~p~n",[Value]),
+	    mini_shell(Bindings1)
+    end.
+
+string2value(Str, Bindings0) -&gt;
+    {ok, Tokens, _} = erl_scan:string(Str ++ "."),
+    {ok, Exprs} = erl_parse:parse_exprs(Tokens),
+    {value, Value, Bindings1} = erl_eval:exprs(Exprs, Bindings0),
+    {Value, Bindings1}.
+
+eval_file(File) -&gt;
+    {ok, S} = file:open(File, [read]),
+    Vals = eval_file(S, 1, erl_eval:new_bindings()),
+    file:close(S),
+    Vals.
+
+eval_file(S, Line, B0) -&gt;
+    case io:parse_erl_exprs(S, '', Line) of
+	{ok, Form, Line1} -&gt;
+	    {value, Value, B1} = erl_eval:exprs(Form, B0),
+	    [Value|eval_file(S, Line1, B1)];
+	{eof, _} -&gt;
+	    []
+    end.
+
+remove_leading_whitespace([$\n|T]) -&gt; remove_leading_whitespace(T);
+remove_leading_whitespace([$\s|T]) -&gt; remove_leading_whitespace(T);
+remove_leading_whitespace([$\t|T]) -&gt; remove_leading_whitespace(T);
+remove_leading_whitespace(X) -&gt; X.
+
+remove_trailing_whitespace(X) -&gt;
+    reverse(remove_leading_whitespace(reverse(X))).
+
+safe(Fun) -&gt;
+    case (catch Fun()) of
+	{'EXIT', Why} -&gt;
+	    {error, Why};
+	Other -&gt;
+	    Other
+    end.
+
+too_hot() -&gt;
+    event_handler:event(errors, too_hot).
+
+%% spawn_monitor behaves just like spawn
+
+spawn_monitor(_, false, Fun) -&gt;
+    spawn(Fun);
+spawn_monitor(Term, true, Fun) -&gt;
+    spawn(fun() -&gt; starter(Term, Fun) end).
+
+starter(Term, Fun) -&gt;
+    S = self(),
+    io:format("process:~p started at:~p ~p~n",
+	      [self(), erlang:now(), Term]),
+    Monitor = spawn_link(fun() -&gt; amonitor(Term, S) end),
+    receive
+	{Monitor, ready} -&gt;
+	    Fun()
+    end.
+
+amonitor(Term, Parent) -&gt;
+    process_flag(trap_exit, true),
+    Parent ! {self(), ready},
+    receive
+	{'EXIT', Parent, Why} -&gt;
+	    io:format("process:~p dies at:~p ~p reason:~p~n",
+		      [self(), erlang:now(), Term, Why])
+    end.
+keep_alive(Name, Fun) -&gt;
+    register(Name, Pid = spawn(Fun)),
+    on_exit(Pid, fun(_Why) -&gt; keep_alive(Name, Fun) end).
+
+%% make_global(Name, Fun) checks if there is a global process with the
+%% registered name Name. If there is no process it spawns a process to
+%% evaluate Fun() and registers it with the name Name.
+
+
+make_global(Name, Fun) -&gt;
+    S = self(),
+    Pid = spawn(fun() -&gt; make_global(S, Name, Fun) end),
+    receive
+	{Pid, Reply} -&gt;
+	    Reply
+    end.
+
+make_global(Parent, Name, Fun) -&gt;
+    case (catch register(Name, self())) of
+	true -&gt; Fun();
+	_ -&gt; true
+    end,
+    Parent ! {self(), ok}.
+
+%% on_exit(Pid, Fun) links to Pid. If Pid dies with reason Why then
+%% Fun(Why) is evaluated:
+
+on_exit(Pid, Fun) -&gt;
+    spawn(fun() -&gt;
+		  Ref = monitor(process, Pid),     %% &lt;label id="code.onexit2"/&gt;
+		  receive
+		      {'DOWN', Ref, process, Pid, Why} -&gt;      %% &lt;label id="code.onexit3"/&gt;
+			  Fun(Why)   %% &lt;label id="code.onexit4"/&gt;
+		  end
+	  end).
+
+%% every(Pid, Time, Fun) links to Pid then every Time Fun() is
+%% evaluated. If Pid exits, this process stops.
+
+every(Pid, Time, Fun) -&gt;
+    spawn(fun() -&gt;
+		  process_flag(trap_exit, true),
+		  link(Pid),
+		  every_loop(Pid, Time, Fun)
+	  end).
+
+every_loop(Pid, Time, Fun) -&gt;
+    receive
+	{'EXIT', Pid, _Why} -&gt;
+	    true
+    after Time -&gt;
+	    Fun(),
+	    every_loop(Pid, Time, Fun)
+    end.
+
+for(Max, Max, F) -&gt; [F(Max)];
+for(I, Max, F)   -&gt; [F(I)|for(I+1, Max, F)].
+
+qsort([]) -&gt; [];
+qsort([Pivot|T]) -&gt;
+	qsort([X || X &lt;- T, X &lt; Pivot])
+	++ [Pivot] ++
+	qsort([X || X &lt;- T, X &gt;= Pivot]).
+
+perms([]) -&gt; [[]];
+perms(L)  -&gt; [[H|T] || H &lt;- L, T &lt;- perms(L--[H])].
+
+pythag(N) -&gt;
+    [ {A,B,C} ||
+        A &lt;- lists:seq(1,N),
+        B &lt;- lists:seq(1,N),
+        C &lt;- lists:seq(1,N),
+        A+B+C =&lt; N,
+        A*A+B*B =:= C*C
+    ].
+
+extract_attribute(File, Key) -&gt;
+    case beam_lib:chunks(File,[attributes]) of
+	{ok, {attrs, [{attributes,L}]}} -&gt;
+	    lookup(Key, L);
+	_ -&gt; exit(badFile)
+    end.
+
+lookup(Key, [{Key,Val}|_]) -&gt; {ok, Val};
+lookup(Key, [_|T])         -&gt; lookup(Key, T);
+lookup(_, [])              -&gt; error.
+
+unconsult(File, L) -&gt;
+    {ok, S} = file:open(File, write),
+    lists:foreach(fun(X) -&gt; io:format(S, "~p.~n",[X]) end, L),
+    file:close(S).
+
+random_seed() -&gt;
+    {_,_,X} = erlang:now(),
+    {H,M,S} = time(),
+    H1 = H * X rem 32767,
+    M1 = M * X rem 32767,
+    S1 = S * X rem 32767,
+    put(random_seed, {H1,M1,S1}).
+
+odds_and_evens1(L) -&gt;
+    Odds  = [X || X &lt;- L, (X rem 2) =:= 1],
+    Evens = [X || X &lt;- L, (X rem 2) =:= 0],
+    {Odds, Evens}.
+
+odds_and_evens2(L) -&gt;
+    odds_and_evens_acc(L, [], []).
+
+odds_and_evens_acc([H|T], Odds, Evens) -&gt;
+    case (H rem 2) of
+	1 -&gt; odds_and_evens_acc(T, [H|Odds], Evens);
+	0 -&gt; odds_and_evens_acc(T, Odds, [H|Evens])
+    end;
+odds_and_evens_acc([], Odds, Evens) -&gt;
+    {Odds, Evens}.
+
+sum(L) -&gt; sum(L, 0).
+
+sum([], N)    -&gt; N;
+sum([H|T], N) -&gt; sum(T, H+N).
+
+sqrt(X) when X &lt; 0 -&gt;
+    error({squareRootNegativeArgument, X});
+sqrt(X) -&gt;
+    math:sqrt(X).
+
+pmap(F, L) -&gt;
+    S = self(),
+    %% make_ref() returns a unique reference
+    %%   we'll match on this later
+    Ref = erlang:make_ref(),
+    Pids = map(fun(I) -&gt;
+		       spawn(fun() -&gt; do_f(S, Ref, F, I) end)
+	       end, L),
+    %% gather the results
+    gather(Pids, Ref).
+
+do_f(Parent, Ref, F, I) -&gt;
+    Parent ! {self(), Ref, (catch F(I))}.
+gather([Pid|T], Ref) -&gt;
+    receive
+	{Pid, Ref, Ret} -&gt; [Ret|gather(T, Ref)]
+    end;
+gather([], _) -&gt;
+    [].
+
+pmap1(F, L) -&gt;
+    S = self(),
+    Ref = erlang:make_ref(),
+    foreach(fun(I) -&gt;
+		    spawn(fun() -&gt; do_f1(S, Ref, F, I) end)
+	    end, L),
+    %% gather the results
+    gather1(length(L), Ref, []).
+
+do_f1(Parent, Ref, F, I) -&gt;
+    Parent ! {Ref, (catch F(I))}.
+
+gather1(0, _, L) -&gt; L;
+gather1(N, Ref, L) -&gt;
+    receive
+	{Ref, Ret} -&gt; gather1(N-1, Ref, [Ret|L])
+    end.
+
+
+%% evalute F(Word) for each word in the file File
+foreachWordInFile(File, F) -&gt;
+    case file:read_file(File) of
+	{ok, Bin} -&gt; foreachWordInString(binary_to_list(Bin), F);
+	_         -&gt; void
+    end.
+
+foreachWordInString(Str, F) -&gt;
+    case get_word(Str) of
+	no -&gt;
+	    void;
+	{Word, Str1} -&gt;
+	    F(Word),
+	    foreachWordInString(Str1, F)
+    end.
+
+isWordChar(X) when $A=&lt; X, X=&lt;$Z -&gt; true;
+isWordChar(X) when $0=&lt; X, X=&lt;$9 -&gt; true;
+isWordChar(X) when $a=&lt; X, X=&lt;$z -&gt; true;
+isWordChar(_)  -&gt; false.
+
+get_word([H|T]) -&gt;
+    case isWordChar(H) of
+	true  -&gt; collect_word(T, [H]);
+	false -&gt; get_word(T)
+    end;
+get_word([]) -&gt;
+    no.
+
+collect_word([H|T]=All, L) -&gt;
+    case isWordChar(H) of
+	true  -&gt; collect_word(T, [H|L]);
+	false -&gt; {reverse(L), All}
+    end;
+collect_word([], L) -&gt;
+    {reverse(L), []}.
+
+deliberate_error(A) -&gt;
+    bad_function(A, 12),
+    lists:reverse(A).
+
+bad_function(A, _) -&gt;
+    {ok, Bin} = file:open({abc,123}, A),
+    binary_to_list(Bin).
+
+deliberate_error1(A) -&gt;
+    bad_function(A, 12).
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org44fc612" class="outline-4">
+<h4 id="org44fc612"><span class="section-number-4">4.1.7</span> 内置函数</h4>
+<div class="outline-text-4" id="text-4-1-7">
+<p>
+内置函数简称为BIF（built-in function），是那些作为Erlang语言定义一部分的函数。有
+些内置函数是用Erlang实现的，但大多数是用Erlang虚拟机里的底层操作实现的。内置函数
+能提供操作系统的接口，并执行那些无法用Erlang编写或者编写后非常低效的操作。比如，
+你无法将一个列表转变成元组，或者查到当前的时间和日期。
+</p>
+
+<p>
+所有内置函数都表现得像是属于erlang模块，但那些最常用的内置函数（例如list<sub>to</sub>_
+tuple）是自动导入的，因此可以直接调用list<sub>to</sub><sub>tuple</sub>(&#x2026;)，而无需用erlang:list<sub>to</sub>_
+tuple(&#x2026;)。
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org975e830" class="outline-3">
+<h3 id="org975e830"><span class="section-number-3">4.2</span> 模块</h3>
+</div>
+<div id="outline-container-orge8dd63e" class="outline-3">
+<h3 id="orge8dd63e"><span class="section-number-3">4.3</span> 关卡</h3>
+<div class="outline-text-3" id="text-4-3">
+</div>
+<div id="outline-container-org3764c86" class="outline-4">
+<h4 id="org3764c86"><span class="section-number-4">4.3.1</span> 可以在哪里使用关卡？</h4>
+</div>
+<div id="outline-container-orgde7c9a4" class="outline-4">
+<h4 id="orgde7c9a4"><span class="section-number-4">4.3.2</span> 关卡序列</h4>
+</div>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="author">Author: JiangSan</p>
+<p class="date">Created: 2020-09-03 Thu 09:12</p>
+</div>
+</body>
+</html>

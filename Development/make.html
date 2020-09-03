@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2020-09-03 Thu 09:11 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Make学习笔记</title>
+<meta name="generator" content="Org mode" />
+<meta name="author" content="JiangSan" />
+
+<link rel='stylesheet'href='../static/org-manual.css' type='text/css'/>
+<script type='text/javascript' defer src='../static/org-manual.js'></script>
+<script type='text/javascript'>window.onload =  function () {init();  }</script>
+<meta name='viewport' content='width=device-width, initial-scale=1.0'>
+<script type="text/javascript">
+// @license magnet:?xt=urn:btih:1f739d935676111cfff4b4693e3816e664797050&amp;dn=gpl-3.0.txt GPL-v3-or-Later
+<!--/*--><![CDATA[/*><!--*/
+     function CodeHighlightOn(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(null != target) {
+         elem.cacheClassElem = elem.className;
+         elem.cacheClassTarget = target.className;
+         target.className = "code-highlighted";
+         elem.className   = "code-highlighted";
+       }
+     }
+     function CodeHighlightOff(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(elem.cacheClassElem)
+         elem.className = elem.cacheClassElem;
+       if(elem.cacheClassTarget)
+         target.className = elem.cacheClassTarget;
+     }
+    /*]]>*///-->
+// @license-end
+</script>
+</head>
+<body>
+<div id="content">
+<h1 class="title">Make学习笔记</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#org226b697">1. Make基础</a></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org226b697" class="outline-2">
+<h2 id="org226b697"><span class="section-number-2">1</span> Make基础</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+make的标签：第一行为所需文件/标签；第二行为命令
+</p>
+<div class="org-src-container">
+<pre class="src src-makefile">main: c_math.o test_main.o  # 指定文件的来源，可以是文件或者标签
+	clang -I src -o main.exe main.o c_math.o  # 编译命令，必须是已存在的文件
+
+c_math.o : src/c_math.c   # 指定文件的来源
+	clang -c src/c_math.c
+
+test_main.o : test/main.c
+	clang -I src -c test/main.c
+</pre>
+</div>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="author">Author: JiangSan</p>
+<p class="date">Created: 2020-09-03 Thu 09:11</p>
+</div>
+</body>
+</html>

@@ -1,0 +1,498 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2020-09-03 Thu 09:12 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Java工具</title>
+<meta name="generator" content="Org mode" />
+<meta name="author" content="JiangSan" />
+
+<link rel='stylesheet'href='../static/org-manual.css' type='text/css'/>
+<script type='text/javascript' defer src='../static/org-manual.js'></script>
+<script type='text/javascript'>window.onload =  function () {init();  }</script>
+<meta name='viewport' content='width=device-width, initial-scale=1.0'>
+<script type="text/javascript">
+// @license magnet:?xt=urn:btih:1f739d935676111cfff4b4693e3816e664797050&amp;dn=gpl-3.0.txt GPL-v3-or-Later
+<!--/*--><![CDATA[/*><!--*/
+     function CodeHighlightOn(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(null != target) {
+         elem.cacheClassElem = elem.className;
+         elem.cacheClassTarget = target.className;
+         target.className = "code-highlighted";
+         elem.className   = "code-highlighted";
+       }
+     }
+     function CodeHighlightOff(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(elem.cacheClassElem)
+         elem.className = elem.cacheClassElem;
+       if(elem.cacheClassTarget)
+         target.className = elem.cacheClassTarget;
+     }
+    /*]]>*///-->
+// @license-end
+</script>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        displayAlign: "center",
+        displayIndent: "0em",
+
+        "HTML-CSS": { scale: 100,
+                        linebreaks: { automatic: "false" },
+                        webFont: "TeX"
+                       },
+        SVG: {scale: 100,
+              linebreaks: { automatic: "false" },
+              font: "TeX"},
+        NativeMML: {scale: 100},
+        TeX: { equationNumbers: {autoNumber: "AMS"},
+               MultLineWidth: "85%",
+               TagSide: "right",
+               TagIndent: ".8em"
+             }
+});
+</script>
+<script type="text/javascript"
+        src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS_HTML"></script>
+</head>
+<body>
+<div id="content">
+<h1 class="title">Java工具</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#org0eea277">1. Maven</a>
+<ul>
+<li><a href="#org2285a88">1.1. Maven 的目录结构和内容</a></li>
+<li><a href="#org5c41eff">1.2. Maven环境配置</a></li>
+<li><a href="#org142e9d9">1.3. Maven的项目目录架构</a></li>
+<li><a href="#org61d9873">1.4. Maven创建项目</a></li>
+<li><a href="#org754f0aa">1.5. Maven骨架文件 pom</a></li>
+<li><a href="#orgefcbd74">1.6. Maven命令</a>
+<ul>
+<li><a href="#orgdf79899">1.6.1. 生成站点</a></li>
+<li><a href="#org12159fc">1.6.2. 生成文档</a></li>
+<li><a href="#orgddccae7">1.6.3. 运行main函数</a></li>
+</ul>
+</li>
+<li><a href="#org723e3f9">1.7. 本地仓库</a></li>
+<li><a href="#org525b825">1.8. Maven版本号</a>
+<ul>
+<li><a href="#org170687b">1.8.1. 主干，分支，标签</a></li>
+</ul>
+</li>
+<li><a href="#org1328b13">1.9. Maven安全</a>
+<ul>
+<li><a href="#org058b2ed">1.9.1. 使用GPG加密</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org0eea277" class="outline-2">
+<h2 id="org0eea277"><span class="section-number-2">1</span> Maven</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+Maven 的作用如下：
+</p>
+<ul class="org-ul">
+<li>Maven 统一集中管理好所有的依赖包，不需要程序员再去寻找。</li>
+<li>对应第三方组件用到的共同 jar，Maven 自动解决重复和冲突问题。</li>
+<li>Maven 作为一个开放的架构，提供了公共接口，方便同第三方插件集成。程序员可以将自
+己需要的插件，动态地集成到 Maven，从而扩展新的管理功能。</li>
+<li>Maven 可以统一每个项目的构建过程，实现不同项目的兼容性管理。</li>
+</ul>
+</div>
+
+<div id="outline-container-org2285a88" class="outline-3">
+<h3 id="org2285a88"><span class="section-number-3">1.1</span> Maven 的目录结构和内容</h3>
+<div class="outline-text-3" id="text-1-1">
+<ol class="org-ol">
+<li>bin 该目录包含了 mvn 运行的脚本，这些脚本用来配置 Java 命令，准备好 classpath
+和相关的 Java 系统属性，然后执行 Java 命令。 其中 mvn 是基于 UNIX 平台的
+shell 脚本，mvn.bat 是基于 Windows 平台的 bat 脚本。在命令行输入任何一条 mvn
+命令时，实际上就是在调用这些脚本。 <br />
+     该目录还包含了 mvnDebug 和 mvnDebug.bat 两个文件，同样，前者是 UNIX 平台
+的 shell 脚本，后者是 Windows 平台的 bat 脚本。那么 mvn 和 mvnDebug 有什么区
+别和关系呢？ <br />
+     打开文件我们就可以看到，两者基本是一样的，只是 mvnDebug 多了一条
+MAVEN<sub>DEBUG</sub><sub>OPTS</sub> 配置，其作用就是在运行 Maven 时开启 debug，以便调试 Maven 本
+身。  <br />
+     此外，该目录还包含 m2.conf 文件，这是 classworlds 的配置文件，后面会介绍
+classworlds。</li>
+<li>boot 该目录只包含一个文件，以 maven 3.3.9 为例，该文件为
+plexus-classworlds-2.5.2.jar。 plexus-classworlds 是一个类加载器框架，相对于
+默认的 java 类加载器，它提供了更丰富的语法以方便配置，Maven 使用该框架加载自
+己的类库。 更多关于 classworlds 的信息请参考 <a href="http://classworlds.codehaus.org/">http://classworlds.codehaus.org/</a>。
+对于一般的 Maven 用户来说，不必关心该文件。</li>
+<li>conf 该目录包含了一个非常重要的文件 settings.xml。直接修改该文件，就能在机器
+上全局地定制 Maven 的行为。 一般情况下，我们更偏向于复制该文件至 ～/.m2/ 目录
+下（～表示用户目录) ，然后修改该文件，在用户范围定制 Maven 的行为。后面将会多
+次提到 settings.xml，并逐步分析其中的各个元素。</li>
+<li>lib 该目录包含了所有 Maven 运行时需要的 Java 类库，Maven 本身是分模块开发的，
+因此用户能看到诸如 maven-core-3.0.jar、maven-model-3.0.jar 之类的文件。 此外，
+这里还包含一些 Maven 用到的第三方依赖，如 common-cli-1.2.jar、
+commons-lang-2.6.jar 等。 对于 Maven 2 来说，该目录只包含一个如
+maven-2.2.1-uber.jar 的文件，原本各为独立 JAR 文件的 Maven 模块和第三方类库都
+被拆解后重新合并到了这个 JAR 文件中。可以说，lib 目录就是真正的 Maven。 关于
+该文件，还有一点值得一提的是，用户可以在这个目录中找到 Maven 内置的超级 POM，
+这一点教程后面会详细解释。</li>
+<li>LICENSE.txt 记录了 Maven 使用的软件许可证Apache License Version 2.0。</li>
+<li>NOTICE.txt 记录了 Maven 包含的第三方软件。</li>
+<li>README.txt 包含了 Maven 的简要介绍，包括安装需求及如何安装的简要指令等。</li>
+</ol>
+</div>
+</div>
+<div id="outline-container-org5c41eff" class="outline-3">
+<h3 id="org5c41eff"><span class="section-number-3">1.2</span> Maven环境配置</h3>
+<div class="outline-text-3" id="text-1-2">
+<p>
+在系统环境变量中添加 <code>MAVEN_HOME</code> ,添加 <code>Path</code> <code>%MAVEN_HOME%/bin</code> 是作为 Maven
+的 Path 添加的
+</p>
+
+
+<div class="figure">
+<p><img src="./Material/Image/image-6dYuW520200720-230528.png" alt="image-6dYuW520200720-230528.png" />
+</p>
+</div>
+
+
+<div class="figure">
+<p><img src="./Material/Image/image-uq9cs620200720-230520.png" alt="image-uq9cs620200720-230520.png" />
+</p>
+</div>
+</div>
+</div>
+<div id="outline-container-org142e9d9" class="outline-3">
+<h3 id="org142e9d9"><span class="section-number-3">1.3</span> Maven的项目目录架构</h3>
+<div class="outline-text-3" id="text-1-3">
+<ul class="org-ul">
+<li><code>src\main\java</code> ，用来存放项目的 Java 源代码。</li>
+<li><code>src\main\resources</code> ，用来存放项目相关的资源文件（比如配置文件）。</li>
+<li><code>src\test\java</code> ，用来存放项目的测试 Java 源代码。</li>
+<li><code>src\test\resource</code> ，用来存放运行测试代码时所依赖的资源文件。</li>
+</ul>
+
+<p>
+还有一个 pom.xml 文件，该文件配置 Maven 管理的所有内容。
+</p>
+</div>
+</div>
+
+<div id="outline-container-org61d9873" class="outline-3">
+<h3 id="org61d9873"><span class="section-number-3">1.4</span> Maven创建项目</h3>
+<div class="outline-text-3" id="text-1-4">
+<ol class="org-ol">
+<li>命令。命令很简单，就是创建项目的命令 create。 人们把要调用哪个软件的 create
+命令创建项目叫插件（plugin）。创建项目的插件叫 Archetype 插件
+（archetype-plugin）。</li>
+<li>信息。和项目相关的信息包括 groupId（组 Id）、artifactId（构件 Id）、
+packageName（包名）、version（版本）。 其实 packageName 和 version 好理解。程
+序员写的类，肯定要放在一个标准包下或标准包的子包下，packageName 指标准包；
+version 是当前代码的版本号。 这里的 groupId 和 artifactId 同部门名称和组名称
+一样，用来唯一确定一个项目（软件、功能）。有些地方会把这两个描述的信息合起来
+叫“坐标”。</li>
+</ol>
+
+
+<div class="org-src-container">
+<label class="org-src-name"><span class="listing-number">Listing 1: </span>最简单的创建方式</label><pre class="src src-java">mvn archetype:generate
+</pre>
+</div>
+
+<div class="org-src-container">
+<label class="org-src-name"><span class="listing-number">Listing 2: </span>输入项目参数创建</label><pre class="src src-java">mvn org.apache.maven.plugins:maven-archetype-plugin:2.2:creat
+-DgroupId＝com.mengma.demo
+-DartifactId＝HelloWorld
+-DpackageName＝com.mengma.demo
+</pre>
+</div>
+
+<ul class="org-ul">
+<li>org.apache.maven.plugins:maven-archetype-plugin:2.2，指使用 groupId 为
+org.apache.maven.plugins,artifactId 为 maven-archetype-plugin，版本为 2.2 的
+Archetype插件。</li>
+<li>-DgroupId＝cn.com.mvnbook.demo，指定要创建的工程的 groupId。</li>
+<li>-DartifactId＝MVNBookTP01，指定工程的 artifactId。</li>
+<li>-DpackageName＝cn.com.mvnbook.demo.tp01，指定工程代码的标准包。</li>
+</ul>
+
+<div class="org-src-container">
+<pre class="src src-shell">mvn archetype:generate "-DgroupId=com.companyname.bank" \
+    "-DartifactId=consumerBanking" \
+    "-DarchetypeArtifactId=maven-archetype-quickstart" \
+    "-DinteractiveMode=false"
+</pre>
+</div>
+<ul class="org-ul">
+<li>-DgourpId: 组织名，公司网址的反写 + 项目名称</li>
+<li>-DartifactId: 项目名-模块名</li>
+<li>-DarchetypeArtifactId: 指定 ArchetypeId，maven-archetype-quickstart，创建一个简单的 Java 应用</li>
+<li>-DinteractiveMode: 是否使用交互模式</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org754f0aa" class="outline-3">
+<h3 id="org754f0aa"><span class="section-number-3">1.5</span> Maven骨架文件 pom</h3>
+<div class="outline-text-3" id="text-1-5">
+<div class="org-src-container">
+<label class="org-src-name"><span class="listing-number">Listing 3: </span>pom.xml</label><pre class="src src-xml">&lt;project xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"&gt;
+    &lt;modelVersion&gt;4.0.0&lt;/modelVersion&gt;
+
+    &lt;groupId&gt;com.mengma.demo&lt;/groupId&gt;
+    &lt;artifactId&gt;HelloWorld&lt;/artifactId&gt;
+    &lt;version&gt;0.0.1-SNAPSHOT&lt;/version&gt;
+    &lt;packaging&gt;jar&lt;/packaging&gt;
+
+    &lt;name&gt;HelloWorld&lt;/name&gt;
+    &lt;url&gt;http://maven.apache.org&lt;/url&gt;
+
+    &lt;properties&gt;
+        &lt;project.build.sourceEncoding&gt;UTF-8&lt;/project.build.sourceEncoding&gt;
+    &lt;/properties&gt;
+
+    &lt;dependencies&gt;
+        &lt;dependency&gt;
+            &lt;groupId&gt;junit&lt;/groupId&gt;
+            &lt;artifactId&gt;junit&lt;/artifactId&gt;
+            &lt;version&gt;4.7&lt;/version&gt;
+            &lt;scope&gt;test&lt;/scope&gt;
+        &lt;/dependency&gt;
+    &lt;/dependencies&gt;
+&lt;/project&gt;
+</pre>
+</div>
+
+<ul class="org-ul">
+<li>创建工程时指定的 groupId。</li>
+<li>创建工程时指定的 artifactId。</li>
+<li>当前工程的版本。</li>
+<li>工程编译好后，打成 jar 包安装发布。</li>
+<li>测试时需要依赖的 JUnit 的 groupId。</li>
+<li>测试时需要依赖的 JUnit 的 artifactId。</li>
+<li>测试时需要依赖的 JUnit 的版本。</li>
+<li>指定测试依赖的作用范围是测试。</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-orgefcbd74" class="outline-3">
+<h3 id="orgefcbd74"><span class="section-number-3">1.6</span> Maven命令</h3>
+<div class="outline-text-3" id="text-1-6">
+<p>
+将目录切换到工程目录下（HelloWorld）。
+</p>
+<ul class="org-ul">
+<li>输入“mvn clean”，按 Enter 键清空以前编译安装过的历史结果。</li>
+<li>输入“mvn compile”，按 Enter 键编译源代码。</li>
+<li>输入“mvn test”，按 Enter 键运行测试案例进行测试。</li>
+<li>输入“mvn install”，按 Enter 键，将当前代码打成 jar 包，安装到 Maven 的本地管理
+目录下，其他 Maven 工程只要指定坐标就可以使用。</li>
+</ul>
+</div>
+
+<div id="outline-container-orgdf79899" class="outline-4">
+<h4 id="orgdf79899"><span class="section-number-4">1.6.1</span> 生成站点</h4>
+<div class="outline-text-4" id="text-1-6-1">
+<div class="org-src-container">
+<pre class="src src-java">mvn site
+</pre>
+</div>
+<p>
+执行完成后，查看一下工程目录下的 target 目录，里面自动添加了一个 site 目录，都是
+站点信息页面。打开其中的 index.html，就可以看到如图所示类似的页面，里面描述的
+就是项目相关的信息。
+</p>
+
+
+<div class="figure">
+<p><img src="./Material/Image/image-sv0CvM20200720-233026.png" alt="image-sv0CvM20200720-233026.png" />
+</p>
+</div>
+</div>
+</div>
+<div id="outline-container-org12159fc" class="outline-4">
+<h4 id="org12159fc"><span class="section-number-4">1.6.2</span> 生成文档</h4>
+<div class="outline-text-4" id="text-1-6-2">
+<div class="org-src-container">
+<pre class="src src-java">mvn javadoc:javadoc
+</pre>
+</div>
+
+<p>
+在工程中自动产生 target\site\apidocs 目录，里面就是当前工程中代码的 API Doc 文档。
+打开 index.html，页面如图所示。
+</p>
+
+
+<div class="figure">
+<p><img src="./Material/Image/image-AE4af120200720-233103.png" alt="image-AE4af120200720-233103.png" />
+</p>
+</div>
+</div>
+</div>
+<div id="outline-container-orgddccae7" class="outline-4">
+<h4 id="orgddccae7"><span class="section-number-4">1.6.3</span> 运行main函数</h4>
+<div class="outline-text-4" id="text-1-6-3">
+<pre class="example">
+mvn compile
+</pre>
+
+<p>
+不需要传入参数：
+</p>
+<div class="org-src-container">
+<pre class="src src-java">mvn exec:java -Dexec.mainClass="com.vineetmanohar.module.Main"
+</pre>
+</div>
+
+<p>
+需要传入参数：
+</p>
+<div class="org-src-container">
+<pre class="src src-java">mvn exec:java -Dexec.mainClass="com.vineetmanohar.module.Main" -Dexec.args="arg0 arg1 arg2"
+</pre>
+</div>
+
+<p>
+指定运行时依赖：
+</p>
+<div class="org-src-container">
+<pre class="src src-java">mvn exec:java -Dexec.mainClass="com.vineetmanohar.module.Main" -Dexec.classpathScope=runtime
+</pre>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org723e3f9" class="outline-3">
+<h3 id="org723e3f9"><span class="section-number-3">1.7</span> 本地仓库</h3>
+<div class="outline-text-3" id="text-1-7">
+<p>
+aven 在根据坐标查找依赖的构件时，先是在本地仓库中查找。默认情况下，不管是
+Windows 操作系统还是 Linux 操作系统，每个用户在自己的用户目录下都有一个路径名为
+<code>.m2/repository/</code> 的目录，这个目录就是 Maven 的本地仓库目录。比如，笔者的用户名
+是 Noble，计算机上的默认本地仓库的目录就是 <code>C:\Users\Noble\.m2\repository\</code> 。
+</p>
+
+<p>
+一般为了便于文件的管理，用户会希望自定义本地仓库的目录。可以编辑
+<code>~/.m2/settings.xml</code> 文件，设置其中的 localRepository 元素的值，就可以改变 Maven
+本地仓库的默认位置。例如：
+</p>
+<div class="org-src-container">
+<pre class="src src-xml">&lt;settings&gt;
+    ...
+    &lt;localRepository&gt;
+        C:/java/servers/apache-archiva-2.2.1/repositories/internal
+    &lt;/localRepository&gt;
+    ...
+&lt;/settings&gt;
+</pre>
+</div>
+
+<p>
+这样，本地仓库的目录就是
+<code>C:/java/servers/apache-archiva-2.2.1/repositories/internal</code> 了。
+</p>
+
+<p>
+另外需要注意一下的是，默认情况下， <code>~/.m2/settings.xml</code> 文件是不存在的，需要从
+Maven 的安装目录中复制 <code>＄M2_HOME/conf/settings.xml</code> 文件到 ~/.m2/ 目录下，再进
+行编辑。
+</p>
+
+<p>
+当然如果嫌麻烦的话，可以直接修改 <code>＄M2_HOME/conf/settings.xml</code> 文件，效果也是一
+样的。但是不建议修改，因为 Maven 目录下的 settings.xml 是全局的，也就是每个用户
+都共享，而 <code>~/.m2/settings.xml</code> 只是对当前用户起作用，修改后不会影响其他用户。
+</p>
+
+<p>
+一个构件只有存在本地仓库后才能被 Maven 项目使用。将构件保存到本地仓库最常见的有
+两种方式，一种是以依赖的形成，从远程仓库下载到本地仓库；另一种是将本地项目编译打
+包后，安装到本地仓库。
+</p>
+</div>
+</div>
+<div id="outline-container-org525b825" class="outline-3">
+<h3 id="org525b825"><span class="section-number-3">1.8</span> Maven版本号</h3>
+<div class="outline-text-3" id="text-1-8">
+<p>
+Maven 将版本号约定为四个部分，即主版本、次版本、增量版本和里程碑版本，按如下格式
+共同形成一个版本号。
+</p>
+<pre class="example">
+&lt;主版本&gt;.&lt;次版本&gt;.&lt;增量版本&gt;-&lt;里程碑版本&gt;
+</pre>
+
+<ul class="org-ul">
+<li>主版本：表示项目重大架构的变更。比如 Struts1 和 Struts2，它们的架构体系都不同；
+JUnit4 和 JUnit3，一个全面支持注解，另一个就不支持。</li>
+<li>次版本：表示有较大的功能增加和变化，或者全面系统地修复漏洞。</li>
+<li>增量版本：表示有重大漏洞的修复。</li>
+<li>里程碑版本：表明 一个版本的里程碑（版本内部）。这样的版本同下一个正式版本相比，
+相对来说不是很稳定， 有待更多的测试。</li>
+</ul>
+
+<p>
+需要注意的是，不是每个版本号都必须由这四个部分组成，有些版本号就可以没有增量版本
+和里程碑版本。
+</p>
+
+<p>
+参考： <a href="http://c.biancheng.net/view/4828.html">http://c.biancheng.net/view/4828.html</a>
+</p>
+</div>
+
+<div id="outline-container-org170687b" class="outline-4">
+<h4 id="org170687b"><span class="section-number-4">1.8.1</span> 主干，分支，标签</h4>
+<div class="outline-text-4" id="text-1-8-1">
+<ol class="org-ol">
+<li>主干：项目开发的主体，也是主线、关键历程。从这里可以获取项目的最新代码和绝大
+部分的变更历史。</li>
+<li>分支：从主线某个点分离出去的一段分支。在一个特别时间点的时候，既要保持项目的
+总体（主线）进度，又要同步修改某些重要漏洞、或实现特殊功能、或实验性开发，就
+可以创建一个分支独立进行。分支达到预期效果后，需要将分支里面的变更合并到主线
+中去。</li>
+<li>标签：用来标记分支和主干进展到某个状态的点，代表项目进展到某个阶段或某个相对
+比较稳定的状态。实际项目中，这种状态往往就是版本发布的状态。</li>
+</ol>
+</div>
+</div>
+</div>
+<div id="outline-container-org1328b13" class="outline-3">
+<h3 id="org1328b13"><span class="section-number-3">1.9</span> Maven安全</h3>
+<div class="outline-text-3" id="text-1-9">
+</div>
+<div id="outline-container-org058b2ed" class="outline-4">
+<h4 id="org058b2ed"><span class="section-number-4">1.9.1</span> 使用GPG加密</h4>
+<div class="outline-text-4" id="text-1-9-1">
+<ul class="org-ul">
+<li><a href="Material/File/Maven使用GPG对文件进行签名加密.html">Maven使用GPG对文件进行签名加密</a></li>
+<li><a href="Material/File/GPG（GnuPG）的安装和使用.html">GPG（GnuPG）的安装和使用</a></li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="author">Author: JiangSan</p>
+<p class="date">Created: 2020-09-03 Thu 09:12</p>
+</div>
+</body>
+</html>

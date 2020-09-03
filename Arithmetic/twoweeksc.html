@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2020-09-03 Thu 09:11 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>两周自制脚本语言读书笔记</title>
+<meta name="generator" content="Org mode" />
+<meta name="author" content="JiangSan" />
+
+<link rel='stylesheet'href='../static/org-manual.css' type='text/css'/>
+<script type='text/javascript' defer src='../static/org-manual.js'></script>
+<script type='text/javascript'>window.onload =  function () {init();  }</script>
+<meta name='viewport' content='width=device-width, initial-scale=1.0'>
+<script type="text/javascript">
+// @license magnet:?xt=urn:btih:1f739d935676111cfff4b4693e3816e664797050&amp;dn=gpl-3.0.txt GPL-v3-or-Later
+<!--/*--><![CDATA[/*><!--*/
+     function CodeHighlightOn(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(null != target) {
+         elem.cacheClassElem = elem.className;
+         elem.cacheClassTarget = target.className;
+         target.className = "code-highlighted";
+         elem.className   = "code-highlighted";
+       }
+     }
+     function CodeHighlightOff(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(elem.cacheClassElem)
+         elem.className = elem.cacheClassElem;
+       if(elem.cacheClassTarget)
+         target.className = elem.cacheClassTarget;
+     }
+    /*]]>*///-->
+// @license-end
+</script>
+</head>
+<body>
+<div id="content">
+<h1 class="title">两周自制脚本语言读书笔记</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#org3cc0cbd">1. 设计程序语言</a></li>
+<li><a href="#orgc98196d">2. 词法分析器</a></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org3cc0cbd" class="outline-2">
+<h2 id="org3cc0cbd"><span class="section-number-2">1</span> 设计程序语言</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+一种程序语言应当具备哪些语法功能？ 28
+</p>
+<blockquote>
+<ul class="org-ul">
+<li>变量</li>
+<li>函数</li>
+<li>整数/字符串的操作（整数的四则运算）</li>
+<li>控制结构</li>
+<li>注释</li>
+<li>表示一个语句的分隔符。（分号或行尾）</li>
+</ul>
+</blockquote>
+
+<p>
+变量是否为静态类型？
+</p>
+
+<p>
+函数的结束时是否包含返回值？用什么决定函数的返回值？
+</p>
+
+<p>
+多条语句写在一行，一条语句写在多行，语句位于块末尾。
+</p>
+
+<p>
+空语句的定义。
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgc98196d" class="outline-2">
+<h2 id="orgc98196d"><span class="section-number-2">2</span> 词法分析器</h2>
+<div class="outline-text-2" id="text-2">
+<p>
+正则表达式的使用
+</p>
+<div class="org-src-container">
+<pre class="src src-java">    Pattern pattern = Pattern.compile("\\s\\w") ;
+    Matcher matcher = pattern.matcher(str);
+    matcher.useTransparentBounds(true).useAnchoringBounds(false);
+    int pos = 0;
+    int endpos = str.length();
+    while(pos &lt; endpos) {
+        matcher.region(pos,endpos);
+        if(matcher.lookingAt()){
+            // ..operator
+            pos = matcher.end();
+        }else{
+           throw new Expection("error");
+        }
+    }
+</pre>
+</div>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="author">Author: JiangSan</p>
+<p class="date">Created: 2020-09-03 Thu 09:11</p>
+</div>
+</body>
+</html>

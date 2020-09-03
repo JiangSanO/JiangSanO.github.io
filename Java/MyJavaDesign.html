@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2020-09-03 Thu 09:12 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Java设计模式</title>
+<meta name="generator" content="Org mode" />
+<meta name="author" content="JiangSan" />
+
+<link rel='stylesheet'href='../static/org-manual.css' type='text/css'/>
+<script type='text/javascript' defer src='../static/org-manual.js'></script>
+<script type='text/javascript'>window.onload =  function () {init();  }</script>
+<meta name='viewport' content='width=device-width, initial-scale=1.0'>
+<script type="text/javascript">
+// @license magnet:?xt=urn:btih:1f739d935676111cfff4b4693e3816e664797050&amp;dn=gpl-3.0.txt GPL-v3-or-Later
+<!--/*--><![CDATA[/*><!--*/
+     function CodeHighlightOn(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(null != target) {
+         elem.cacheClassElem = elem.className;
+         elem.cacheClassTarget = target.className;
+         target.className = "code-highlighted";
+         elem.className   = "code-highlighted";
+       }
+     }
+     function CodeHighlightOff(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(elem.cacheClassElem)
+         elem.className = elem.cacheClassElem;
+       if(elem.cacheClassTarget)
+         target.className = elem.cacheClassTarget;
+     }
+    /*]]>*///-->
+// @license-end
+</script>
+</head>
+<body>
+<div id="content">
+<h1 class="title">Java设计模式</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#orgf9aabeb">1. 设计模式</a>
+<ul>
+<li><a href="#orgeb0b237">1.1. 开闭原则</a></li>
+<li><a href="#org0ff8f5b">1.2. 里氏替换原则</a></li>
+<li><a href="#org57aa9e7">1.3. 依赖倒置原则</a></li>
+<li><a href="#org35a39a9">1.4. 单一职责原则</a></li>
+<li><a href="#org1281df1">1.5. 接口隔离原则</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-orgf9aabeb" class="outline-2">
+<h2 id="orgf9aabeb"><span class="section-number-2">1</span> 设计模式</h2>
+<div class="outline-text-2" id="text-1">
+</div>
+<div id="outline-container-orgeb0b237" class="outline-3">
+<h3 id="orgeb0b237"><span class="section-number-3">1.1</span> 开闭原则</h3>
+</div>
+<div id="outline-container-org0ff8f5b" class="outline-3">
+<h3 id="org0ff8f5b"><span class="section-number-3">1.2</span> 里氏替换原则</h3>
+</div>
+<div id="outline-container-org57aa9e7" class="outline-3">
+<h3 id="org57aa9e7"><span class="section-number-3">1.3</span> 依赖倒置原则</h3>
+<div class="outline-text-3" id="text-1-3">
+<p>
+依赖倒置原则（Dependence Inversion Principle，DIP）是 Object Mentor 公司总裁罗伯
+特·马丁（Robert C.Martin）于 1996 年在 C++ Report 上发表的文章。
+</p>
+
+<p>
+依赖倒置原则的原始定义为：高层模块不应该依赖低层模块，两者都应该依赖其抽象；抽象
+不应该依赖细节，细节应该依赖抽象（High level modules shouldnot depend upon low
+level modules.Both should depend upon abstractions.Abstractions should not
+depend upon details. Details should depend upon abstractions）。其核心思想是：要
+面向接口编程，不要面向实现编程。
+</p>
+
+<p>
+<b>依赖倒置原则是实现开闭原则的重要途径之一，它降低了客户与实现模块之间的耦合。</b>
+</p>
+</div>
+</div>
+
+<div id="outline-container-org35a39a9" class="outline-3">
+<h3 id="org35a39a9"><span class="section-number-3">1.4</span> 单一职责原则</h3>
+<div class="outline-text-3" id="text-1-4">
+<p>
+单一职责原则（Single Responsibility Principle，SRP）又称单一功能原则，由罗伯特·C.马
+丁（Robert C. Martin）于《敏捷软件开发：原则、模式和实践》一书中提出的。这里的职
+责是指类变化的原因，单一职责原则规定一个类应该有且仅有一个引起它变化的原因，否则
+类应该被拆分（There should never be more than one reason for a class to change）。
+</p>
+</div>
+</div>
+<div id="outline-container-org1281df1" class="outline-3">
+<h3 id="org1281df1"><span class="section-number-3">1.5</span> 接口隔离原则</h3>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="author">Author: JiangSan</p>
+<p class="date">Created: 2020-09-03 Thu 09:12</p>
+</div>
+</body>
+</html>

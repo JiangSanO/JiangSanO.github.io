@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2020-09-03 Thu 09:12 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Orgmode</title>
+<meta name="generator" content="Org mode" />
+<meta name="author" content="JiangSan" />
+
+<link rel='stylesheet'href='../static/org-manual.css' type='text/css'/>
+<script type='text/javascript' defer src='../static/org-manual.js'></script>
+<script type='text/javascript'>window.onload =  function () {init();  }</script>
+<meta name='viewport' content='width=device-width, initial-scale=1.0'>
+<script type="text/javascript">
+// @license magnet:?xt=urn:btih:1f739d935676111cfff4b4693e3816e664797050&amp;dn=gpl-3.0.txt GPL-v3-or-Later
+<!--/*--><![CDATA[/*><!--*/
+     function CodeHighlightOn(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(null != target) {
+         elem.cacheClassElem = elem.className;
+         elem.cacheClassTarget = target.className;
+         target.className = "code-highlighted";
+         elem.className   = "code-highlighted";
+       }
+     }
+     function CodeHighlightOff(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(elem.cacheClassElem)
+         elem.className = elem.cacheClassElem;
+       if(elem.cacheClassTarget)
+         target.className = elem.cacheClassTarget;
+     }
+    /*]]>*///-->
+// @license-end
+</script>
+</head>
+<body>
+<div id="content">
+<h1 class="title">Orgmode</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#org3071552">1. 插入代码块</a>
+<ul>
+<li><a href="#orgb35ea64">1.1. 插入C语言代码块</a></li>
+<li><a href="#org0199757">1.2. 插入Python语言代码块</a></li>
+</ul>
+</li>
+<li><a href="#org82c3cf9">2. 使用Org的日程管理</a>
+<ul>
+<li><a href="#org95214f7">2.1. 打开Org日程管理</a></li>
+</ul>
+</li>
+<li><a href="#orgc164eda">3. 附录</a>
+<ul>
+<li><a href="#orged233bb">3.1. 参考资源</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org3071552" class="outline-2">
+<h2 id="org3071552"><span class="section-number-2">1</span> 插入代码块</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+可以使用 <code>&lt;s</code> 模板插入代码块模板,在后面选择插入的语言.
+</p>
+
+<p>
+如果想要求值,将光标移到代码块内,按下快捷键 <code>C-c C-c</code> .
+</p>
+</div>
+
+<div id="outline-container-orgb35ea64" class="outline-3">
+<h3 id="orgb35ea64"><span class="section-number-3">1.1</span> 插入C语言代码块</h3>
+<div class="outline-text-3" id="text-1-1">
+<div class="org-src-container">
+<pre class="src src-org"># +begin_src C++ :includes &lt;stdio.h&gt;
+  int a=1;
+  int b=1;
+  printf("%d\n", a+b);
+# +end_src
+
+# +RESULTS:
+: 2
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org0199757" class="outline-3">
+<h3 id="org0199757"><span class="section-number-3">1.2</span> 插入Python语言代码块</h3>
+<div class="outline-text-3" id="text-1-2">
+<div class="org-src-container">
+<pre class="src src-org"># +BEGIN_SRC python :results output
+a = 1+1
+print a
+# +END_SRC
+
+# +RESULTS:
+: 2
+</pre>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-org82c3cf9" class="outline-2">
+<h2 id="org82c3cf9"><span class="section-number-2">2</span> 使用Org的日程管理</h2>
+<div class="outline-text-2" id="text-2">
+</div>
+<div id="outline-container-org95214f7" class="outline-3">
+<h3 id="org95214f7"><span class="section-number-3">2.1</span> 打开Org日程管理</h3>
+<div class="outline-text-3" id="text-2-1">
+<p>
+使用快捷键 <code>C-c c</code> 或 <code>Spc X</code> (doom emacs) 启动命令 <code>org-capture</code> .
+</p>
+
+<p>
+文件的存放路径由变量 <code>org-directory</code> 决定.
+</p>
+<div class="org-src-container">
+<pre class="src src-elisp">(setq org-directory "~/org/journal/")
+</pre>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-orgc164eda" class="outline-2">
+<h2 id="orgc164eda"><span class="section-number-2">3</span> 附录</h2>
+<div class="outline-text-2" id="text-3">
+</div>
+<div id="outline-container-orged233bb" class="outline-3">
+<h3 id="orged233bb"><span class="section-number-3">3.1</span> 参考资源</h3>
+<div class="outline-text-3" id="text-3-1">
+<ul class="org-ul">
+<li><a href="Material/File/Org Mode - Organize Your Life In Plain Text!.html">Org Mode - Organize Your Life In Plain Text!</a></li>
+<li><a href="https://link.zhihu.com/?target=https%3A//www.bilibili.com/video/av80898295">Carsten Dominik(org-mode的发明者)在Google Tech Talk上的演讲</a></li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="author">Author: JiangSan</p>
+<p class="date">Created: 2020-09-03 Thu 09:12</p>
+</div>
+</body>
+</html>

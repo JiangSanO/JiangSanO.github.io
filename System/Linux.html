@@ -1,0 +1,575 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2020-09-03 Thu 09:12 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Linux系统学习笔记</title>
+<meta name="generator" content="Org mode" />
+<meta name="author" content="JiangSan" />
+
+<link rel='stylesheet'href='../static/org-manual.css' type='text/css'/>
+<script type='text/javascript' defer src='../static/org-manual.js'></script>
+<script type='text/javascript'>window.onload =  function () {init();  }</script>
+<meta name='viewport' content='width=device-width, initial-scale=1.0'>
+<script type="text/javascript">
+// @license magnet:?xt=urn:btih:1f739d935676111cfff4b4693e3816e664797050&amp;dn=gpl-3.0.txt GPL-v3-or-Later
+<!--/*--><![CDATA[/*><!--*/
+     function CodeHighlightOn(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(null != target) {
+         elem.cacheClassElem = elem.className;
+         elem.cacheClassTarget = target.className;
+         target.className = "code-highlighted";
+         elem.className   = "code-highlighted";
+       }
+     }
+     function CodeHighlightOff(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(elem.cacheClassElem)
+         elem.className = elem.cacheClassElem;
+       if(elem.cacheClassTarget)
+         target.className = elem.cacheClassTarget;
+     }
+    /*]]>*///-->
+// @license-end
+</script>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        displayAlign: "center",
+        displayIndent: "0em",
+
+        "HTML-CSS": { scale: 100,
+                        linebreaks: { automatic: "false" },
+                        webFont: "TeX"
+                       },
+        SVG: {scale: 100,
+              linebreaks: { automatic: "false" },
+              font: "TeX"},
+        NativeMML: {scale: 100},
+        TeX: { equationNumbers: {autoNumber: "AMS"},
+               MultLineWidth: "85%",
+               TagSide: "right",
+               TagIndent: ".8em"
+             }
+});
+</script>
+<script type="text/javascript"
+        src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS_HTML"></script>
+</head>
+<body>
+<div id="content">
+<h1 class="title">Linux系统学习笔记</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#org004ea1a">1. 数制系统</a>
+<ul>
+<li><a href="#org48279d5">1.1. 数制系统的表示</a></li>
+<li><a href="#org6b7d23b">1.2. 数制的转换</a></li>
+</ul>
+</li>
+<li><a href="#orgccbb174">2. 软件</a>
+<ul>
+<li><a href="#org1dd461e">2.1. 计算机的软件</a></li>
+</ul>
+</li>
+<li><a href="#orge488c2a">3. 计算机硬件</a>
+<ul>
+<li><a href="#org79afac7">3.1. CPU</a>
+<ul>
+<li><a href="#orgd07dbfc">3.1.1. 升级CPU需要注意</a></li>
+<li><a href="#orgb688d17">3.1.2. 如何评判CPU</a></li>
+<li><a href="#org17c8b8b">3.1.3. CPU的参数</a>
+<ul>
+<li><a href="#org9b34d20">3.1.3.1. 频率</a>
+<ul>
+<li><a href="#org933535d">3.1.3.1.1. 外频</a></li>
+<li><a href="#org8a49a8a">3.1.3.1.2. 倍频</a></li>
+<li><a href="#orgddc5ecc">3.1.3.1.3. 超频</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#org97688b5">3.1.4. 内存控制器</a></li>
+<li><a href="#org1b20827">3.1.5. 北桥</a></li>
+<li><a href="#orga5644da">3.1.6. 南桥</a></li>
+<li><a href="#org9076ca4">3.1.7. CPU等级</a></li>
+<li><a href="#org0bf2de7">3.1.8. 超线程</a></li>
+</ul>
+</li>
+<li><a href="#orgfd9d9e8">3.2. 内存</a>
+<ul>
+<li><a href="#org6a37894">3.2.1. 内存的外观设计</a></li>
+<li><a href="#org7618df0">3.2.2. 内存的类型</a>
+<ul>
+<li><a href="#org2070a84">3.2.2.1. DRAM</a>
+<ul>
+<li><a href="#orge6548af">3.2.2.1.1. SDRAM</a></li>
+<li><a href="#orga7bf99d">3.2.2.1.2. DDR SDRAM</a></li>
+</ul>
+</li>
+<li><a href="#org1811b74">3.2.2.2. SRAM</a></li>
+<li><a href="#org9a706a3">3.2.2.3. 只读存储器</a>
+<ul>
+<li><a href="#orgc30ff6f">3.2.2.3.1. 韧体</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#orgcca2aef">3.2.3. 内存容量</a></li>
+<li><a href="#org2965cc6">3.2.4. 内存带宽</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org004ea1a" class="outline-2">
+<h2 id="org004ea1a"><span class="section-number-2">1</span> 数制系统</h2>
+<div class="outline-text-2" id="text-1">
+</div>
+<div id="outline-container-org48279d5" class="outline-3">
+<h3 id="org48279d5"><span class="section-number-3">1.1</span> 数制系统的表示</h3>
+<div class="outline-text-3" id="text-1-1">
+<p>
+位数上的值乘上基数的幂（幂等于位数减一）
+</p>
+</div>
+</div>
+
+<div id="outline-container-org6b7d23b" class="outline-3">
+<h3 id="org6b7d23b"><span class="section-number-3">1.2</span> 数制的转换</h3>
+<div class="outline-text-3" id="text-1-2">
+<p>
+数制转换主要有两种：
+</p>
+
+<p>
+①十进制数转为其他进制
+</p>
+
+<p>
+②其他进制转为十进制
+</p>
+</div>
+</div>
+</div>
+<div id="outline-container-orgccbb174" class="outline-2">
+<h2 id="orgccbb174"><span class="section-number-2">2</span> 软件</h2>
+<div class="outline-text-2" id="text-2">
+</div>
+<div id="outline-container-org1dd461e" class="outline-3">
+<h3 id="org1dd461e"><span class="section-number-3">2.1</span> 计算机的软件</h3>
+<div class="outline-text-3" id="text-2-1">
+<p>
+编程语言的设计也是按照生成的软件类型进行设计（分为应用层编程语言，如Java；和系统
+层编程语言，如C/C++，Rust）
+</p>
+</div>
+</div>
+</div>
+<div id="outline-container-orge488c2a" class="outline-2">
+<h2 id="orge488c2a"><span class="section-number-2">3</span> 计算机硬件</h2>
+<div class="outline-text-2" id="text-3">
+</div>
+<div id="outline-container-org79afac7" class="outline-3">
+<h3 id="org79afac7"><span class="section-number-3">3.1</span> CPU</h3>
+<div class="outline-text-3" id="text-3-1">
+</div>
+<div id="outline-container-orgd07dbfc" class="outline-4">
+<h4 id="orgd07dbfc"><span class="section-number-4">3.1.1</span> 升级CPU需要注意</h4>
+<div class="outline-text-4" id="text-3-1-1">
+<ol class="org-ol">
+<li>主板是否支持这个信号的CPU，（不同的 CPU 型号大多具有不同的脚位(CPU 上面的插脚)，
+能够搭配的主板芯片组也不同， 所以当你想要将你的主机升级时，不能只考虑 CPU，你
+还得要留意你的主板上面所支援的 CPU 型号)</li>
+</ol>
+</div>
+</div>
+<div id="outline-container-orgb688d17" class="outline-4">
+<h4 id="orgb688d17"><span class="section-number-4">3.1.2</span> 如何评判CPU</h4>
+<div class="outline-text-4" id="text-3-1-2">
+<ol class="org-ol">
+<li>微指令集（不同的微指令集会导致 CPU 工作效率的优劣）</li>
+<li>频率（频率目前仅能用来比较同款 CPU 的速度！）不同的 CPU 之间不能单纯的以频率
+来判断运算效能喔！这是因为每颗 CPU 的 微指令集不相同，架构也不见得一样，可使
+用的第二层快取及其计算器制可能也不同， 加上每次频率能够进行的工作指令数也不同！</li>
+</ol>
+</div>
+</div>
+<div id="outline-container-org17c8b8b" class="outline-4">
+<h4 id="org17c8b8b"><span class="section-number-4">3.1.3</span> CPU的参数</h4>
+<div class="outline-text-4" id="text-3-1-3">
+</div>
+<div id="outline-container-org9b34d20" class="outline-5">
+<h5 id="org9b34d20"><span class="section-number-5">3.1.3.1</span> 频率</h5>
+<div class="outline-text-5" id="text-3-1-3-1">
+<p>
+频率就是 CPU 每秒钟可以进行的工作次数。
+</p>
+
+<p>
+早期的 CPU 架构主要透过北桥来链接系统最重要的 CPU、主存储器与显示适配器装置。因
+ 为所有的设备都得掉透过北桥来连结，因此每个设备的工作频率应该要相同。 于是就有所
+ 谓的前端总线(FSB) 这个东西的产生。
+</p>
+
+<p>
+\(CPU频率速度(内频) = 外频\times 倍频\)
+</p>
+
+<p>
+内频总是比外频快！ 例如 Intel Core 2 E8400 的内频为 3.0GHz，而外频是 333MHz，因
+此倍频就是 9 倍啰！(3.0G=333Mx9, 其中 1G=1000M)
+</p>
+</div>
+
+<div id="outline-container-org933535d" class="outline-6">
+<h6 id="org933535d"><span class="section-number-6">3.1.3.1.1</span> 外频</h6>
+<div class="outline-text-6" id="text-3-1-3-1-1">
+<p>
+外频指的是 CPU 与外部组件进行数据传输时的速度
+</p>
+</div>
+</div>
+<div id="outline-container-org8a49a8a" class="outline-6">
+<h6 id="org8a49a8a"><span class="section-number-6">3.1.3.1.2</span> 倍频</h6>
+<div class="outline-text-6" id="text-3-1-3-1-2">
+<p>
+倍频则是 CPU 内部用来加速工作效能的一个倍数
+</p>
+</div>
+</div>
+<div id="outline-container-orgddc5ecc" class="outline-6">
+<h6 id="orgddc5ecc"><span class="section-number-6">3.1.3.1.3</span> 超频</h6>
+<div class="outline-text-6" id="text-3-1-3-1-3">
+<p>
+超频指的是： 将 CPU 的倍频或者是外频透过主板的设定功能更改成较高频率的一种方式。
+</p>
+
+<p>
+因为 CPU 的倍频通常在出厂时已经被锁定而无法修改， 因此较常被超频的为外频。
+</p>
+
+<p>
+举例来说，像Intel Core 2 E8400 的内频为 3.0GHz，而外频是 333MHz, 3.0GHz 的 CPU
+如果想要超频， 可以将他的外频 333MHz 调整成为 400MHz，但如此一来整个主板的各个组
+件的运作频率可能都会被增加成原本的 1.333 倍(4/3)， 虽然 CPU 可能可以到达 3.6GHz，
+但却因为频率并非正常速度，故可能会造成当机等问题。
+</p>
+
+<p>
+现在 Intel 的 CPU 会主动帮妳超频喔！例如 i7-4790 这颗 CPU 的规格中，基本频率为
+3.6GHz，但是最高可自动超频到 4GHz 喔！ 透过的是 Intel 的 turbo 技术。同时，如果
+你没有大量的运算需求，该 CPU 频率会降到 1.xGHz 而已，藉此达到节能省电的目的！
+</p>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-org97688b5" class="outline-4">
+<h4 id="org97688b5"><span class="section-number-4">3.1.4</span> 内存控制器</h4>
+<div class="outline-text-4" id="text-3-1-4">
+<p>
+CPU 的各项数据通通得要来自于主存储器。因此，如果主存储器能提供给 CPU 的数据量越
+大的话，当然整体系统的效能应该也会比较快！
+</p>
+
+<p>
+主存储器也是有其工作的频率（每秒读取数据的次数），这个频率限制还是来自于 CPU 内
+的内存控制器所决定的。
+</p>
+
+<p>
+ <b>计算内存带宽（每秒CPU读取的数据量）</b> ：若CPU 内建的内存控制芯片对主存储器的工
+作频率最高可达到1600MHz。若每次频率能够传输的数据量为64位，那么CPU 可以从内存中
+取得的最快带宽就是 \(1600MHz * 64bit = 1600MHz * 8 bytes = 12.8Gbyte/s\) 。
+</p>
+
+<p>
+早期的 32 位 CPU 中，因为 CPU 每次能够解析的数据量有限， 因此由主存储器传来的数
+据量就有所限制了。这也导致 32 位的 CPU 最多只能支持最大到 4GBytes 的内存。
+</p>
+</div>
+</div>
+
+<div id="outline-container-org1b20827" class="outline-4">
+<h4 id="org1b20827"><span class="section-number-4">3.1.5</span> 北桥</h4>
+<div class="outline-text-4" id="text-3-1-5">
+<p>
+北桥：负责链接速度较快的 CPU、主存储器与显示适配器界面等组件；
+</p>
+
+<p>
+进行超频的话数据都被北桥卡死了，北桥又不可能比 CPU 更快，因此这家伙常常是系统效
+能的瓶颈。
+</p>
+
+<p>
+为了解决这个问题，新的 CPU 设计中， 已经将内存控制器整合到 CPU 内部，而链接 CPU
+与内存、显示适配器的控制器的设计，在 Intel 部份使用 QPI (Quick Path
+Interconnect) 与 DMI 技术，而 AMD 部份则使用 Hyper Transport 了，这些技术都可以
+让 CPU 直接与主存储器、显示适配器等设备分别进行沟通，而不需要透过外部的链接芯片了
+</p>
+</div>
+</div>
+
+<div id="outline-container-orga5644da" class="outline-4">
+<h4 id="orga5644da"><span class="section-number-4">3.1.6</span> 南桥</h4>
+<div class="outline-text-4" id="text-3-1-6">
+<p>
+南桥：负责连接速度较慢的装置接口， 包括硬盘、USB、网络卡等等。
+</p>
+</div>
+</div>
+<div id="outline-container-org9076ca4" class="outline-4">
+<h4 id="org9076ca4"><span class="section-number-4">3.1.7</span> CPU等级</h4>
+<div class="outline-text-4" id="text-3-1-7">
+<p>
+基本上，在 Intel Pentium MMX 与 AMD K6年代的 CPU 称为 <b>i586</b> 等级， 而 Intel
+Celeron 与 AMD Athlon(K7)年代之后的 32 位 CPU 就称为 <b>i686</b> 等级。 至于目前的 64
+位 CPU 则统称为 x86<sub>64</sub> 等级。
+</p>
+</div>
+</div>
+<div id="outline-container-org0bf2de7" class="outline-4">
+<h4 id="org0bf2de7"><span class="section-number-4">3.1.8</span> 超线程</h4>
+<div class="outline-text-4" id="text-3-1-8">
+<p>
+在每一个 CPU 内部将重要的缓存器 (register) 分成两群， 而让程序分别使用这两群缓存
+器。也就是说，可以有两个程序『同时竞争 CPU 的运算单元』，而非透过操作系统的多任
+务切换！ 这一过程就会让 CPU 好像『同时有两个核心』的模样！
+</p>
+</div>
+</div>
+</div>
+<div id="outline-container-orgfd9d9e8" class="outline-3">
+<h3 id="orgfd9d9e8"><span class="section-number-3">3.2</span> 内存</h3>
+<div class="outline-text-3" id="text-3-2">
+</div>
+<div id="outline-container-org6a37894" class="outline-4">
+<h4 id="org6a37894"><span class="section-number-4">3.2.1</span> 内存的外观设计</h4>
+<div class="outline-text-4" id="text-3-2-1">
+<p>
+主存储器插槽中间通常有个突起物将整个插槽稍微切分成为两个不等长的距离， 这样的设
+计可以让用户在安装主存储器时，不至于前后脚位安插错误，是一种防呆的设计喔。
+</p>
+</div>
+</div>
+<div id="outline-container-org7618df0" class="outline-4">
+<h4 id="org7618df0"><span class="section-number-4">3.2.2</span> 内存的类型</h4>
+<div class="outline-text-4" id="text-3-2-2">
+</div>
+<div id="outline-container-org2070a84" class="outline-5">
+<h5 id="org2070a84"><span class="section-number-5">3.2.2.1</span> DRAM</h5>
+<div class="outline-text-5" id="text-3-2-2-1">
+<p>
+个人计算机的主存储器主要组件为动态随机存取内存(Dynamic Random Access Memory,
+ DRAM)
+</p>
+
+<p>
+使用上较广泛的有所谓的 SDRAM 与 DDR SDRAM 两种,这两种内存的差别除了在于脚位与工
+作电压上的不同之外，DDR 是所谓的双倍数据传送速度(Double Data Rate)， 他可以在一
+次工作周期中进行两次数据的传送，感觉上就好像是 CPU 的倍频啦！
+</p>
+
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-right" />
+
+<col  class="org-right" />
+
+<col  class="org-right" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">SDRAM/DDR</th>
+<th scope="col" class="org-left">型号</th>
+<th scope="col" class="org-right">数据宽度(bit)</th>
+<th scope="col" class="org-right">内部频率(MHz)</th>
+<th scope="col" class="org-right">频率速度</th>
+<th scope="col" class="org-left">带宽(频率x宽度)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left">SDRAM</td>
+<td class="org-left">PC100</td>
+<td class="org-right">64</td>
+<td class="org-right">100</td>
+<td class="org-right">100</td>
+<td class="org-left">800MBytes/sec</td>
+</tr>
+
+<tr>
+<td class="org-left">SDRAM</td>
+<td class="org-left">PC133</td>
+<td class="org-right">64</td>
+<td class="org-right">133</td>
+<td class="org-right">133</td>
+<td class="org-left">1064MBytes/sec</td>
+</tr>
+
+<tr>
+<td class="org-left">DDR</td>
+<td class="org-left">DDR-266</td>
+<td class="org-right">64</td>
+<td class="org-right">133</td>
+<td class="org-right">266</td>
+<td class="org-left">2.1GBytes/sec</td>
+</tr>
+
+<tr>
+<td class="org-left">DDR</td>
+<td class="org-left">DDR-400</td>
+<td class="org-right">64</td>
+<td class="org-right">200</td>
+<td class="org-right">400</td>
+<td class="org-left">3.2GBytes/sec</td>
+</tr>
+
+<tr>
+<td class="org-left">DDR</td>
+<td class="org-left">DDR2-800</td>
+<td class="org-right">64</td>
+<td class="org-right">200</td>
+<td class="org-right">800</td>
+<td class="org-left">6.4GBytes/sec</td>
+</tr>
+
+<tr>
+<td class="org-left">DDR</td>
+<td class="org-left">DDR3-1600</td>
+<td class="org-right">64</td>
+<td class="org-right">200</td>
+<td class="org-right">1600</td>
+<td class="org-left">12.8GBytes/sec</td>
+</tr>
+</tbody>
+</table>
+</div>
+
+<div id="outline-container-orge6548af" class="outline-6">
+<h6 id="orge6548af"><span class="section-number-6">3.2.2.1.1</span> SDRAM</h6>
+</div>
+<div id="outline-container-orga7bf99d" class="outline-6">
+<h6 id="orga7bf99d"><span class="section-number-6">3.2.2.1.2</span> DDR SDRAM</h6>
+<div class="outline-text-6" id="text-3-2-2-1-2">
+<p>
+DDR3 标准电压为 1.5V， 但 DDR3L 则仅须 1.35V 喔！通常可以用在耗电量需求更低的笔电中！ 但并非所有的系统都同步支持！这就得要
+看主板的支持规格啰！否则你买了 DDR3L 安插在不支持的主板上，DDR3L 主存储器是可能会烧毁的喔！
+</p>
+
+<p>
+DDR2 的频率倍数则是 4 倍而 DDR3 则是 8 倍喔！
+</p>
+</div>
+</div>
+</div>
+<div id="outline-container-org1811b74" class="outline-5">
+<h5 id="org1811b74"><span class="section-number-5">3.2.2.2</span> SRAM</h5>
+<div class="outline-text-5" id="text-3-2-2-2">
+<p>
+CPU的第二层高速缓存由SRAM组成。 (Static Random Access Memory, SRAM)
+</p>
+
+<p>
+SRAM 在设计上使用的晶体管数量较多，价格较高，且不易做成大容量，不过由于其速度快，
+因此整合到 CPU 内成为高速缓存以加快数据的存取是个不错的方式喔！
+</p>
+</div>
+</div>
+
+<div id="outline-container-org9a706a3" class="outline-5">
+<h5 id="org9a706a3"><span class="section-number-5">3.2.2.3</span> 只读存储器</h5>
+<div class="outline-text-5" id="text-3-2-2-3">
+<p>
+BIOS(Basic Input Output System)是一套程序，这套程序是写死到主板上面的一个内存芯
+片中， 这个内存芯片在没有通电时也能够将数据记录下来，那就是只读存储器(Read Only
+Memory, ROM)。
+</p>
+
+<p>
+现在的 BIOS 通常是写入类似闪存 (flash) 或 EEPROM (注 13) 中
+</p>
+</div>
+
+<div id="outline-container-orgc30ff6f" class="outline-6">
+<h6 id="orgc30ff6f"><span class="section-number-6">3.2.2.3.1</span> 韧体</h6>
+<div class="outline-text-6" id="text-3-2-2-3-1">
+<p>
+韧体(firmware)很多也是使用 ROM 来进行软件的写入的。 韧体像软件一样也是一个被计算
+机所执行的程序，然而他是对于硬件内部而言更加重要的部分。例如 BIOS 就是一个韧体。
+</p>
+
+<p>
+<b>韧体就是绑在硬件上面的控制软件</b>.
+</p>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgcca2aef" class="outline-4">
+<h4 id="orgcca2aef"><span class="section-number-4">3.2.3</span> 内存容量</h4>
+<div class="outline-text-4" id="text-3-2-3">
+<p>
+主存储器除了频率/带宽与型号需要考虑之外，内存的容量也是很重要的喔!
+</p>
+
+<p>
+通常越大的内存代表越快速的系统，这是因为系统不用常常释放一些内存内部的数据。
+</p>
+</div>
+</div>
+<div id="outline-container-org2965cc6" class="outline-4">
+<h4 id="org2965cc6"><span class="section-number-4">3.2.4</span> 内存带宽</h4>
+<div class="outline-text-4" id="text-3-2-4">
+<p>
+但传统的总线宽度一般大约仅达 64 位，为了要加大这个宽度，因此芯片组厂商就将两个主
+存储器汇整在一起， 如 果一支内存可达 64 位，两支内存就可以达到 128 位了，这就是
+双通道的设计理念
+</p>
+
+<p>
+要启用双信道的功能你必须要安插两支(或四支)主存储器，这两支内存最好连型号都一模一
+样(也就是容量与其他参数一样)比较好
+</p>
+
+<p>
+支持双信道的主板一般会将两个内存条颜色设计为相同的，这样要启动双信道的功能时，
+你必须要将两根容量相同的主存储器插在相同颜色的插槽当中喔！
+</p>
+
+<p>
+中阶服务器也经常提供三信道，甚至四信道的内存环境！ 例如 2014 年推出的服务器用
+E5-2650 v3 的 Intel CPU 中，它可以接受的最大信道数就是四信道且为 DDR4 喔！
+</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="author">Author: JiangSan</p>
+<p class="date">Created: 2020-09-03 Thu 09:12</p>
+</div>
+</body>
+</html>

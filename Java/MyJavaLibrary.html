@@ -1,0 +1,2827 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2020-09-03 Thu 09:12 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Java 标准库学习</title>
+<meta name="generator" content="Org mode" />
+<meta name="author" content="JiangSan" />
+
+<link rel='stylesheet'href='../static/org-manual.css' type='text/css'/>
+<script type='text/javascript' defer src='../static/org-manual.js'></script>
+<script type='text/javascript'>window.onload =  function () {init();  }</script>
+<meta name='viewport' content='width=device-width, initial-scale=1.0'>
+<script type="text/javascript">
+// @license magnet:?xt=urn:btih:1f739d935676111cfff4b4693e3816e664797050&amp;dn=gpl-3.0.txt GPL-v3-or-Later
+<!--/*--><![CDATA[/*><!--*/
+     function CodeHighlightOn(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(null != target) {
+         elem.cacheClassElem = elem.className;
+         elem.cacheClassTarget = target.className;
+         target.className = "code-highlighted";
+         elem.className   = "code-highlighted";
+       }
+     }
+     function CodeHighlightOff(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(elem.cacheClassElem)
+         elem.className = elem.cacheClassElem;
+       if(elem.cacheClassTarget)
+         target.className = elem.cacheClassTarget;
+     }
+    /*]]>*///-->
+// @license-end
+</script>
+</head>
+<body>
+<div id="content">
+<h1 class="title">Java 标准库学习</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#org62e74ca">1. File</a>
+<ul>
+<li><a href="#orgd5ade8f">1.1. 访问文件名相关操作</a>
+<ul>
+<li><a href="#orga3ec7d1">1.1.1. getName</a></li>
+<li><a href="#org75fc716">1.1.2. getCanonicalPath</a></li>
+</ul>
+</li>
+<li><a href="#orgd3c05c9">1.2. 文件检测相关</a>
+<ul>
+<li><a href="#org2455e32">1.2.1. canRead</a></li>
+<li><a href="#org37595cf">1.2.2. isHidden</a></li>
+</ul>
+</li>
+<li><a href="#org2ec2e20">1.3. 获取常规文件信息</a></li>
+<li><a href="#org100dae2">1.4. 文件操作</a></li>
+<li><a href="#orgd0fa024">1.5. 目录操作</a></li>
+</ul>
+</li>
+<li><a href="#org289887b">2. 字符串</a>
+<ul>
+<li><a href="#org27bbd50">2.1. 字符串转换为数字</a></li>
+<li><a href="#orgd70a544">2.2. 数字转换为字符串</a></li>
+<li><a href="#orgb73b0ad">2.3. 快速判断字符串是否为数字</a>
+<ul>
+<li><a href="#org98674e8">2.3.1. 使用Character一个一个字符进行判断</a></li>
+<li><a href="#org9c817f1">2.3.2. 使用正则表达式</a></li>
+<li><a href="#orga109a93">2.3.3. 使用ascii码</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#org93620b7">3. 输入输出</a>
+<ul>
+<li><a href="#org81774fb">3.1. printf</a>
+<ul>
+<li><a href="#org7179fa6">3.1.1. printf的格式化字符串</a></li>
+<li><a href="#orga54128c">3.1.2. printf使用实例</a>
+<ul>
+<li><a href="#org24022c9">3.1.2.1. 使用输出宽度 [m.n]</a></li>
+<li><a href="#org9d0b78c">3.1.2.2. 输出字符串</a></li>
+<li><a href="#org5d1a826">3.1.2.3. 输出布尔</a></li>
+<li><a href="#orge04cab4">3.1.2.4. 输出整数和浮点数</a></li>
+<li><a href="#org82ddb6a">3.1.2.5. 输出日期和时间</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#orgf8511f5">3.2. Scanner</a></li>
+</ul>
+</li>
+<li><a href="#org9c296ca">4. 关于日期的类</a>
+<ul>
+<li><a href="#org9fabbee">4.1. Calendar</a></li>
+<li><a href="#org70a2760">4.2. LocalDate</a>
+<ul>
+<li><a href="#orgf91f9e7">4.2.1. 创建LocalDate</a>
+<ul>
+<li><a href="#org0172ad9">4.2.1.1. now()</a></li>
+<li><a href="#org22ffb5a">4.2.1.2. of()</a></li>
+<li><a href="#orgadc03fa">4.2.1.3. ofYearDay()</a></li>
+<li><a href="#orgae08d91">4.2.1.4. ofEpochDay()</a></li>
+<li><a href="#orge2c3a74">4.2.1.5. plusYears()</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#org7acf562">5. Swing</a>
+<ul>
+<li><a href="#org5068a62">5.1. 为什么Swing的库需要以J开头？</a></li>
+<li><a href="#org6c42a5f">5.2. 为什么有些java包名叫做javax？</a></li>
+<li><a href="#orgad0a012">5.3. Swing的默认框架的大小是多少？</a></li>
+<li><a href="#orgb9081b4">5.4. Swing组件如何被运行？</a></li>
+<li><a href="#org928f554">5.5. 使用Java开发的Eclipse使用的图形工具库是什么？</a></li>
+<li><a href="#org2c6619d">5.6. 创建出来的框架一开始就是可见的吗？</a></li>
+<li><a href="#orge74e417">5.7. Swing关闭了最后一个框架后，程序会被关闭吗？</a></li>
+<li><a href="#org8da0269">5.8. 如何创建一个Swing框架？</a></li>
+<li><a href="#orgf8f1a28">5.9. 框架的属性</a>
+<ul>
+<li><a href="#org06175a9">5.9.1. 框架位置是相对于哪里？</a></li>
+<li><a href="#org15280a7">5.9.2. Swing框架有哪些属性允许被改变？</a></li>
+<li><a href="#orgdd81e78">5.9.3. 如何设置应用图标？</a></li>
+<li><a href="#org99cf6e9">5.9.4. get/set约定</a>
+<ul>
+<li><a href="#org2c4d084">5.9.4.1. 对于类型为boolean的属性，获取方法的规定是？</a></li>
+</ul>
+</li>
+<li><a href="#org4fe80c0">5.9.5. 能否关闭框架装饰？</a></li>
+<li><a href="#orgd572eea">5.9.6. 如何根据不同平台确定合适的框架大小？</a></li>
+</ul>
+</li>
+<li><a href="#orgd0aca36">5.10. 如何获取屏幕大小？</a></li>
+<li><a href="#org0d0b294">5.11. Swing和AWT在Java中的继承层次图</a></li>
+<li><a href="#orgf75f981">5.12. [Code] Swing写出来的小程序</a></li>
+<li><a href="#orgfa680c3">5.13. JFrame</a>
+<ul>
+<li><a href="#orge08deed">5.13.1. JFrame的结构</a></li>
+<li><a href="#org4ccf1e9">5.13.2. 如何在框架上绘制组件？</a>
+<ul>
+<li><a href="#orgce209f8">5.13.2.1. paintComponent方法内容主要操作什么？</a></li>
+<li><a href="#org2b9aa5a">5.13.2.2. paintComponent方法能够自己调用吗？</a></li>
+<li><a href="#org5692ce1">5.13.2.3. 何时触发paintComponent方法？</a></li>
+<li><a href="#org93b8729">5.13.2.4. 强制刷新屏幕调用的还是paintComponent方法吗？</a></li>
+<li><a href="#org5c246a9">5.13.2.5. 告诉框架容器的默认大小 <code>getPreferredSize()</code></a></li>
+<li><a href="#org117d79d">5.13.2.6. 框架大小的设置</a>
+<ul>
+<li><a href="#orgb542009">5.13.2.6.1. [问] 若容器内没有任何组件，使用 <code>pack()</code> 得到的默认大小是？</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#org88cb3a4">5.14. 处理2D图形</a>
+<ul>
+<li><a href="#orgd983c13">5.14.1. 如何在框架上绘制2D图形？</a></li>
+<li><a href="#orgeb29db6">5.14.2. paintComponent()方法如何获取Graphics2D类呢？</a></li>
+<li><a href="#org390a7f5">5.14.3. Graphics 类</a>
+<ul>
+<li><a href="#org14bab25">5.14.3.1. 如何绘制文本？</a></li>
+</ul>
+</li>
+<li><a href="#orgd1b4769">5.14.4. Graphics2D类</a>
+<ul>
+<li><a href="#orgc52a7eb">5.14.4.1. Graphics2D使用什么类型作为坐标的计算？</a></li>
+<li><a href="#org80973d7">5.14.4.2. 绘制带颜色填充的图形</a></li>
+<li><a href="#org9cf1b63">5.14.4.3. 带颜色的文字</a></li>
+<li><a href="#org4fdcf0a">5.14.4.4. 如何绘制多种颜色的图形？</a></li>
+<li><a href="#orgb80f9b3">5.14.4.5. 使用fill()方法需要注意什么？</a></li>
+<li><a href="#org379e19c">5.14.4.6. 如何获取预定义颜色？</a></li>
+<li><a href="#org3a1a8d0">5.14.4.7. 如何自定义颜色？</a>
+<ul>
+<li><a href="#orgf664a4e">5.14.4.7.1. 使用RGB创建颜色</a></li>
+</ul>
+</li>
+<li><a href="#orgd386a40">5.14.4.8. 设置前景色和背景色</a></li>
+<li><a href="#org6a13dc7">5.14.4.9. 加亮和加暗颜色</a></li>
+<li><a href="#org961323b">5.14.4.10. 通过获取系统颜色来设置组件颜色</a></li>
+</ul>
+</li>
+<li><a href="#org74c4b79">5.14.5. 图形类</a>
+<ul>
+<li><a href="#org5e08284">5.14.5.1. Rectangle2D类</a>
+<ul>
+<li><a href="#orgeadae35">5.14.5.1.1. 根据左上角位置和宽高创建矩形</a></li>
+<li><a href="#org587f4e1">5.14.5.1.2. 根据对角线创建矩形</a></li>
+</ul>
+</li>
+<li><a href="#orgde93016">5.14.5.2. Ellipse2D类</a>
+<ul>
+<li><a href="#orgc2f4de8">5.14.5.2.1. 为什么Ellipse2D与Rectangle2D类同属一个超类？</a></li>
+<li><a href="#orgb835674">5.14.5.2.2. 根据椭圆中心点和宽高创建椭圆</a></li>
+<li><a href="#org5c97017">5.14.5.2.3. 根据中心点和外边框顶点创建椭圆</a></li>
+<li><a href="#orgdbbe616">5.14.5.2.4. 根据一个已经创建的矩形绘制椭圆</a></li>
+</ul>
+</li>
+<li><a href="#orgb7d5ee6">5.14.5.3. Line2D类</a>
+<ul>
+<li><a href="#org09b96ba">5.14.5.3.1. 使用Point2D创建直线类</a></li>
+<li><a href="#org56f0f36">5.14.5.3.2. 使用两个顶点创建直线</a></li>
+</ul>
+</li>
+<li><a href="#org6a5348c">5.14.5.4. [Code] 图形类的综合应用</a></li>
+</ul>
+</li>
+<li><a href="#orgc6c2c2a">5.14.6. 字体</a>
+<ul>
+<li><a href="#org00a678d">5.14.6.1. 字体名由什么组成？</a></li>
+<li><a href="#org09fcb9b">5.14.6.2. 如何获取系统的字体名字？</a></li>
+<li><a href="#org141399e">5.14.6.3. AWT的五种逻辑字体名</a></li>
+<li><a href="#org6e7d095">5.14.6.4. 创建一个字体对象</a></li>
+<li><a href="#org49b638b">5.14.6.5. 字体风格有哪些？</a></li>
+<li><a href="#org446d6c2">5.14.6.6. 从磁盘或URL读取字体</a></li>
+<li><a href="#org3cc90ad">5.14.6.7. <code>deriveFont()</code> 的两种重载形式所完成的工作一样吗?</a></li>
+<li><a href="#orga393edb">5.14.6.8. 如何使用指定字体打印文本?</a></li>
+<li><a href="#orgfd6ff36">5.14.6.9. 字体的排版</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#org15ee1f5">6. 附录</a>
+<ul>
+<li><a href="#org01b2385">6.1. ASCII码表</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org62e74ca" class="outline-2">
+<h2 id="org62e74ca"><span class="section-number-2">1</span> File</h2>
+<div class="outline-text-2" id="text-1">
+</div>
+<div id="outline-container-orgd5ade8f" class="outline-3">
+<h3 id="orgd5ade8f"><span class="section-number-3">1.1</span> 访问文件名相关操作</h3>
+<div class="outline-text-3" id="text-1-1">
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+<caption class="t-above"><span class="table-number">Table 1:</span> java.io.File;</caption>
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">方法名</th>
+<th scope="col" class="org-left">描述</th>
+<th scope="col" class="org-left">返回值</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left">getName</td>
+<td class="org-left">返回这个抽象路径名所表示的文件或目录的名称。这只是路径名名称序列中的最后一个名称。如果路径名的名称序列为空，则返回空字符串。</td>
+<td class="org-left">String</td>
+</tr>
+
+<tr>
+<td class="org-left">getParent</td>
+<td class="org-left">返回父文件名，如果是相对路径，那么结果返回null</td>
+<td class="org-left">String</td>
+</tr>
+
+<tr>
+<td class="org-left">getParentFile</td>
+<td class="org-left">返回父文件或目录，如果使用相对路径创建，返回null</td>
+<td class="org-left">File</td>
+</tr>
+
+<tr>
+<td class="org-left">getAbsolutePath</td>
+<td class="org-left">返回绝对值路径，包括从 getName() 返回的值</td>
+<td class="org-left">String</td>
+</tr>
+
+<tr>
+<td class="org-left">getAbsoluteFile</td>
+<td class="org-left">获取当前的File对象，以绝对值路径存储</td>
+<td class="org-left">File</td>
+</tr>
+
+<tr>
+<td class="org-left">getCanonicalPath</td>
+<td class="org-left">返回绝对的唯一的规范路径（根据操作系统进行规范处理）</td>
+<td class="org-left">String</td>
+</tr>
+
+<tr>
+<td class="org-left">getCanonicalFile</td>
+<td class="org-left">获取以规范路径储存的文件对象</td>
+<td class="org-left">File</td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+</tbody>
+</table>
+</div>
+
+<div id="outline-container-orga3ec7d1" class="outline-4">
+<h4 id="orga3ec7d1"><span class="section-number-4">1.1.1</span> getName</h4>
+<div class="outline-text-4" id="text-1-1-1">
+<p>
+<b>注意！</b> 当使用 非绝对路径 创建File对象时，使用 <code>getName</code> 函数返回的值就是一个点。
+</p>
+
+<p>
+如何获取其路径呢？
+</p>
+<div class="org-src-container">
+<pre class="src src-java">File file = new File("."); // 若输入 "~" getName() 得到的也是 ~, 如果输入 ”nih“ getName() 得到的是 "nih"
+file.getAbsoluteFile().getParent();
+</pre>
+</div>
+
+<p>
+或者使用 <code>getCanonicalPath()</code> 方法
+</p>
+</div>
+</div>
+
+<div id="outline-container-org75fc716" class="outline-4">
+<h4 id="org75fc716"><span class="section-number-4">1.1.2</span> getCanonicalPath</h4>
+<div class="outline-text-4" id="text-1-1-2">
+<p>
+规范路径名既是绝对的又是唯一的。规范形式的准确定义是依赖于系统的，本方法首先在必
+要时将这个路径名转换为绝对形式，就像调用 <code>getAbsolutePath()</code> 方法一样。如果有必
+要，本方法首先将这个路径名转换为绝对形式，就像调用getAbsolutePath()方法一样，然
+后以一种依赖于系统的方式将其映射为唯一形式。
+</p>
+
+<p>
+这通常包括从路径名中删除多余的名称，如&ldquo;. &rdquo;和&ldquo;.&rdquo;，解析符号链接（在UNIX平台上），
+以及将驱动器字母转换为标准大小写（在Microsoft Windows平台上）。
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgd3c05c9" class="outline-3">
+<h3 id="orgd3c05c9"><span class="section-number-3">1.2</span> 文件检测相关</h3>
+<div class="outline-text-3" id="text-1-2">
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">方法名</th>
+<th scope="col" class="org-left">描述</th>
+<th scope="col" class="org-left">返回值</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left">canRead</td>
+<td class="org-left">判断File对象是否可读的</td>
+<td class="org-left">Boolean</td>
+</tr>
+
+<tr>
+<td class="org-left">canWrite</td>
+<td class="org-left">判断File对象是否可写的</td>
+<td class="org-left">Boolean</td>
+</tr>
+
+<tr>
+<td class="org-left">exists</td>
+<td class="org-left">测试该抽象路径名所表示的文件或目录是否存在。</td>
+<td class="org-left">Boolean</td>
+</tr>
+
+<tr>
+<td class="org-left">isDirectory</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">Boolean</td>
+</tr>
+
+<tr>
+<td class="org-left">isFile</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">Boolean</td>
+</tr>
+
+<tr>
+<td class="org-left">isHidden</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">Boolean</td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+</tbody>
+</table>
+</div>
+
+<div id="outline-container-org2455e32" class="outline-4">
+<h4 id="org2455e32"><span class="section-number-4">1.2.1</span> canRead</h4>
+<div class="outline-text-4" id="text-1-2-1">
+<p>
+测试应用程序是否可以读取该抽象路径名所表示的文件。在某些平台上，可能会以特殊权限
+启动Java虚拟机，允许它读取被标记为不可读的文件。因此，即使文件没有读取权限，本方
+法也可能返回true。
+</p>
+</div>
+</div>
+
+<div id="outline-container-org37595cf" class="outline-4">
+<h4 id="org37595cf"><span class="section-number-4">1.2.2</span> isHidden</h4>
+<div class="outline-text-4" id="text-1-2-2">
+<p>
+测试这个抽象路径名命名的文件是否为隐藏文件。隐藏文件的确切定义取决于系统。在UNIX
+系统中，如果一个文件的名字以句号(&rsquo;.&rsquo;)开头，则认为该文件是隐藏的。在Microsoft
+Windows系统中，如果文件在文件系统中被标记为隐藏文件，则被认为是隐藏文件。
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org2ec2e20" class="outline-3">
+<h3 id="org2ec2e20"><span class="section-number-3">1.3</span> 获取常规文件信息</h3>
+<div class="outline-text-3" id="text-1-3">
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">方法名</th>
+<th scope="col" class="org-left">描述</th>
+<th scope="col" class="org-left">返回值</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left">lastModified</td>
+<td class="org-left">返回文件的最后修改时间</td>
+<td class="org-left">long</td>
+</tr>
+
+<tr>
+<td class="org-left">length</td>
+<td class="org-left">返回文件内容的长度</td>
+<td class="org-left">long</td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+
+<div id="outline-container-org100dae2" class="outline-3">
+<h3 id="org100dae2"><span class="section-number-3">1.4</span> 文件操作</h3>
+</div>
+<div id="outline-container-orgd0fa024" class="outline-3">
+<h3 id="orgd0fa024"><span class="section-number-3">1.5</span> 目录操作</h3>
+</div>
+</div>
+<div id="outline-container-org289887b" class="outline-2">
+<h2 id="org289887b"><span class="section-number-2">2</span> 字符串</h2>
+<div class="outline-text-2" id="text-2">
+</div>
+<div id="outline-container-org27bbd50" class="outline-3">
+<h3 id="org27bbd50"><span class="section-number-3">2.1</span> 字符串转换为数字</h3>
+<div class="outline-text-3" id="text-2-1">
+<div class="org-src-container">
+<pre class="src src-java">//字符串转换为数字
+int tranToNum = Integer.parseInt(str, 16); //这里的16表示十六进制，也可以是十进制或是其他进制(如果不写，这里默认是10进制)
+double tranToDou = Double.parseDouble(str);
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgd70a544" class="outline-3">
+<h3 id="orgd70a544"><span class="section-number-3">2.2</span> 数字转换为字符串</h3>
+<div class="outline-text-3" id="text-2-2">
+<div class="org-src-container">
+<pre class="src src-java">//方法一:通过包装类来实现
+String tranToStr = String.valueOf(num);
+
+//方法二:直接通过空字符串+数字的形式转换为字符串
+String str= ""+num;
+
+//方法三:强制类型转换
+String  str= （String）num;
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-orgb73b0ad" class="outline-3">
+<h3 id="orgb73b0ad"><span class="section-number-3">2.3</span> 快速判断字符串是否为数字</h3>
+<div class="outline-text-3" id="text-2-3">
+</div>
+<div id="outline-container-org98674e8" class="outline-4">
+<h4 id="org98674e8"><span class="section-number-4">2.3.1</span> 使用Character一个一个字符进行判断</h4>
+<div class="outline-text-4" id="text-2-3-1">
+<div class="org-src-container">
+<pre class="src src-java">public static boolean isNumeric(String str){
+    for (int i = str.length();--i&gt;=0;){ 
+        if (!Character.isDigit(str.charAt(i))){
+            return false;
+        }
+    }
+    return true;
+}
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org9c817f1" class="outline-4">
+<h4 id="org9c817f1"><span class="section-number-4">2.3.2</span> 使用正则表达式</h4>
+<div class="outline-text-4" id="text-2-3-2">
+<div class="org-src-container">
+<pre class="src src-java">public static Boolean isNumber(String str){
+    return str.matches("[+-]?[0-9]+.？[0-9]*");
+}
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orga109a93" class="outline-4">
+<h4 id="orga109a93"><span class="section-number-4">2.3.3</span> 使用ascii码</h4>
+<div class="outline-text-4" id="text-2-3-3">
+<div class="org-src-container">
+<pre class="src src-java">public static boolean isNumeric(String str){
+    int i=str.length()-1;
+    int chr = str.charAt(i);
+    int countDoint = 0;
+
+    if(( chr &lt;48|| chr&gt;57 ) || chr != 43 || chr != 45){
+        return false;
+    }
+
+
+    for(;i&gt;=0;--i){
+        int chr=str.charAt(i);
+        if(chr == 46 &amp;&amp; countDoint &lt; 1){
+            countDoint++;
+            continue;
+        }else{
+            return false;
+        }
+        if(chr&lt;48 || chr&gt;57)
+            return false;
+    }
+    return true;
+}
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org93620b7" class="outline-2">
+<h2 id="org93620b7"><span class="section-number-2">3</span> 输入输出</h2>
+<div class="outline-text-2" id="text-3">
+</div>
+<div id="outline-container-org81774fb" class="outline-3">
+<h3 id="org81774fb"><span class="section-number-3">3.1</span> printf</h3>
+<div class="outline-text-3" id="text-3-1">
+</div>
+<div id="outline-container-org7179fa6" class="outline-4">
+<h4 id="org7179fa6"><span class="section-number-4">3.1.1</span> printf的格式化字符串</h4>
+<div class="outline-text-4" id="text-3-1-1">
+<p>
+printf的 <a id="org2f9f81d"></a>
+</p>
+<pre class="example">
+%c        单个字符
+%d        十进制整数
+%f        十进制浮点数
+%o        八进制数
+%s        字符串
+%u        无符号十进制数
+%x        十六进制数
+%%        输出百分号%
+</pre>
+
+<p>
+格式控制的完整格式：
+</p>
+<pre class="example">
+%[-][0][m.n][lh][format_string]
+</pre>
+<ul class="org-ul">
+<li>① <code>%</code> ：表示格式说明的起始符号，不可缺少。</li>
+<li>② <code>-</code> ：有-表示左对齐输出，如省略表示右对齐输出。</li>
+<li>③ <code>0</code> ：有0表示指定空位填0,如省略表示指定空位不填。</li>
+<li>④ <code>m.n</code> ：m指域宽，即对应的输出项在输出设备上所占的字符数。N指精度。用于说明输出的实型数的小数位数。为指定n时，隐含的精度为n=6位。</li>
+<li>⑤ <code>l或h</code> :l对整型指long型，对实型指double型。h用于将整型的格式字符修正为short型。</li>
+<li><code>format_string</code> 表示 <a href="#org2f9f81d">3.1.1</a></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-orga54128c" class="outline-4">
+<h4 id="orga54128c"><span class="section-number-4">3.1.2</span> printf使用实例</h4>
+<div class="outline-text-4" id="text-3-1-2">
+</div>
+<div id="outline-container-org24022c9" class="outline-5">
+<h5 id="org24022c9"><span class="section-number-5">3.1.2.1</span> 使用输出宽度 [m.n]</h5>
+<div class="outline-text-5" id="text-3-1-2-1">
+<div class="org-src-container">
+<pre class="src src-java">int m,n;
+String ch = "a";
+m=n=3;
+printf("%*.*s\n",m,n,ch);
+</pre>
+</div>
+
+<p>
+前边的*定义的是总的宽度，后边的定义的是输出的个数。分别对应外面的参数m和n 。我想
+这种方法的好处是可以在语句之外对参数m和n赋值，从而控制输出格式。
+</p>
+</div>
+</div>
+
+<div id="outline-container-org9d0b78c" class="outline-5">
+<h5 id="org9d0b78c"><span class="section-number-5">3.1.2.2</span> 输出字符串</h5>
+<div class="outline-text-5" id="text-3-1-2-2">
+<div class="org-src-container">
+<pre class="src src-java">/*** 输出字符串 ***/
+// %s表示输出字符串，也就是将后面的字符串替换模式中的%s
+System.out.printf("%s", new Integer(1212));
+// %n表示换行
+System.out.printf("%s%n", "end line");
+// 还可以支持多个参数
+System.out.printf("%s = %s%n", "Name", "Zhangsan");
+// %S将字符串以大写形式输出
+System.out.printf("%S = %s%n", "Name", "Zhangsan");
+// 支持多个参数时，可以在%s之间插入变量编号，1$表示第一个字符串，3$表示第3个字符串
+System.out.printf("%1$s = %3$s %2$s%n", "Name", "san", "Zhang");
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org5d1a826" class="outline-5">
+<h5 id="org5d1a826"><span class="section-number-5">3.1.2.3</span> 输出布尔</h5>
+<div class="outline-text-5" id="text-3-1-2-3">
+<div class="org-src-container">
+<pre class="src src-java">/*** 输出boolean类型 ***/
+System.out.printf("true = %b; false = ", true);
+System.out.printf("%b%n", false);
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orge04cab4" class="outline-5">
+<h5 id="orge04cab4"><span class="section-number-5">3.1.2.4</span> 输出整数和浮点数</h5>
+<div class="outline-text-5" id="text-3-1-2-4">
+<div class="org-src-container">
+<pre class="src src-java">/*** 输出整数类型***/
+Integer iObj = 342;
+// %d表示将整数格式化为10进制整数
+System.out.printf("%d; %d; %d%n", -500, 2343L, iObj);
+// %o表示将整数格式化为8进制整数
+System.out.printf("%o; %o; %o%n", -500, 2343L, iObj);
+// %x表示将整数格式化为16进制整数
+System.out.printf("%x; %x; %x%n", -500, 2343L, iObj);
+// %X表示将整数格式化为16进制整数，并且字母变成大写形式
+System.out.printf("%X; %X; %X%n", -500, 2343L, iObj);
+
+/*** 输出浮点类型***/
+Double dObj = 45.6d;
+// %e表示以科学技术法输出浮点数
+System.out.printf("%e; %e; %e%n", -756.403f, 7464.232641d, dObj);
+// %E表示以科学技术法输出浮点数，并且为大写形式
+System.out.printf("%E; %E; %E%n", -756.403f, 7464.232641d, dObj);
+// %f表示以十进制格式化输出浮点数
+System.out.printf("%f; %f; %f%n", -756.403f, 7464.232641d, dObj);
+// 还可以限制小数点后的位数
+System.out.printf("%.1f; %.3f; %f%n", -756.403f, 7464.232641d, dObj);
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org82ddb6a" class="outline-5">
+<h5 id="org82ddb6a"><span class="section-number-5">3.1.2.5</span> 输出日期和时间</h5>
+<div class="outline-text-5" id="text-3-1-2-5">
+<div class="org-src-container">
+<pre class="src src-java">/*** 输出日期类型***/
+// %t表示格式化日期时间类型，%T是时间日期的大写形式，在%t之后用特定的字母表示不同的输出格式
+Date date = new Date();
+long dataL = date.getTime();
+// 格式化年月日
+// %t之后用y表示输出日期的年份（2位数的年，如99）
+// %t之后用m表示输出日期的月份，%t之后用d表示输出日期的日号
+System.out.printf("%1$ty-%1$tm-%1$td; %2$ty-%2$tm-%2$td%n", date, dataL);
+// %t之后用Y表示输出日期的年份（4位数的年），
+// %t之后用B表示输出日期的月份的完整名， %t之后用b表示输出日期的月份的简称
+System.out.printf("%1$tY-%1$tB-%1$td; %2$tY-%2$tb-%2$td%n", date, dataL);
+
+// 以下是常见的日期组合
+// %t之后用D表示以 "%tm/%td/%ty"格式化日期
+System.out.printf("%1$tD%n", date);
+//%t之后用F表示以"%tY-%tm-%td"格式化日期
+System.out.printf("%1$tF%n", date);
+
+/*** 输出时间类型***/
+// 输出时分秒
+// %t之后用H表示输出时间的时（24进制），%t之后用I表示输出时间的时（12进制），
+// %t之后用M表示输出时间的分，%t之后用S表示输出时间的秒
+System.out.printf("%1$tH:%1$tM:%1$tS; %2$tI:%2$tM:%2$tS%n", date, dataL);
+// %t之后用L表示输出时间的秒中的毫秒
+System.out.printf("%1$tH:%1$tM:%1$tS %1$tL%n", date);
+// %t之后p表示输出时间的上午或下午信息
+System.out.printf("%1$tH:%1$tM:%1$tS %1$tL %1$tp%n", date);
+
+// 以下是常见的时间组合
+// %t之后用R表示以"%tH:%tM"格式化时间
+System.out.printf("%1$tR%n", date);
+// %t之后用T表示以"%tH:%tM:%tS"格式化时间
+System.out.printf("%1$tT%n", date);
+// %t之后用r表示以"%tI:%tM:%tS %Tp"格式化时间
+System.out.printf("%1$tr%n", date);
+
+/*** 输出星期***/
+// %t之后用A表示得到星期几的全称
+System.out.printf("%1$tF %1$tA%n", date);
+// %t之后用a表示得到星期几的简称
+System.out.printf("%1$tF %1$ta%n", date);
+
+// 输出时间日期的完整信息
+System.out.printf("%1$tc%n", date);
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-orgf8511f5" class="outline-3">
+<h3 id="orgf8511f5"><span class="section-number-3">3.2</span> Scanner</h3>
+</div>
+</div>
+<div id="outline-container-org9c296ca" class="outline-2">
+<h2 id="org9c296ca"><span class="section-number-2">4</span> 关于日期的类</h2>
+<div class="outline-text-2" id="text-4">
+</div>
+<div id="outline-container-org9fabbee" class="outline-3">
+<h3 id="org9fabbee"><span class="section-number-3">4.1</span> Calendar</h3>
+<div class="outline-text-3" id="text-4-1">
+<div class="org-src-container">
+<pre class="src src-java">public static void main(String[] args) {
+    Calendar cal = Calendar.getInstance();
+    int day = cal.get(Calendar.DATE);
+    int month = cal.get(Calendar.MONTH) + 1;
+    int year = cal.get(Calendar.YEAR);
+    int dow = cal.get(Calendar.DAY_OF_WEEK);
+    int dom = cal.get(Calendar.DAY_OF_MONTH);
+    int doy = cal.get(Calendar.DAY_OF_YEAR);
+ 
+    System.out.println("当期时间: " + cal.getTime());
+    System.out.println("日期: " + day);
+    System.out.println("月份: " + month);
+    System.out.println("年份: " + year);
+    System.out.println("一周的第几天: " + dow);  // 星期日为一周的第一天输出为 1，星期一输出为 2，以此类推
+    System.out.println("一月中的第几天: " + dom);
+    System.out.println("一年的第几天: " + doy);
+}
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org70a2760" class="outline-3">
+<h3 id="org70a2760"><span class="section-number-3">4.2</span> LocalDate</h3>
+<div class="outline-text-3" id="text-4-2">
+</div>
+<div id="outline-container-orgf91f9e7" class="outline-4">
+<h4 id="orgf91f9e7"><span class="section-number-4">4.2.1</span> 创建LocalDate</h4>
+<div class="outline-text-4" id="text-4-2-1">
+<p>
+LocalDate只能通过工厂方法进行创建，主要由两个方法 <code>now()</code> <code>of()</code>
+</p>
+</div>
+
+<div id="outline-container-org0172ad9" class="outline-5">
+<h5 id="org0172ad9"><span class="section-number-5">4.2.1.1</span> now()</h5>
+<div class="outline-text-5" id="text-4-2-1-1">
+<p>
+now() : 从默认时区的系统时钟中获取当前日期。
+</p>
+<div class="org-src-container">
+<pre class="src src-java">LocalDate l = LocalDate.now();
+System.out.println(l.plusYears(1));
+</pre>
+</div>
+
+<p>
+now(ZoneId) : 从指定时区的系统时钟中获取当前日期。
+</p>
+<div class="org-src-container">
+<pre class="src src-java">LocalDate l = LocalDate.now(ZoneId.of("-05:00"));
+System.out.println(l.plusYears(1));
+</pre>
+</div>
+
+<p>
+now(Clock) : 从指定时钟获取当前日期。
+</p>
+<div class="org-src-container">
+<pre class="src src-java">LocalDate l = LocalDate.now(Clock.systemUTC());
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org22ffb5a" class="outline-5">
+<h5 id="org22ffb5a"><span class="section-number-5">4.2.1.2</span> of()</h5>
+<div class="outline-text-5" id="text-4-2-1-2">
+<p>
+of(int,Month,int) : 从年、月和日获取LocalDate实例。
+</p>
+
+<div class="org-src-container">
+<pre class="src src-java">System.out.println(LocalDate.of(0, Month.MAY, 1));
+// output
+0000-05-01
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgadc03fa" class="outline-5">
+<h5 id="orgadc03fa"><span class="section-number-5">4.2.1.3</span> ofYearDay()</h5>
+<div class="outline-text-5" id="text-4-2-1-3">
+<p>
+ofYearDay(int year,int dyaOfYear) : 从指定年的获取指定年中的指定天获取LocalDate实例
+</p>
+
+<div class="org-src-container">
+<pre class="src src-java">LocalDate l = LocalDate.ofYearDay(1998, 99);
+System.out.println(l);
+// output
+1998-04-09
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgae08d91" class="outline-5">
+<h5 id="orgae08d91"><span class="section-number-5">4.2.1.4</span> ofEpochDay()</h5>
+<div class="outline-text-5" id="text-4-2-1-4">
+<p>
+ofEpochDay(long epochDay) : 从1970(新纪元)年开始获取指定天数的LocalDate实例
+</p>
+
+<div class="org-src-container">
+<pre class="src src-java">LocalDate l = LocalDate.ofEpochDay(0);
+System.out.println(l);
+// output
+1970-01-01
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orge2c3a74" class="outline-5">
+<h5 id="orge2c3a74"><span class="section-number-5">4.2.1.5</span> plusYears()</h5>
+<div class="outline-text-5" id="text-4-2-1-5">
+<p>
+返回这个LocalDate的副本，并加上指定的年数。
+</p>
+
+<div class="org-src-container">
+<pre class="src src-java">LocalDate	plusYears​(long yearsToAdd)
+</pre>
+</div>
+
+<p>
+在jshell上的测试：
+</p>
+<div class="org-src-container">
+<pre class="src src-java"> LocalDate l = LocalDate.now()
+l ==&gt; 2020-08-23
+
+jshell&gt; LocalDate l2 = l.plusYears(1);
+l2 ==&gt; 2021-08-23
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-org7acf562" class="outline-2">
+<h2 id="org7acf562"><span class="section-number-2">5</span> Swing</h2>
+<div class="outline-text-2" id="text-5">
+</div>
+<div id="outline-container-org5068a62" class="outline-3">
+<h3 id="org5068a62"><span class="section-number-3">5.1</span> 为什么Swing的库需要以J开头？</h3>
+<div class="outline-text-3" id="text-5-1">
+<p>
+因为同样的类不加J的是 <code>AWT</code> 的，因此为了与AWT区分开来，需要在前面加上J。
+</p>
+</div>
+</div>
+
+<div id="outline-container-org6c42a5f" class="outline-3">
+<h3 id="org6c42a5f"><span class="section-number-3">5.2</span> 为什么有些java包名叫做javax？</h3>
+<div class="outline-text-3" id="text-5-2">
+<p>
+java后面加上x表示java的扩展包,而不是核心包。
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgad0a012" class="outline-3">
+<h3 id="orgad0a012"><span class="section-number-3">5.3</span> Swing的默认框架的大小是多少？</h3>
+<div class="outline-text-3" id="text-5-3">
+<p>
+所有的Swing框架的默认大小都是0x0像素。
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgb9081b4" class="outline-3">
+<h3 id="orgb9081b4"><span class="section-number-3">5.4</span> Swing组件如何被运行？</h3>
+<div class="outline-text-3" id="text-5-4">
+<p>
+所有的Swing组件均由 <b>事件分派线程</b> 进行配置。也就是说Swing组件是被事件所触发。
+</p>
+</div>
+</div>
+
+<div id="outline-container-org928f554" class="outline-3">
+<h3 id="org928f554"><span class="section-number-3">5.5</span> 使用Java开发的Eclipse使用的图形工具库是什么？</h3>
+<div class="outline-text-3" id="text-5-5">
+<p>
+Eclipse使用的不是Java提供的Swing图形库，而是自己重新开发的的一个新图形库(与AWT类
+似)：SWT
+</p>
+
+<p>
+可以在下面的网站看到： <a href="https://wiki.eclipse.org/Eclipse_Corner">https://wiki.eclipse.org/Eclipse_Corner</a>
+</p>
+</div>
+</div>
+
+<div id="outline-container-org2c6619d" class="outline-3">
+<h3 id="org2c6619d"><span class="section-number-3">5.6</span> 创建出来的框架一开始就是可见的吗？</h3>
+<div class="outline-text-3" id="text-5-6">
+<p>
+创建出来的框架一开始并不是可见的，这就给了程序员添加组件的机会。可以在框架显示之
+前对框架进行初始化（即加入合适的组件）。
+</p>
+</div>
+</div>
+
+<div id="outline-container-orge74e417" class="outline-3">
+<h3 id="orge74e417"><span class="section-number-3">5.7</span> Swing关闭了最后一个框架后，程序会被关闭吗？</h3>
+</div>
+<div id="outline-container-org8da0269" class="outline-3">
+<h3 id="org8da0269"><span class="section-number-3">5.8</span> 如何创建一个Swing框架？</h3>
+<div class="outline-text-3" id="text-5-8">
+<p>
+框架的创建是通过继承Swing的 <code>JFrame</code> 类来实现，在事件队列中创建这个定制类的对象
+来创建框架。
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgf8f1a28" class="outline-3">
+<h3 id="orgf8f1a28"><span class="section-number-3">5.9</span> 框架的属性</h3>
+<div class="outline-text-3" id="text-5-9">
+<ul class="org-ul">
+<li><code>setLocation()</code> 框架定位，仅仅确定框架的位置，通过两个int类型 x y来实现。</li>
+<li><code>setBounds()</code> 框架定位，除了确定框架的位置，还可以设置初始框架的大小。</li>
+<li><code>setIconImage()</code> 设置框架图标</li>
+<li><code>setTitle()</code> 设置标题栏</li>
+<li><code>setResizable()</code> 设置是否能够在运行时被鼠标改变大小</li>
+</ul>
+</div>
+
+<div id="outline-container-org06175a9" class="outline-4">
+<h4 id="org06175a9"><span class="section-number-4">5.9.1</span> 框架位置是相对于哪里？</h4>
+<div class="outline-text-4" id="text-5-9-1">
+<p>
+框架位置的设置相对于正在运行的主机的屏幕左上角，左上角的坐标为(0,0),方向分别沿着
+右边和下面延伸。
+</p>
+</div>
+</div>
+
+<div id="outline-container-org15280a7" class="outline-4">
+<h4 id="org15280a7"><span class="section-number-4">5.9.2</span> Swing框架有哪些属性允许被改变？</h4>
+<div class="outline-text-4" id="text-5-9-2">
+<ol class="org-ol">
+<li>初始位置，初始大小</li>
+<li>框架标题和图标</li>
+<li>是否允许运行时被改变大小</li>
+</ol>
+</div>
+</div>
+
+<div id="outline-container-orgdd81e78" class="outline-4">
+<h4 id="orgdd81e78"><span class="section-number-4">5.9.3</span> 如何设置应用图标？</h4>
+<div class="outline-text-4" id="text-5-9-3">
+<div class="org-src-container">
+<pre class="src src-java">      Image img = new ImageIcon("icon.gif").getImage();
+      setIconImage(img);
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org99cf6e9" class="outline-4">
+<h4 id="org99cf6e9"><span class="section-number-4">5.9.4</span> get/set约定</h4>
+<div class="outline-text-4" id="text-5-9-4">
+<p>
+在Swing的方法中，大多数都是成对出现的，都有对属性的读写操作。
+</p>
+</div>
+
+<div id="outline-container-org2c4d084" class="outline-5">
+<h5 id="org2c4d084"><span class="section-number-5">5.9.4.1</span> 对于类型为boolean的属性，获取方法的规定是？</h5>
+<div class="outline-text-5" id="text-5-9-4-1">
+<p>
+在成对出现的规则中，对于布尔值的读取操作是以 <code>is</code> 开头而不是 <code>get</code>
+</p>
+<div class="org-src-container">
+<pre class="src src-java">public boolean isLocationByPlatform();
+public boolean setLocationByPlatform();
+</pre>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org4fe80c0" class="outline-4">
+<h4 id="org4fe80c0"><span class="section-number-4">5.9.5</span> 能否关闭框架装饰？</h4>
+<div class="outline-text-4" id="text-5-9-5">
+<p>
+框架装饰就是包含标题，图标，最小化，最大化，关闭等按钮的部分，这些由操作系统进行
+绘制，因此对于不一样的操作系统，观感也是不同的。
+</p>
+
+<p>
+想要关闭框架装饰，可以使用如下方法：
+</p>
+<div class="org-src-container">
+<pre class="src src-java">frame.setUndecorated(true);
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-orgd572eea" class="outline-4">
+<h4 id="orgd572eea"><span class="section-number-4">5.9.6</span> 如何根据不同平台确定合适的框架大小？</h4>
+</div>
+</div>
+
+<div id="outline-container-orgd0aca36" class="outline-3">
+<h3 id="orgd0aca36"><span class="section-number-3">5.10</span> 如何获取屏幕大小？</h3>
+</div>
+
+<div id="outline-container-org0d0b294" class="outline-3">
+<h3 id="org0d0b294"><span class="section-number-3">5.11</span> Swing和AWT在Java中的继承层次图</h3>
+<div class="outline-text-3" id="text-5-11">
+
+<div class="figure">
+<p><img src="./Material/Image/image-ZYodeh20200826-201415.png" alt="image-ZYodeh20200826-201415.png" />
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgf75f981" class="outline-3">
+<h3 id="orgf75f981"><span class="section-number-3">5.12</span> [Code] Swing写出来的小程序</h3>
+<div class="outline-text-3" id="text-5-12">
+<div class="org-src-container">
+<pre class="src src-java">package sizedFrame;
+
+import java.awt.*;
+import javax.swing.*;
+
+/**
+ * @version 1.33 2007-05-12
+ * @author Cay Horstmann
+ */
+public class SizedFrameTest
+{
+   public static void main(String[] args)
+   {
+      EventQueue.invokeLater(() -&gt;
+         {
+            JFrame frame = new SizedFrame();
+            frame.setTitle("SizedFrame");
+            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            frame.setVisible(true);
+         });
+   }
+}
+
+class SizedFrame extends JFrame
+{
+   public SizedFrame()
+   {
+      // get screen dimensions
+
+      Toolkit kit = Toolkit.getDefaultToolkit(); // 获取默认工具，这些工具主要用于与操作系统打交道
+      Dimension screenSize = kit.getScreenSize(); // 获取屏幕大小
+      int screenHeight = screenSize.height;
+      int screenWidth = screenSize.width;
+
+      // set frame width, height and let platform pick screen location
+
+      setSize(screenWidth / 2, screenHeight / 2);
+      setLocationByPlatform(true);
+
+      // set frame icon
+
+      Image img = new ImageIcon("icon.gif").getImage();
+      setIconImage(img);      
+   }
+}
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-orgfa680c3" class="outline-3">
+<h3 id="orgfa680c3"><span class="section-number-3">5.13</span> JFrame</h3>
+<div class="outline-text-3" id="text-5-13">
+</div>
+<div id="outline-container-orge08deed" class="outline-4">
+<h4 id="orge08deed"><span class="section-number-4">5.13.1</span> JFrame的结构</h4>
+<div class="outline-text-4" id="text-5-13-1">
+
+<div class="figure">
+<p><img src="./Material/Image/image-TBmk8f20200826-201450.png" alt="image-TBmk8f20200826-201450.png" />
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org4ccf1e9" class="outline-4">
+<h4 id="org4ccf1e9"><span class="section-number-4">5.13.2</span> 如何在框架上绘制组件？</h4>
+<div class="outline-text-4" id="text-5-13-2">
+<p>
+想要在JFrame框架中绘制组件，必须定义一个存放组件的容器，比如JComponent。需要扩展
+一个容器类。
+</p>
+
+<p>
+而容器类中用于输出组件的方式就是使用 <code>paintComponent()</code> 方法。
+</p>
+</div>
+
+<div id="outline-container-orgce209f8" class="outline-5">
+<h5 id="orgce209f8"><span class="section-number-5">5.13.2.1</span> paintComponent方法内容主要操作什么？</h5>
+<div class="outline-text-5" id="text-5-13-2-1">
+<p>
+paintComponent方法仅仅接受一个参数:类型为 <code>Graphics</code> 的变量；因此paintComponent
+方法主要操作这个变量来显示需要的图形到框架上。
+</p>
+</div>
+</div>
+<div id="outline-container-org2b9aa5a" class="outline-5">
+<h5 id="org2b9aa5a"><span class="section-number-5">5.13.2.2</span> paintComponent方法能够自己调用吗？</h5>
+</div>
+<div id="outline-container-org5692ce1" class="outline-5">
+<h5 id="org5692ce1"><span class="section-number-5">5.13.2.3</span> 何时触发paintComponent方法？</h5>
+</div>
+
+<div id="outline-container-org93b8729" class="outline-5">
+<h5 id="org93b8729"><span class="section-number-5">5.13.2.4</span> 强制刷新屏幕调用的还是paintComponent方法吗？</h5>
+<div class="outline-text-5" id="text-5-13-2-4">
+<p>
+当用户强制进行屏幕刷新时，使用的是 <code>repaint()</code> 方法。
+</p>
+</div>
+</div>
+<div id="outline-container-org5c246a9" class="outline-5">
+<h5 id="org5c246a9"><span class="section-number-5">5.13.2.5</span> 告诉框架容器的默认大小 <code>getPreferredSize()</code></h5>
+<div class="outline-text-5" id="text-5-13-2-5">
+<p>
+该函数用于设置容器的首选大小（即默认大小），返回 <code>Dimension</code> 类。
+</p>
+</div>
+</div>
+
+<div id="outline-container-org117d79d" class="outline-5">
+<h5 id="org117d79d"><span class="section-number-5">5.13.2.6</span> 框架大小的设置</h5>
+<div class="outline-text-5" id="text-5-13-2-6">
+<p>
+框架默认大小有两种设置方式： <code>setSize()</code> 和 <code>pack()</code> ，前者使用数值显示指定宽度
+和高度；后者使用容器的默认大小填充。
+</p>
+</div>
+
+<div id="outline-container-orgb542009" class="outline-6">
+<h6 id="orgb542009"><span class="section-number-6">5.13.2.6.1</span> [问] 若容器内没有任何组件，使用 <code>pack()</code> 得到的默认大小是？</h6>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org88cb3a4" class="outline-3">
+<h3 id="org88cb3a4"><span class="section-number-3">5.14</span> 处理2D图形</h3>
+<div class="outline-text-3" id="text-5-14">
+</div>
+<div id="outline-container-orgd983c13" class="outline-4">
+<h4 id="orgd983c13"><span class="section-number-4">5.14.1</span> 如何在框架上绘制2D图形？</h4>
+<div class="outline-text-4" id="text-5-14-1">
+<p>
+绘制2D图形可以使用两个类： <code>Graphics</code> 和 <code>Graphics2D</code> 类。其中Graphics类只能绘制
+直线，矩形和椭圆等方法，但是对于这些已经绘制的图形的操作能力非常有限，比如：不能
+改变线的粗细，不能旋转这些图形等。
+</p>
+
+<p>
+因此出现了Graphics2D类，它具有强大的图形操作。
+</p>
+
+<p>
+绘制图形之前，需要创建图形，然后再使用Graphics2D的 <code>draw()</code> 方法来绘制。
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgeb29db6" class="outline-4">
+<h4 id="orgeb29db6"><span class="section-number-4">5.14.2</span> paintComponent()方法如何获取Graphics2D类呢？</h4>
+<div class="outline-text-4" id="text-5-14-2">
+<p>
+自从Java SE 2版本以来，paintComponent()方法就自动的获得一个Graphics2D类，（因为
+Graphics2D是Graphics的子类）只需要对参数进行一次类型转换即可。
+</p>
+
+<div class="org-src-container">
+<pre class="src src-java">public void paintComponent(Graphics g){
+    Graphics2D g2 = (Graphics2D) g;
+    // ....
+}
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org390a7f5" class="outline-4">
+<h4 id="org390a7f5"><span class="section-number-4">5.14.3</span> Graphics 类</h4>
+<div class="outline-text-4" id="text-5-14-3">
+<p>
+Graphics类是输出简单图形的一种方式，其度量单位是像素(px)。
+</p>
+</div>
+<div id="outline-container-org14bab25" class="outline-5">
+<h5 id="org14bab25"><span class="section-number-5">5.14.3.1</span> 如何绘制文本？</h5>
+<div class="outline-text-5" id="text-5-14-3-1">
+<div class="org-src-container">
+<pre class="src src-java">public void paintComponent(Graphics g){
+    int x = 100;
+    int y = 200;
+    g.drawString("Hello World", x, y);
+}
+</pre>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgd1b4769" class="outline-4">
+<h4 id="orgd1b4769"><span class="section-number-4">5.14.4</span> Graphics2D类</h4>
+<div class="outline-text-4" id="text-5-14-4">
+</div>
+<div id="outline-container-orgc52a7eb" class="outline-5">
+<h5 id="orgc52a7eb"><span class="section-number-5">5.14.4.1</span> Graphics2D使用什么类型作为坐标的计算？</h5>
+<div class="outline-text-5" id="text-5-14-4-1">
+<p>
+Graphics2D使用浮点数(double)类型作为度量类型。
+</p>
+</div>
+</div>
+
+<div id="outline-container-org80973d7" class="outline-5">
+<h5 id="org80973d7"><span class="section-number-5">5.14.4.2</span> 绘制带颜色填充的图形</h5>
+<div class="outline-text-5" id="text-5-14-4-2">
+<p>
+这里的颜色指的是画笔的颜色。
+</p>
+<div class="org-src-container">
+<pre class="src src-java">Rectangle2D rect = new Rectangle2D(px, py, width, height);
+g2.setPaint(Color.RED);
+g2.fill(rect);
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org9cf1b63" class="outline-5">
+<h5 id="org9cf1b63"><span class="section-number-5">5.14.4.3</span> 带颜色的文字</h5>
+<div class="outline-text-5" id="text-5-14-4-3">
+<div class="org-src-container">
+<pre class="src src-java">g2.setPaint(Color.RED);
+g2.drawString("Hello World", 100, 100);
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org4fdcf0a" class="outline-5">
+<h5 id="org4fdcf0a"><span class="section-number-5">5.14.4.4</span> 如何绘制多种颜色的图形？</h5>
+<div class="outline-text-5" id="text-5-14-4-4">
+<p>
+按照如下方式：
+</p>
+<pre class="example">
+选择颜色 → 绘制图形 → 选择颜色 → ……
+</pre>
+</div>
+</div>
+
+<div id="outline-container-orgb80f9b3" class="outline-5">
+<h5 id="orgb80f9b3"><span class="section-number-5">5.14.4.5</span> 使用fill()方法需要注意什么？</h5>
+<div class="outline-text-5" id="text-5-14-4-5">
+
+<div class="figure">
+<p><img src="./Material/Image/image-1RhYvq20200901-114449.png" alt="image-1RhYvq20200901-114449.png" />
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org379e19c" class="outline-5">
+<h5 id="org379e19c"><span class="section-number-5">5.14.4.6</span> 如何获取预定义颜色？</h5>
+<div class="outline-text-5" id="text-5-14-4-6">
+<pre class="example">
+BLACK , BLUE, CYAN, DARK.GRAY, CRAY, GREEN, LIGHT_CRAY , MACENTA, ORANGE, PINK,
+RED, WHITE, YELLOW
+</pre>
+<p>
+在Java1.4之前，颜色常量使用小写，因此为了向后兼容，这里的颜色常量也是可以使用小
+写（不过不推荐小写）。
+</p>
+</div>
+</div>
+
+<div id="outline-container-org3a1a8d0" class="outline-5">
+<h5 id="org3a1a8d0"><span class="section-number-5">5.14.4.7</span> 如何自定义颜色？</h5>
+<div class="outline-text-5" id="text-5-14-4-7">
+<p>
+定义颜色就是创建一个 <code>Color</code> 对象。
+</p>
+</div>
+
+<div id="outline-container-orgf664a4e" class="outline-6">
+<h6 id="orgf664a4e"><span class="section-number-6">5.14.4.7.1</span> 使用RGB创建颜色</h6>
+<div class="outline-text-6" id="text-5-14-4-7-1">
+<p>
+<b>每个颜色的数值都在范围0~128之间</b>
+</p>
+
+<div class="org-src-container">
+<pre class="src src-java">int red = 0;
+int green = 100;
+int blue = 128;
+Color nc = new Color(red, green, blue);
+</pre>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgd386a40" class="outline-5">
+<h5 id="orgd386a40"><span class="section-number-5">5.14.4.8</span> 设置前景色和背景色</h5>
+<div class="outline-text-5" id="text-5-14-4-8">
+<ul class="org-ul">
+<li>设置背景色 <code>Component.setBackground()</code></li>
+<li>设置前景色 <code>Component.setForeground()</code></li>
+</ul>
+
+<div class="org-src-container">
+<pre class="src src-java">MyComponent p = new MyComponent();
+p.setBackground(Color.PINK);
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org6a13dc7" class="outline-5">
+<h5 id="org6a13dc7"><span class="section-number-5">5.14.4.9</span> 加亮和加暗颜色</h5>
+<div class="outline-text-5" id="text-5-14-4-9">
+<p>
+Color 类中的 <code>brighter()</code> 方法和 <code>darker()</code> 方法的功能， 它们分别加亮或变暗当前
+的颜色。
+</p>
+<div class="org-src-container">
+<pre class="src src-java">Color c = new Color(1,0,0);
+p.setBackground(c.brighter().brighter().brighter());
+</pre>
+</div>
+<p>
+实际上， brighter() 只微微地加亮一点。要达到耀眼的效果， 需要调用三次这个方法：
+<code>c.brighter().brighter().brighter()</code>.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org961323b" class="outline-5">
+<h5 id="org961323b"><span class="section-number-5">5.14.4.10</span> 通过获取系统颜色来设置组件颜色</h5>
+<div class="outline-text-5" id="text-5-14-4-10">
+<div class="org-src-container">
+<pre class="src src-java">p.setBackground(SystemColor.window);
+</pre>
+</div>
+
+
+<div class="figure">
+<p><img src="./Material/Image/image-rjniqo20200901-114414.png" alt="image-rjniqo20200901-114414.png" />
+</p>
+<p><span class="figure-number">Figure 4: </span>系统颜色</p>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org74c4b79" class="outline-4">
+<h4 id="org74c4b79"><span class="section-number-4">5.14.5</span> 图形类</h4>
+<div class="outline-text-4" id="text-5-14-5">
+<p>
+图形类主要用于创建图形，然后再被Graphics2D的 <code>draw()</code> 方法绘制出来。
+</p>
+
+<p>
+每个图形类都有两种内部子类： <code>Float</code> 和 <code>Double</code> 分别表示其度量单位使用的类型。
+</p>
+
+
+<div class="figure">
+<p><img src="./Material/Image/image-45DMiZ20200828-103105.png" alt="image-45DMiZ20200828-103105.png" />
+</p>
+<p><span class="figure-number">Figure 5: </span>Java图形类 &#x2013; 灰色部分表示遗留类</p>
+</div>
+</div>
+
+<div id="outline-container-org5e08284" class="outline-5">
+<h5 id="org5e08284"><span class="section-number-5">5.14.5.1</span> Rectangle2D类</h5>
+<div class="outline-text-5" id="text-5-14-5-1">
+
+<div class="figure">
+<p><img src="./Material/Image/image-zoMvY720200827-222159.png" alt="image-zoMvY720200827-222159.png" />
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgeadae35" class="outline-6">
+<h6 id="orgeadae35"><span class="section-number-6">5.14.5.1.1</span> 根据左上角位置和宽高创建矩形</h6>
+<div class="outline-text-6" id="text-5-14-5-1-1">
+<div class="org-src-container">
+<pre class="src src-java">Rectangle2D rect = new Rectangle2D.Double(px,py,width,height);
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org587f4e1" class="outline-6">
+<h6 id="org587f4e1"><span class="section-number-6">5.14.5.1.2</span> 根据对角线创建矩形</h6>
+<div class="outline-text-6" id="text-5-14-5-1-2">
+<p>
+所谓根据对角线创建，也就是根据对角线的两个顶点创建。
+</p>
+<div class="org-src-container">
+<pre class="src src-java">Rectangle2D rect = new Rectangle2D.Double();
+rect.setFrameFromDiagonal(px, py, qx, qy);
+// or
+Point2D p = new Point2D.Double(px, py);
+Point2D q = new Point2D.Double(qx, qy);
+rect.setFrameFromDiagonal(p, q);
+</pre>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgde93016" class="outline-5">
+<h5 id="orgde93016"><span class="section-number-5">5.14.5.2</span> Ellipse2D类</h5>
+<div class="outline-text-5" id="text-5-14-5-2">
+</div>
+<div id="outline-container-orgc2f4de8" class="outline-6">
+<h6 id="orgc2f4de8"><span class="section-number-6">5.14.5.2.1</span> 为什么Ellipse2D与Rectangle2D类同属一个超类？</h6>
+</div>
+<div id="outline-container-orgb835674" class="outline-6">
+<h6 id="orgb835674"><span class="section-number-6">5.14.5.2.2</span> 根据椭圆中心点和宽高创建椭圆</h6>
+<div class="outline-text-6" id="text-5-14-5-2-2">
+<div class="org-src-container">
+<pre class="src src-java">Ellipse2D ellipse = new Ellipse2D.Double(cx, cy, width, height);
+
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org5c97017" class="outline-6">
+<h6 id="org5c97017"><span class="section-number-6">5.14.5.2.3</span> 根据中心点和外边框顶点创建椭圆</h6>
+<div class="outline-text-6" id="text-5-14-5-2-3">
+<div class="org-src-container">
+<pre class="src src-java">Ellipse2D ellipse = new Ellipse2D.Double();
+ellipse.setFrameFromCenter(cx, cy, corx, cory);
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-orgdbbe616" class="outline-6">
+<h6 id="orgdbbe616"><span class="section-number-6">5.14.5.2.4</span> 根据一个已经创建的矩形绘制椭圆</h6>
+<div class="outline-text-6" id="text-5-14-5-2-4">
+<div class="org-src-container">
+<pre class="src src-java">// draw a rectangle
+
+double leftX = 100;
+double topY = 100;
+double width = 200;
+double height = 150;
+
+Rectangle2D rect = new Rectangle2D.Double(leftX, topY, width, height);
+g2.draw(rect);
+
+// draw the enclosed ellipse
+
+Ellipse2D ellipse = new Ellipse2D.Double();
+ellipse.setFrame(rect);
+g2.draw(ellipse);
+</pre>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgb7d5ee6" class="outline-5">
+<h5 id="orgb7d5ee6"><span class="section-number-5">5.14.5.3</span> Line2D类</h5>
+<div class="outline-text-5" id="text-5-14-5-3">
+</div>
+<div id="outline-container-org09b96ba" class="outline-6">
+<h6 id="org09b96ba"><span class="section-number-6">5.14.5.3.1</span> 使用Point2D创建直线类</h6>
+<div class="outline-text-6" id="text-5-14-5-3-1">
+<div class="org-src-container">
+<pre class="src src-java">Point2D start = new Point2D.Double(px, py);
+Point2D end = new Point2D.Double(qx, qy);
+Line2D l = new Line2D.Double(start, end);
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org56f0f36" class="outline-6">
+<h6 id="org56f0f36"><span class="section-number-6">5.14.5.3.2</span> 使用两个顶点创建直线</h6>
+<div class="outline-text-6" id="text-5-14-5-3-2">
+<div class="org-src-container">
+<pre class="src src-java">Line2D l = new Line2D.Double(startx, starty, endx, endy);
+</pre>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org6a5348c" class="outline-5">
+<h5 id="org6a5348c"><span class="section-number-5">5.14.5.4</span> [Code] 图形类的综合应用</h5>
+<div class="outline-text-5" id="text-5-14-5-4">
+<div class="org-src-container">
+<pre class="src src-java">import java.awt.*;
+import java.awt.geom.*;
+import javax.swing.*;
+
+/**
+ * @version 1.33 2007-05-12
+ * @author Cay Horstmann
+ */
+public class DrawTest {
+  public static void main(String[] args) {
+    EventQueue.invokeLater(
+        () -&gt; {
+          JFrame frame = new DrawFrame();
+          frame.setTitle("DrawTest");
+          frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+          frame.setVisible(true);
+        });
+  }
+}
+
+/** A frame that contains a panel with drawings */
+class DrawFrame extends JFrame {
+  public DrawFrame() {
+    add(new DrawComponent());
+    pack();
+  }
+}
+
+/** A component that displays rectangles and ellipses. */
+class DrawComponent extends JComponent {
+  private static final int DEFAULT_WIDTH = 400;
+  private static final int DEFAULT_HEIGHT = 400;
+
+  public void paintComponent(Graphics g) {
+    Graphics2D g2 = (Graphics2D) g;
+
+    // draw a rectangle
+
+    double leftX = 100;
+    double topY = 100;
+    double width = 200;
+    double height = 150;
+
+    Rectangle2D rect = new Rectangle2D.Double(leftX, topY, width, height);
+    g2.draw(rect);
+
+    // draw the enclosed ellipse
+
+    Ellipse2D ellipse = new Ellipse2D.Double();
+    ellipse.setFrame(rect);
+    g2.draw(ellipse);
+
+    // draw a diagonal line
+
+    g2.draw(new Line2D.Double(leftX, topY, leftX + width, topY + height));
+
+    // draw a circle with the same center
+
+    double centerX = rect.getCenterX();
+    double centerY = rect.getCenterY();
+    double radius = 150;
+
+    Ellipse2D circle = new Ellipse2D.Double();
+    circle.setFrameFromCenter(centerX, centerY, centerX + radius, centerY + radius);
+    g2.draw(circle);
+  }
+
+  public Dimension getPreferredSize() {
+    return new Dimension(DEFAULT_WIDTH, DEFAULT_HEIGHT);
+  }
+}
+</pre>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgc6c2c2a" class="outline-4">
+<h4 id="orgc6c2c2a"><span class="section-number-4">5.14.6</span> 字体</h4>
+<div class="outline-text-4" id="text-5-14-6">
+</div>
+<div id="outline-container-org00a678d" class="outline-5">
+<h5 id="org00a678d"><span class="section-number-5">5.14.6.1</span> 字体名由什么组成？</h5>
+<div class="outline-text-5" id="text-5-14-6-1">
+<p>
+人们可以通过字体名（ font face name) 指定一种字体。字体名由 &ldquo;Helvetica&rdquo; 这样的字
+体家族名（font family name) 和一个可选的 &ldquo;Bold&rdquo; 后缀组成。例如，&ldquo;Helvetica&rdquo; 和
+&ldquo;HelveticaBold&rdquo; 属于 &ldquo;Helvetica&rdquo; 家族的字体。
+</p>
+</div>
+</div>
+
+<div id="outline-container-org09fcb9b" class="outline-5">
+<h5 id="org09fcb9b"><span class="section-number-5">5.14.6.2</span> 如何获取系统的字体名字？</h5>
+<div class="outline-text-5" id="text-5-14-6-2">
+<div class="org-src-container">
+<pre class="src src-java">String[] fontNames = GraphicsEnvironment
+    .getLocalGraphicsEnvironment()
+    .getAvailableFontFamilyNames();
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org141399e" class="outline-5">
+<h5 id="org141399e"><span class="section-number-5">5.14.6.3</span> AWT的五种逻辑字体名</h5>
+<div class="outline-text-5" id="text-5-14-6-3">
+<p>
+AWT 定义了五个逻辑（logical) 字体名：
+</p>
+<pre class="example">
+SansSerif
+Serif
+Monospaced
+Dialog
+Dialoglnput
+</pre>
+</div>
+</div>
+
+<div id="outline-container-org6e7d095" class="outline-5">
+<h5 id="org6e7d095"><span class="section-number-5">5.14.6.4</span> 创建一个字体对象</h5>
+<div class="outline-text-5" id="text-5-14-6-4">
+<div class="org-src-container">
+<pre class="src src-java">Font sansboldl4 = new Font("SansSerif", Font.BOLD, 14);
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org49b638b" class="outline-5">
+<h5 id="org49b638b"><span class="section-number-5">5.14.6.5</span> 字体风格有哪些？</h5>
+<div class="outline-text-5" id="text-5-14-6-5">
+<pre class="example">
+Font.PLAIN  常规
+Font.BOLD  加粗
+Font.ITALIC  斜体
+Font.BOLD + Font.ITALIC  加粗斜体
+</pre>
+</div>
+</div>
+<div id="outline-container-org446d6c2" class="outline-5">
+<h5 id="org446d6c2"><span class="section-number-5">5.14.6.6</span> 从磁盘或URL读取字体</h5>
+</div>
+<div id="outline-container-org3cc90ad" class="outline-5">
+<h5 id="org3cc90ad"><span class="section-number-5">5.14.6.7</span> <code>deriveFont()</code> 的两种重载形式所完成的工作一样吗?</h5>
+</div>
+<div id="outline-container-orga393edb" class="outline-5">
+<h5 id="orga393edb"><span class="section-number-5">5.14.6.8</span> 如何使用指定字体打印文本?</h5>
+</div>
+<div id="outline-container-orgfd6ff36" class="outline-5">
+<h5 id="orgfd6ff36"><span class="section-number-5">5.14.6.9</span> 字体的排版</h5>
+<div class="outline-text-5" id="text-5-14-6-9">
+
+<div class="figure">
+<p><img src="./Material/Image/image-Hv82KI20200901-114226.png" alt="image-Hv82KI20200901-114226.png" />
+</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org15ee1f5" class="outline-2">
+<h2 id="org15ee1f5"><span class="section-number-2">6</span> 附录</h2>
+<div class="outline-text-2" id="text-6">
+</div>
+<div id="outline-container-org01b2385" class="outline-3">
+<h3 id="org01b2385"><span class="section-number-3">6.1</span> ASCII码表</h3>
+<div class="outline-text-3" id="text-6-1">
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-right" />
+
+<col  class="org-right" />
+
+<col  class="org-right" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-right">Bin</th>
+<th scope="col" class="org-right">Dec</th>
+<th scope="col" class="org-right">Hex</th>
+<th scope="col" class="org-left">缩写/字符</th>
+<th scope="col" class="org-left">解释</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-right">00000000</td>
+<td class="org-right">0</td>
+<td class="org-right">00</td>
+<td class="org-left">NUL(null)</td>
+<td class="org-left">空字符</td>
+</tr>
+
+<tr>
+<td class="org-right">00000001</td>
+<td class="org-right">1</td>
+<td class="org-right">01</td>
+<td class="org-left">SOH(start of headling)</td>
+<td class="org-left">标题开始</td>
+</tr>
+
+<tr>
+<td class="org-right">00000010</td>
+<td class="org-right">2</td>
+<td class="org-right">02</td>
+<td class="org-left">STX (start of text)</td>
+<td class="org-left">正文开始</td>
+</tr>
+
+<tr>
+<td class="org-right">00000011</td>
+<td class="org-right">3</td>
+<td class="org-right">03</td>
+<td class="org-left">ETX (end of text)</td>
+<td class="org-left">正文结束</td>
+</tr>
+
+<tr>
+<td class="org-right">00000100</td>
+<td class="org-right">4</td>
+<td class="org-right">04</td>
+<td class="org-left">EOT (end of transmission)</td>
+<td class="org-left">传输结束</td>
+</tr>
+
+<tr>
+<td class="org-right">00000101</td>
+<td class="org-right">5</td>
+<td class="org-right">05</td>
+<td class="org-left">ENQ (enquiry)</td>
+<td class="org-left">请求</td>
+</tr>
+
+<tr>
+<td class="org-right">00000110</td>
+<td class="org-right">6</td>
+<td class="org-right">06</td>
+<td class="org-left">ACK (acknowledge)</td>
+<td class="org-left">收到通知</td>
+</tr>
+
+<tr>
+<td class="org-right">00000111</td>
+<td class="org-right">7</td>
+<td class="org-right">07</td>
+<td class="org-left">BEL (bell)</td>
+<td class="org-left">响铃</td>
+</tr>
+
+<tr>
+<td class="org-right">00001000</td>
+<td class="org-right">8</td>
+<td class="org-right">08</td>
+<td class="org-left">BS (backspace)</td>
+<td class="org-left">退格</td>
+</tr>
+
+<tr>
+<td class="org-right">00001001</td>
+<td class="org-right">9</td>
+<td class="org-right">09</td>
+<td class="org-left">HT (horizontal tab)</td>
+<td class="org-left">水平制表符</td>
+</tr>
+
+<tr>
+<td class="org-right">00001010</td>
+<td class="org-right">10</td>
+<td class="org-right">0A</td>
+<td class="org-left">LF (NL line feed, new line)</td>
+<td class="org-left">换行键</td>
+</tr>
+
+<tr>
+<td class="org-right">00001011</td>
+<td class="org-right">11</td>
+<td class="org-right">0B</td>
+<td class="org-left">VT (vertical tab)</td>
+<td class="org-left">垂直制表符</td>
+</tr>
+
+<tr>
+<td class="org-right">00001100</td>
+<td class="org-right">12</td>
+<td class="org-right">0C</td>
+<td class="org-left">FF (NP form feed, new page)</td>
+<td class="org-left">换页键</td>
+</tr>
+
+<tr>
+<td class="org-right">00001101</td>
+<td class="org-right">13</td>
+<td class="org-right">0D</td>
+<td class="org-left">CR (carriage return)</td>
+<td class="org-left">回车键</td>
+</tr>
+
+<tr>
+<td class="org-right">00001110</td>
+<td class="org-right">14</td>
+<td class="org-right">0E</td>
+<td class="org-left">SO (shift out)</td>
+<td class="org-left">不用切换</td>
+</tr>
+
+<tr>
+<td class="org-right">00001111</td>
+<td class="org-right">15</td>
+<td class="org-right">0F</td>
+<td class="org-left">SI (shift in)</td>
+<td class="org-left">启用切换</td>
+</tr>
+
+<tr>
+<td class="org-right">00010000</td>
+<td class="org-right">16</td>
+<td class="org-right">10</td>
+<td class="org-left">DLE (data link escape)</td>
+<td class="org-left">数据链路转义</td>
+</tr>
+
+<tr>
+<td class="org-right">00010001</td>
+<td class="org-right">17</td>
+<td class="org-right">11</td>
+<td class="org-left">DC1 (device control 1)</td>
+<td class="org-left">设备控制1</td>
+</tr>
+
+<tr>
+<td class="org-right">00010010</td>
+<td class="org-right">18</td>
+<td class="org-right">12</td>
+<td class="org-left">DC2 (device control 2)</td>
+<td class="org-left">设备控制2</td>
+</tr>
+
+<tr>
+<td class="org-right">00010011</td>
+<td class="org-right">19</td>
+<td class="org-right">13</td>
+<td class="org-left">DC3 (device control 3)</td>
+<td class="org-left">设备控制3</td>
+</tr>
+
+<tr>
+<td class="org-right">00010100</td>
+<td class="org-right">20</td>
+<td class="org-right">14</td>
+<td class="org-left">DC4 (device control 4)</td>
+<td class="org-left">设备控制4</td>
+</tr>
+
+<tr>
+<td class="org-right">00010101</td>
+<td class="org-right">21</td>
+<td class="org-right">15</td>
+<td class="org-left">NAK (negative acknowledge)</td>
+<td class="org-left">拒绝接收</td>
+</tr>
+
+<tr>
+<td class="org-right">00010110</td>
+<td class="org-right">22</td>
+<td class="org-right">16</td>
+<td class="org-left">SYN (synchronous idle)</td>
+<td class="org-left">同步空闲</td>
+</tr>
+
+<tr>
+<td class="org-right">00010111</td>
+<td class="org-right">23</td>
+<td class="org-right">17</td>
+<td class="org-left">ETB (end of trans. block)</td>
+<td class="org-left">传输块结束</td>
+</tr>
+
+<tr>
+<td class="org-right">00011000</td>
+<td class="org-right">24</td>
+<td class="org-right">18</td>
+<td class="org-left">CAN (cancel)</td>
+<td class="org-left">取消</td>
+</tr>
+
+<tr>
+<td class="org-right">00011001</td>
+<td class="org-right">25</td>
+<td class="org-right">19</td>
+<td class="org-left">EM (end of medium)</td>
+<td class="org-left">介质中断</td>
+</tr>
+
+<tr>
+<td class="org-right">00011010</td>
+<td class="org-right">26</td>
+<td class="org-right">1A</td>
+<td class="org-left">SUB (substitute)</td>
+<td class="org-left">替补</td>
+</tr>
+
+<tr>
+<td class="org-right">00011011</td>
+<td class="org-right">27</td>
+<td class="org-right">1B</td>
+<td class="org-left">ESC (escape)</td>
+<td class="org-left">溢出</td>
+</tr>
+
+<tr>
+<td class="org-right">00011100</td>
+<td class="org-right">28</td>
+<td class="org-right">1C</td>
+<td class="org-left">FS (file separator)</td>
+<td class="org-left">文件分割符</td>
+</tr>
+
+<tr>
+<td class="org-right">00011101</td>
+<td class="org-right">29</td>
+<td class="org-right">1D</td>
+<td class="org-left">GS (group separator)</td>
+<td class="org-left">分组符</td>
+</tr>
+
+<tr>
+<td class="org-right">00011110</td>
+<td class="org-right">30</td>
+<td class="org-right">1E</td>
+<td class="org-left">RS (record separator)</td>
+<td class="org-left">记录分离符</td>
+</tr>
+
+<tr>
+<td class="org-right">00011111</td>
+<td class="org-right">31</td>
+<td class="org-right">1F</td>
+<td class="org-left">US (unit separator)</td>
+<td class="org-left">单元分隔符</td>
+</tr>
+
+<tr>
+<td class="org-right">00100000</td>
+<td class="org-right">32</td>
+<td class="org-right">20</td>
+<td class="org-left">(space)</td>
+<td class="org-left">空格</td>
+</tr>
+
+<tr>
+<td class="org-right">00100001</td>
+<td class="org-right">33</td>
+<td class="org-right">21</td>
+<td class="org-left">!</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-right">00100010</td>
+<td class="org-right">34</td>
+<td class="org-right">22</td>
+<td class="org-left">&ldquo;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-right">00100011</td>
+<td class="org-right">35</td>
+<td class="org-right">23</td>
+<td class="org-left">#</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-right">00100100</td>
+<td class="org-right">36</td>
+<td class="org-right">24</td>
+<td class="org-left">$</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-right">00100101</td>
+<td class="org-right">37</td>
+<td class="org-right">25</td>
+<td class="org-left">%</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-right">00100110</td>
+<td class="org-right">38</td>
+<td class="org-right">26</td>
+<td class="org-left">&amp;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-right">00100111</td>
+<td class="org-right">39</td>
+<td class="org-right">27</td>
+<td class="org-left">&rsquo;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-right">00101000</td>
+<td class="org-right">40</td>
+<td class="org-right">28</td>
+<td class="org-left">(</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-right">00101001</td>
+<td class="org-right">41</td>
+<td class="org-right">29</td>
+<td class="org-left">)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-right">00101010</td>
+<td class="org-right">42</td>
+<td class="org-right">2A</td>
+<td class="org-left">*</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-right">00101011</td>
+<td class="org-right">43</td>
+<td class="org-right">2B</td>
+<td class="org-left">+</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-right">00101100</td>
+<td class="org-right">44</td>
+<td class="org-right">2C</td>
+<td class="org-left">,</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-right">00101101</td>
+<td class="org-right">45</td>
+<td class="org-right">2D</td>
+<td class="org-left">-</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-right">00101110</td>
+<td class="org-right">46</td>
+<td class="org-right">2E</td>
+<td class="org-left">.</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-right">00101111</td>
+<td class="org-right">47</td>
+<td class="org-right">2F</td>
+<td class="org-left">/</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-right">00110000</td>
+<td class="org-right">48</td>
+<td class="org-right">30</td>
+<td class="org-left">0</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-right">00110001</td>
+<td class="org-right">49</td>
+<td class="org-right">31</td>
+<td class="org-left">1</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-right">00110010</td>
+<td class="org-right">50</td>
+<td class="org-right">32</td>
+<td class="org-left">2</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-right">00110011</td>
+<td class="org-right">51</td>
+<td class="org-right">33</td>
+<td class="org-left">3</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-right">00110100</td>
+<td class="org-right">52</td>
+<td class="org-right">34</td>
+<td class="org-left">4</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-right">00110101</td>
+<td class="org-right">53</td>
+<td class="org-right">35</td>
+<td class="org-left">5</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-right">00110110</td>
+<td class="org-right">54</td>
+<td class="org-right">36</td>
+<td class="org-left">6</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-right">00110111</td>
+<td class="org-right">55</td>
+<td class="org-right">37</td>
+<td class="org-left">7</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-right">00111000</td>
+<td class="org-right">56</td>
+<td class="org-right">38</td>
+<td class="org-left">8</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-right">00111001</td>
+<td class="org-right">57</td>
+<td class="org-right">39</td>
+<td class="org-left">9</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-right">00111010</td>
+<td class="org-right">58</td>
+<td class="org-right">3A</td>
+<td class="org-left">:</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-right">00111011</td>
+<td class="org-right">59</td>
+<td class="org-right">3B</td>
+<td class="org-left">;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-right">00111100</td>
+<td class="org-right">60</td>
+<td class="org-right">3C</td>
+<td class="org-left">&lt;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-right">00111101</td>
+<td class="org-right">61</td>
+<td class="org-right">3D</td>
+<td class="org-left">=</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-right">00111110</td>
+<td class="org-right">62</td>
+<td class="org-right">3E</td>
+<td class="org-left">&gt;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-right">00111111</td>
+<td class="org-right">63</td>
+<td class="org-right">3F</td>
+<td class="org-left">?</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-right">01000000</td>
+<td class="org-right">64</td>
+<td class="org-right">40</td>
+<td class="org-left">@</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-right">01000001</td>
+<td class="org-right">65</td>
+<td class="org-right">41</td>
+<td class="org-left">A</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-right">01000010</td>
+<td class="org-right">66</td>
+<td class="org-right">42</td>
+<td class="org-left">B</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-right">01000011</td>
+<td class="org-right">67</td>
+<td class="org-right">43</td>
+<td class="org-left">C</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-right">01000100</td>
+<td class="org-right">68</td>
+<td class="org-right">44</td>
+<td class="org-left">D</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-right">01000101</td>
+<td class="org-right">69</td>
+<td class="org-right">45</td>
+<td class="org-left">E</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-right">01000110</td>
+<td class="org-right">70</td>
+<td class="org-right">46</td>
+<td class="org-left">F</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-right">01000111</td>
+<td class="org-right">71</td>
+<td class="org-right">47</td>
+<td class="org-left">G</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-right">01001000</td>
+<td class="org-right">72</td>
+<td class="org-right">48</td>
+<td class="org-left">H</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-right">01001001</td>
+<td class="org-right">73</td>
+<td class="org-right">49</td>
+<td class="org-left">I</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-right">01001010</td>
+<td class="org-right">74</td>
+<td class="org-right">4A</td>
+<td class="org-left">J</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-right">01001011</td>
+<td class="org-right">75</td>
+<td class="org-right">4B</td>
+<td class="org-left">K</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-right">01001100</td>
+<td class="org-right">76</td>
+<td class="org-right">4C</td>
+<td class="org-left">L</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-right">01001101</td>
+<td class="org-right">77</td>
+<td class="org-right">4D</td>
+<td class="org-left">M</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-right">01001110</td>
+<td class="org-right">78</td>
+<td class="org-right">4E</td>
+<td class="org-left">N</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-right">01001111</td>
+<td class="org-right">79</td>
+<td class="org-right">4F</td>
+<td class="org-left">O</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-right">01010000</td>
+<td class="org-right">80</td>
+<td class="org-right">50</td>
+<td class="org-left">P</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-right">01010001</td>
+<td class="org-right">81</td>
+<td class="org-right">51</td>
+<td class="org-left">Q</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-right">01010010</td>
+<td class="org-right">82</td>
+<td class="org-right">52</td>
+<td class="org-left">R</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-right">01010011</td>
+<td class="org-right">83</td>
+<td class="org-right">53</td>
+<td class="org-left">S</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-right">01010100</td>
+<td class="org-right">84</td>
+<td class="org-right">54</td>
+<td class="org-left">T</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-right">01010101</td>
+<td class="org-right">85</td>
+<td class="org-right">55</td>
+<td class="org-left">U</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-right">01010110</td>
+<td class="org-right">86</td>
+<td class="org-right">56</td>
+<td class="org-left">V</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-right">01010111</td>
+<td class="org-right">87</td>
+<td class="org-right">57</td>
+<td class="org-left">W</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-right">01011000</td>
+<td class="org-right">88</td>
+<td class="org-right">58</td>
+<td class="org-left">X</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-right">01011001</td>
+<td class="org-right">89</td>
+<td class="org-right">59</td>
+<td class="org-left">Y</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-right">01011010</td>
+<td class="org-right">90</td>
+<td class="org-right">5A</td>
+<td class="org-left">Z</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-right">01011011</td>
+<td class="org-right">91</td>
+<td class="org-right">5B</td>
+<td class="org-left">[</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-right">01011100</td>
+<td class="org-right">92</td>
+<td class="org-right">5C</td>
+<td class="org-left">\</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-right">01011101</td>
+<td class="org-right">93</td>
+<td class="org-right">5D</td>
+<td class="org-left">]</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-right">01011110</td>
+<td class="org-right">94</td>
+<td class="org-right">5E</td>
+<td class="org-left">^</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-right">01011111</td>
+<td class="org-right">95</td>
+<td class="org-right">5F</td>
+<td class="org-left">_</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-right">01100000</td>
+<td class="org-right">96</td>
+<td class="org-right">60</td>
+<td class="org-left">`</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-right">01100001</td>
+<td class="org-right">97</td>
+<td class="org-right">61</td>
+<td class="org-left">a</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-right">01100010</td>
+<td class="org-right">98</td>
+<td class="org-right">62</td>
+<td class="org-left">b</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-right">01100011</td>
+<td class="org-right">99</td>
+<td class="org-right">63</td>
+<td class="org-left">c</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-right">01100100</td>
+<td class="org-right">100</td>
+<td class="org-right">64</td>
+<td class="org-left">d</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-right">01100101</td>
+<td class="org-right">101</td>
+<td class="org-right">65</td>
+<td class="org-left">e</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-right">01100110</td>
+<td class="org-right">102</td>
+<td class="org-right">66</td>
+<td class="org-left">f</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-right">01100111</td>
+<td class="org-right">103</td>
+<td class="org-right">67</td>
+<td class="org-left">g</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-right">01101000</td>
+<td class="org-right">104</td>
+<td class="org-right">68</td>
+<td class="org-left">h</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-right">01101001</td>
+<td class="org-right">105</td>
+<td class="org-right">69</td>
+<td class="org-left">i</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-right">01101010</td>
+<td class="org-right">106</td>
+<td class="org-right">6A</td>
+<td class="org-left">j</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-right">01101011</td>
+<td class="org-right">107</td>
+<td class="org-right">6B</td>
+<td class="org-left">k</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-right">01101100</td>
+<td class="org-right">108</td>
+<td class="org-right">6C</td>
+<td class="org-left">l</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-right">01101101</td>
+<td class="org-right">109</td>
+<td class="org-right">6D</td>
+<td class="org-left">m</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-right">01101110</td>
+<td class="org-right">110</td>
+<td class="org-right">6E</td>
+<td class="org-left">n</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-right">01101111</td>
+<td class="org-right">111</td>
+<td class="org-right">6F</td>
+<td class="org-left">o</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-right">01110000</td>
+<td class="org-right">112</td>
+<td class="org-right">70</td>
+<td class="org-left">p</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-right">01110001</td>
+<td class="org-right">113</td>
+<td class="org-right">71</td>
+<td class="org-left">q</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-right">01110010</td>
+<td class="org-right">114</td>
+<td class="org-right">72</td>
+<td class="org-left">r</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-right">01110011</td>
+<td class="org-right">115</td>
+<td class="org-right">73</td>
+<td class="org-left">s</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-right">01110100</td>
+<td class="org-right">116</td>
+<td class="org-right">74</td>
+<td class="org-left">t</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-right">01110101</td>
+<td class="org-right">117</td>
+<td class="org-right">75</td>
+<td class="org-left">u</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-right">01110110</td>
+<td class="org-right">118</td>
+<td class="org-right">76</td>
+<td class="org-left">v</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-right">01110111</td>
+<td class="org-right">119</td>
+<td class="org-right">77</td>
+<td class="org-left">w</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-right">01111000</td>
+<td class="org-right">120</td>
+<td class="org-right">78</td>
+<td class="org-left">x</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-right">01111001</td>
+<td class="org-right">121</td>
+<td class="org-right">79</td>
+<td class="org-left">y</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-right">01111010</td>
+<td class="org-right">122</td>
+<td class="org-right">7A</td>
+<td class="org-left">z</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-right">01111011</td>
+<td class="org-right">123</td>
+<td class="org-right">7B</td>
+<td class="org-left">{</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-right">01111100</td>
+<td class="org-right">124</td>
+<td class="org-right">7C</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-right">01111101</td>
+<td class="org-right">125</td>
+<td class="org-right">7D</td>
+<td class="org-left">}</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-right">01111110</td>
+<td class="org-right">126</td>
+<td class="org-right">7E</td>
+<td class="org-left">~</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-right">01111111</td>
+<td class="org-right">127</td>
+<td class="org-right">7F</td>
+<td class="org-left">DEL (delete)</td>
+<td class="org-left">删除</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="author">Author: JiangSan</p>
+<p class="date">Created: 2020-09-03 Thu 09:12</p>
+</div>
+</body>
+</html>

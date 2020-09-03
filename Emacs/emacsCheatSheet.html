@@ -1,0 +1,333 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2020-09-03 Thu 09:12 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Emacs Cheat Sheet(Emacs 备忘录)</title>
+<meta name="generator" content="Org mode" />
+<meta name="author" content="JiangSan" />
+
+<link rel='stylesheet'href='../static/org-manual.css' type='text/css'/>
+<script type='text/javascript' defer src='../static/org-manual.js'></script>
+<script type='text/javascript'>window.onload =  function () {init();  }</script>
+<meta name='viewport' content='width=device-width, initial-scale=1.0'>
+<script type="text/javascript">
+// @license magnet:?xt=urn:btih:1f739d935676111cfff4b4693e3816e664797050&amp;dn=gpl-3.0.txt GPL-v3-or-Later
+<!--/*--><![CDATA[/*><!--*/
+     function CodeHighlightOn(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(null != target) {
+         elem.cacheClassElem = elem.className;
+         elem.cacheClassTarget = target.className;
+         target.className = "code-highlighted";
+         elem.className   = "code-highlighted";
+       }
+     }
+     function CodeHighlightOff(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(elem.cacheClassElem)
+         elem.className = elem.cacheClassElem;
+       if(elem.cacheClassTarget)
+         target.className = elem.cacheClassTarget;
+     }
+    /*]]>*///-->
+// @license-end
+</script>
+</head>
+<body>
+<div id="content">
+<h1 class="title">Emacs Cheat Sheet(Emacs 备忘录)</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#org8c60fda">1. 文件和缓冲区</a></li>
+<li><a href="#org26babe8">2. 查找和替换</a></li>
+<li><a href="#orgce40d05">3. 查看帮助</a></li>
+<li><a href="#orgb0cccda">4. 其他用途</a></li>
+<li><a href="#org2bf39ca">5. 窗口的滚动</a></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org8c60fda" class="outline-2">
+<h2 id="org8c60fda"><span class="section-number-2">1</span> 文件和缓冲区</h2>
+<div class="outline-text-2" id="text-1">
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">Key</th>
+<th scope="col" class="org-left">描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left">C-x C-f</td>
+<td class="org-left">Find file (or create if not there); prompts for file name</td>
+</tr>
+
+<tr>
+<td class="org-left">C-x C-s</td>
+<td class="org-left">Save file</td>
+</tr>
+
+<tr>
+<td class="org-left">C-x C-w</td>
+<td class="org-left">Write file; prompts for new name</td>
+</tr>
+
+<tr>
+<td class="org-left">C-x s</td>
+<td class="org-left">Save modified buffers; asks about each</td>
+</tr>
+
+<tr>
+<td class="org-left">C-x b</td>
+<td class="org-left">Select buffer; prompts for buffer name</td>
+</tr>
+
+<tr>
+<td class="org-left">C-x C-b</td>
+<td class="org-left">List buffers; shows in other window</td>
+</tr>
+
+<tr>
+<td class="org-left">C-x k</td>
+<td class="org-left">Kill buffer; prompts for buffer name</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+
+<div id="outline-container-org26babe8" class="outline-2">
+<h2 id="org26babe8"><span class="section-number-2">2</span> 查找和替换</h2>
+<div class="outline-text-2" id="text-2">
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">Key</th>
+<th scope="col" class="org-left">描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left">C-s</td>
+<td class="org-left">Incremental search forward; searches as you type</td>
+</tr>
+
+<tr>
+<td class="org-left">C-r</td>
+<td class="org-left">Incremental search backward</td>
+</tr>
+
+<tr>
+<td class="org-left">C-M-s</td>
+<td class="org-left">Regexp search forward (there are differences in Emacs regexp syntax wrt Perl, etc.)</td>
+</tr>
+
+<tr>
+<td class="org-left">C-M-r</td>
+<td class="org-left">Regexp search backward</td>
+</tr>
+
+<tr>
+<td class="org-left">M-x replace-string RET</td>
+<td class="org-left">String replace from here to end of buffer; prompts for string and replacement</td>
+</tr>
+
+<tr>
+<td class="org-left">M-x query-replace RET</td>
+<td class="org-left">String replace from here to end of buffer, querying for each occurrence</td>
+</tr>
+
+<tr>
+<td class="org-left">M-x grep RET</td>
+<td class="org-left">Prompts for a grep command, shows hits in a buffer</td>
+</tr>
+
+<tr>
+<td class="org-left">C-x `</td>
+<td class="org-left">Visit next grep hit</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+
+<div id="outline-container-orgce40d05" class="outline-2">
+<h2 id="orgce40d05"><span class="section-number-2">3</span> 查看帮助</h2>
+<div class="outline-text-2" id="text-3">
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">Key</th>
+<th scope="col" class="org-left">描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left">C-h k</td>
+<td class="org-left">Show command documentation; prompts for keystrokes</td>
+</tr>
+
+<tr>
+<td class="org-left">C-h a</td>
+<td class="org-left">&ldquo;Command apropos&rdquo;; prompts for regexp and shows all matching commands</td>
+</tr>
+
+<tr>
+<td class="org-left">C-h c</td>
+<td class="org-left">Show command name on message line; prompts for keystrokes</td>
+</tr>
+
+<tr>
+<td class="org-left">C-h f</td>
+<td class="org-left">Describe function; prompts for command or function name, shows documentation in other window</td>
+</tr>
+
+<tr>
+<td class="org-left">C-h i</td>
+<td class="org-left">Info browser; gives access to online documentation for emacs and more</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+
+<div id="outline-container-orgb0cccda" class="outline-2">
+<h2 id="orgb0cccda"><span class="section-number-2">4</span> 其他用途</h2>
+<div class="outline-text-2" id="text-4">
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">Key</th>
+<th scope="col" class="org-left">描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left">C-_ or C-x u</td>
+<td class="org-left">Undo/redo (a series of these keeps undoing; after doing something else, C-_ or C-x u will undo the undo&rsquo;s)</td>
+</tr>
+
+<tr>
+<td class="org-left">C-q</td>
+<td class="org-left">Quoted insert; inserts the next character typed, even if it is a control or meta character</td>
+</tr>
+
+<tr>
+<td class="org-left">M-x shell-strip-ctrl-m RET</td>
+<td class="org-left">Flush ^M at end of line</td>
+</tr>
+
+<tr>
+<td class="org-left">C-z</td>
+<td class="org-left">Suspend/iconify emacs (type &ldquo;%emacs&rdquo; in invoking shell to get it back)</td>
+</tr>
+
+<tr>
+<td class="org-left">C-x C-c</td>
+<td class="org-left">Exit emacs (asks about unsaved buffers and running programs)</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+
+<div id="outline-container-org2bf39ca" class="outline-2">
+<h2 id="org2bf39ca"><span class="section-number-2">5</span> 窗口的滚动</h2>
+<div class="outline-text-2" id="text-5">
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">Key</th>
+<th scope="col" class="org-left">描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left">C-v</td>
+<td class="org-left">Scroll down (toward end of buffer)</td>
+</tr>
+
+<tr>
+<td class="org-left">M-v</td>
+<td class="org-left">Scroll up (toward beginning of buffer)</td>
+</tr>
+
+<tr>
+<td class="org-left">C-M-v</td>
+<td class="org-left">Scroll other window down</td>
+</tr>
+
+<tr>
+<td class="org-left">C-x 1</td>
+<td class="org-left">One window on current buffer</td>
+</tr>
+
+<tr>
+<td class="org-left">C-x 2</td>
+<td class="org-left">Split window horizontally</td>
+</tr>
+
+<tr>
+<td class="org-left">C-x 3</td>
+<td class="org-left">Split window vertically</td>
+</tr>
+
+<tr>
+<td class="org-left">C-x ^</td>
+<td class="org-left">Grow window vertically; prefix is number of lines</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="author">Author: JiangSan</p>
+<p class="date">Created: 2020-09-03 Thu 09:12</p>
+</div>
+</body>
+</html>

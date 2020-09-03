@@ -1,0 +1,865 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2020-09-03 Thu 09:11 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>C语言程序设计</title>
+<meta name="generator" content="Org mode" />
+<meta name="author" content="JiangSan" />
+
+<link rel='stylesheet'href='../static/org-manual.css' type='text/css'/>
+<script type='text/javascript' defer src='../static/org-manual.js'></script>
+<script type='text/javascript'>window.onload =  function () {init();  }</script>
+<meta name='viewport' content='width=device-width, initial-scale=1.0'>
+<script type="text/javascript">
+// @license magnet:?xt=urn:btih:1f739d935676111cfff4b4693e3816e664797050&amp;dn=gpl-3.0.txt GPL-v3-or-Later
+<!--/*--><![CDATA[/*><!--*/
+     function CodeHighlightOn(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(null != target) {
+         elem.cacheClassElem = elem.className;
+         elem.cacheClassTarget = target.className;
+         target.className = "code-highlighted";
+         elem.className   = "code-highlighted";
+       }
+     }
+     function CodeHighlightOff(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(elem.cacheClassElem)
+         elem.className = elem.cacheClassElem;
+       if(elem.cacheClassTarget)
+         target.className = elem.cacheClassTarget;
+     }
+    /*]]>*///-->
+// @license-end
+</script>
+</head>
+<body>
+<div id="content">
+<h1 class="title">C语言程序设计</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#org33aad29">1. C语言的历史</a>
+<ul>
+<li><a href="#orgbf5e821">1.1. C语言的起源</a></li>
+<li><a href="#orgc560fa5">1.2. C语言的标准化过程</a></li>
+</ul>
+</li>
+<li><a href="#orga21ab3f">2. C语言的特点</a>
+<ul>
+<li><a href="#orgb71cedf">2.1. C语言的可移植性是基于哪个层面上的讨论？</a></li>
+</ul>
+</li>
+<li><a href="#orgc213536">3. C的基本概念</a>
+<ul>
+<li><a href="#org37c88c5">3.1. C语言代码编译成机器代码的过程？</a></li>
+<li><a href="#orgb9dff03">3.2. C语言的注释写法有哪些？</a></li>
+<li><a href="#org10ebe55">3.3. [Code] 能够呈现出基本概念的小程序 —— 计算箱子空间数量</a></li>
+<li><a href="#orgc6d6b37">3.4. [Code] 转换华氏度与摄氏度</a></li>
+<li><a href="#org1ed1fdb">3.5. [Code] 计算条形码（通用产品代码UPC）</a>
+<ul>
+<li><a href="#org50e6619">3.5.1. 如何计算UPC的校验位？</a></li>
+<li><a href="#orgbfb9d9f">3.5.2. C语言实例</a></li>
+</ul>
+</li>
+<li><a href="#org8ba958a">3.6. 如何定义常量的名字</a></li>
+<li><a href="#orgafa4a62">3.7. C语言的标识符</a></li>
+<li><a href="#org97cd22e">3.8. C语言有哪些关键字?</a></li>
+<li><a href="#orgc51da8b">3.9. C语言是由记号组成的</a></li>
+<li><a href="#org985aa67">3.10. 为什么C语言的符号那么简要？</a></li>
+<li><a href="#org3f59ec6">3.11. <code>exit(0)</code> 与 <code>return 0</code> 的区别</a></li>
+<li><a href="#orgd9d8f21">3.12. 没有return的main函数也是可行的吗？</a></li>
+<li><a href="#org36d32c5">3.13. 编译器如何处理注释？</a></li>
+<li><a href="#org29b3bee">3.14. float类型名字的由来</a></li>
+<li><a href="#org183796b">3.15. C语言对标识符的长度限制</a></li>
+<li><a href="#orgbb2acdd">3.16. 什么叫做由实现定义的行为?</a></li>
+</ul>
+</li>
+<li><a href="#orgda539b6">4. C的数据结构</a>
+<ul>
+<li><a href="#org0210cbb">4.1. 变量</a>
+<ul>
+<li><a href="#orgbcbe874">4.1.1. <code>int·hello·=·'HELL';</code> 允许这样赋值吗?</a></li>
+</ul>
+</li>
+<li><a href="#org14a2361">4.2. 数组</a>
+<ul>
+<li><a href="#orgcc3e001">4.2.1. <code>int·nums[5]·=·"abcde";</code> 允许这样赋值吗?</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#orgc29320e">5. C的表达式</a>
+<ul>
+<li><a href="#orgd2aa8e7">5.1. 运算符</a>
+<ul>
+<li><a href="#org952d5c6">5.1.1. 算术运算符</a>
+<ul>
+<li><a href="#org41d1563">5.1.1.1. <code>%</code> 与 <code>/</code> 运算符的使用注意</a></li>
+<li><a href="#org2016799">5.1.1.2. 为什么C89与C99对于 <code>%</code> 为负数时规则那么复杂？</a></li>
+<li><a href="#org47abe20">5.1.1.3. 一元运算符 <code>+</code> 是什么时候被加上去的？</a></li>
+<li><a href="#org6a70f78">5.1.1.4. 如何对小数求余？</a></li>
+<li><a href="#org6cdec5d">5.1.1.5. 求余运算符原理</a></li>
+<li><a href="#org22377dc">5.1.1.6. 对运算结果的取整方向</a></li>
+<li><a href="#orgc85c275">5.1.1.7. 求余与求模的区别</a></li>
+<li><a href="#org2263d2e">5.1.1.8. 使用移位运算进行除法计算</a></li>
+</ul>
+</li>
+<li><a href="#org43fc8e3">5.1.2. 赋值运算符</a>
+<ul>
+<li><a href="#org21289a6">5.1.2.1. 不要交换复合运算符两个字符的位置</a></li>
+<li><a href="#orgcbe53a9">5.1.2.2. 为什么说当 <code>v</code> 有副作用时， <code>v+=e</code> 不等于 <code>v = v + e</code> ?</a></li>
+</ul>
+</li>
+<li><a href="#orgf0b3549">5.1.3. 自增和自减</a>
+<ul>
+<li><a href="#org25f0929">5.1.3.1. 为什么C语言提供了 <code>++</code> 和 <code>--</code> 运算符？</a></li>
+<li><a href="#orga1410ac">5.1.3.2. 何时执行后缀形式的 <code>++</code> 和 <code>--</code> 运算符？</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#org262202b">5.2. 副作用</a></li>
+<li><a href="#org6207f15">5.3. 左值与右值</a></li>
+<li><a href="#org0c1f430">5.4. 类型系统与运算符</a>
+<ul>
+<li><a href="#org07c4b7e">5.4.1. 算术运算符与类型系统</a></li>
+<li><a href="#org4a53bfb">5.4.2. 赋值运算符与类型系统</a></li>
+</ul>
+</li>
+<li><a href="#org57323ec">5.5. [Warn] 不要同时对操作数进行访问和修改</a></li>
+<li><a href="#org110ea2c">5.6. 语句与表达式</a></li>
+<li><a href="#org84de992">5.7. C语言的顺序点</a></li>
+</ul>
+</li>
+<li><a href="#orgadc2a73">6. C语言工具</a>
+<ul>
+<li><a href="#org422b361">6.1. GCC错误选项</a></li>
+</ul>
+</li>
+<li><a href="#org45c6024">7. 附录</a>
+<ul>
+<li><a href="#org3f0b465">7.1. ASCII表</a></li>
+<li><a href="#org7e68fd7">7.2. C语言语法</a></li>
+<li><a href="#org0cd29fd">7.3. C语言运算符</a></li>
+<li><a href="#org50995b4">7.4. 标准 C 与经典 C 的比较</a></li>
+<li><a href="#org7c8231a">7.5. 标准库函数</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+
+
+<div id="outline-container-org33aad29" class="outline-2">
+<h2 id="org33aad29"><span class="section-number-2">1</span> C语言的历史</h2>
+<div class="outline-text-2" id="text-1">
+</div>
+<div id="outline-container-orgbf5e821" class="outline-3">
+<h3 id="orgbf5e821"><span class="section-number-3">1.1</span> C语言的起源</h3>
+</div>
+<div id="outline-container-orgc560fa5" class="outline-3">
+<h3 id="orgc560fa5"><span class="section-number-3">1.2</span> C语言的标准化过程</h3>
+</div>
+</div>
+
+<div id="outline-container-orga21ab3f" class="outline-2">
+<h2 id="orga21ab3f"><span class="section-number-2">2</span> C语言的特点</h2>
+<div class="outline-text-2" id="text-2">
+</div>
+<div id="outline-container-orgb71cedf" class="outline-3">
+<h3 id="orgb71cedf"><span class="section-number-3">2.1</span> C语言的可移植性是基于哪个层面上的讨论？</h3>
+<div class="outline-text-3" id="text-2-1">
+<p>
+C语言是在硬件上表现出移植性好。
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgc213536" class="outline-2">
+<h2 id="orgc213536"><span class="section-number-2">3</span> C的基本概念</h2>
+<div class="outline-text-2" id="text-3">
+</div>
+<div id="outline-container-org37c88c5" class="outline-3">
+<h3 id="org37c88c5"><span class="section-number-3">3.1</span> C语言代码编译成机器代码的过程？</h3>
+</div>
+<div id="outline-container-orgb9dff03" class="outline-3">
+<h3 id="orgb9dff03"><span class="section-number-3">3.2</span> C语言的注释写法有哪些？</h3>
+</div>
+<div id="outline-container-org10ebe55" class="outline-3">
+<h3 id="org10ebe55"><span class="section-number-3">3.3</span> [Code] 能够呈现出基本概念的小程序 —— 计算箱子空间数量</h3>
+<div class="outline-text-3" id="text-3-3">
+
+<div class="figure">
+<p><img src="./Material/Image/image-SmPuvn20200901-160152.png" alt="image-SmPuvn20200901-160152.png" />
+</p>
+</div>
+
+<div class="org-src-container">
+<pre class="src src-C">/* dweight2.c (Chapter 2, page 23) */
+/* Computes the dimensional weight of a
+box from input provided by the user */
+
+#include &lt;stdio.h&gt;
+
+int main(void)
+{
+int height, length, width, volume, weight;
+
+printf("Enter height of box: ");
+scanf("%d", &amp;height);
+printf("Enter length of box: ");
+scanf("%d", &amp;length);
+printf("Enter width of box: ");
+scanf("%d", &amp;width);
+volume = height * length * width;
+weight = (volume + 165) / 166;
+
+printf("Volume (cubic inches): %d\n", volume);
+printf("Dimensional weight (pounds): %d\n", weight);
+
+return 0;
+}
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgc6d6b37" class="outline-3">
+<h3 id="orgc6d6b37"><span class="section-number-3">3.4</span> [Code] 转换华氏度与摄氏度</h3>
+<div class="outline-text-3" id="text-3-4">
+<div class="org-src-container">
+<label class="org-src-name"><span class="listing-number">Listing 1: </span>celsius.c</label><pre class="src src-C">
+/* celsius.c (Chapter 2, page 24) */
+/* Converts a Fahrenheit temperature to Celsius */
+
+#include &lt;stdio.h&gt;
+
+#define FREEZING_PT 32.0f
+#define SCALE_FACTOR (5.0f / 9.0f)
+
+int main(void)
+{
+float fahrenheit, celsius;
+
+printf("Enter Fahrenheit temperature: ");
+scanf("%f", &amp;fahrenheit);
+
+celsius = (fahrenheit - FREEZING_PT) * SCALE_FACTOR;
+
+printf("Celsius equivalent: %.1f\n", celsius);
+
+return 0;
+}
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org1ed1fdb" class="outline-3">
+<h3 id="org1ed1fdb"><span class="section-number-3">3.5</span> [Code] 计算条形码（通用产品代码UPC）</h3>
+<div class="outline-text-3" id="text-3-5">
+
+<div class="figure">
+<p><img src="./Material/Image/image-p64Ejb20200901-154642.png" alt="image-p64Ejb20200901-154642.png" />
+</p>
+</div>
+</div>
+
+<div id="outline-container-org50e6619" class="outline-4">
+<h4 id="org50e6619"><span class="section-number-4">3.5.1</span> 如何计算UPC的校验位？</h4>
+<div class="outline-text-4" id="text-3-5-1">
+
+<div class="figure">
+<p><img src="./Material/Image/image-owF4Y420200901-154715.png" alt="image-owF4Y420200901-154715.png" />
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgbfb9d9f" class="outline-4">
+<h4 id="orgbfb9d9f"><span class="section-number-4">3.5.2</span> C语言实例</h4>
+<div class="outline-text-4" id="text-3-5-2">
+<div class="org-src-container">
+<pre class="src src-C">
+/* upc.c (Chapter 4, page 57) */
+/* Computes a Universal Product Code check digit */
+
+#include &lt;stdio.h&gt;
+
+int main(void)
+{
+int d, i1, i2, i3, i4, i5, j1, j2, j3, j4, j5,
+    first_sum, second_sum, total;
+
+printf("Enter the first (single) digit: ");
+scanf("%1d", &amp;d);
+printf("Enter first group of five digits: ");
+scanf("%1d%1d%1d%1d%1d", &amp;i1, &amp;i2, &amp;i3, &amp;i4, &amp;i5);
+printf("Enter second group of five digits: ");
+scanf("%1d%1d%1d%1d%1d", &amp;j1, &amp;j2, &amp;j3, &amp;j4, &amp;j5);
+
+first_sum = d + i2 + i4 + j1 + j3 + j5;
+second_sum = i1 + i3 + i5 + j2 + j4;
+total = 3 * first_sum + second_sum;
+
+printf("Check digit: %d\n", 9 - ((total - 1) % 10));
+
+return 0;
+}
+
+</pre>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org8ba958a" class="outline-3">
+<h3 id="org8ba958a"><span class="section-number-3">3.6</span> 如何定义常量的名字</h3>
+<div class="outline-text-3" id="text-3-6">
+<p>
+定义常量有两种方法：① 使用 <code>#define</code> 宏， ② 使用 <code>const</code> 对变量进行修饰。
+</p>
+</div>
+</div>
+<div id="outline-container-orgafa4a62" class="outline-3">
+<h3 id="orgafa4a62"><span class="section-number-3">3.7</span> C语言的标识符</h3>
+<div class="outline-text-3" id="text-3-7">
+<p>
+标识符 <code>非数字(非数字 数字)*</code> 详见附录 <a href="#org589598e">7.2</a> 第一页
+</p>
+</div>
+</div>
+<div id="outline-container-org97cd22e" class="outline-3">
+<h3 id="org97cd22e"><span class="section-number-3">3.8</span> C语言有哪些关键字?</h3>
+<div class="outline-text-3" id="text-3-8">
+<p>
+详见附录 <a href="#org589598e">7.2</a> 第一页
+</p>
+</div>
+</div>
+<div id="outline-container-orgc51da8b" class="outline-3">
+<h3 id="orgc51da8b"><span class="section-number-3">3.9</span> C语言是由记号组成的</h3>
+<div class="outline-text-3" id="text-3-9">
+<p>
+<img src="./Material/Image/image-LP16Yw20200901-154928.png" alt="image-LP16Yw20200901-154928.png" />
+C语言记号的布局规则：
+</p>
+<ol class="org-ol">
+<li>记号之间允许有多个空白字符（例如空白，换行符，tab符等）</li>
+</ol>
+</div>
+</div>
+
+<div id="outline-container-org985aa67" class="outline-3">
+<h3 id="org985aa67"><span class="section-number-3">3.10</span> 为什么C语言的符号那么简要？</h3>
+<div class="outline-text-3" id="text-3-10">
+
+<div class="figure">
+<p><img src="./Material/Image/image-BeM1hW20200901-155005.png" alt="image-BeM1hW20200901-155005.png" />
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org3f59ec6" class="outline-3">
+<h3 id="org3f59ec6"><span class="section-number-3">3.11</span> <code>exit(0)</code> 与 <code>return 0</code> 的区别</h3>
+<div class="outline-text-3" id="text-3-11">
+<p>
+二者是等价的。
+</p>
+</div>
+</div>
+<div id="outline-container-orgd9d8f21" class="outline-3">
+<h3 id="orgd9d8f21"><span class="section-number-3">3.12</span> 没有return的main函数也是可行的吗？</h3>
+<div class="outline-text-3" id="text-3-12">
+
+<div class="figure">
+<p><img src="./Material/Image/image-UZvmh420200901-155030.png" alt="image-UZvmh420200901-155030.png" />
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org36d32c5" class="outline-3">
+<h3 id="org36d32c5"><span class="section-number-3">3.13</span> 编译器如何处理注释？</h3>
+<div class="outline-text-3" id="text-3-13">
+<p>
+在C99之前，编译器的处理方式不一样，有的完全删除，有的使用空格替换；在C99之后，标
+准化了这种处理方式：使用空格替换。
+</p>
+</div>
+</div>
+<div id="outline-container-org29b3bee" class="outline-3">
+<h3 id="org29b3bee"><span class="section-number-3">3.14</span> float类型名字的由来</h3>
+<div class="outline-text-3" id="text-3-14">
+
+<div class="figure">
+<p><img src="./Material/Image/image-4EO33R20200901-155052.png" alt="image-4EO33R20200901-155052.png" />
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org183796b" class="outline-3">
+<h3 id="org183796b"><span class="section-number-3">3.15</span> C语言对标识符的长度限制</h3>
+<div class="outline-text-3" id="text-3-15">
+
+<div class="figure">
+<p><img src="./Material/Image/image-NrcIMV20200901-155120.png" alt="image-NrcIMV20200901-155120.png" />
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgbb2acdd" class="outline-3">
+<h3 id="orgbb2acdd"><span class="section-number-3">3.16</span> 什么叫做由实现定义的行为?</h3>
+<div class="outline-text-3" id="text-3-16">
+
+<div class="figure">
+<p><img src="./Material/Image/image-P0qRrl20200901-155205.png" alt="image-P0qRrl20200901-155205.png" />
+</p>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgda539b6" class="outline-2">
+<h2 id="orgda539b6"><span class="section-number-2">4</span> C的数据结构</h2>
+<div class="outline-text-2" id="text-4">
+</div>
+<div id="outline-container-org0210cbb" class="outline-3">
+<h3 id="org0210cbb"><span class="section-number-3">4.1</span> 变量</h3>
+<div class="outline-text-3" id="text-4-1">
+</div>
+<div id="outline-container-orgbcbe874" class="outline-4">
+<h4 id="orgbcbe874"><span class="section-number-4">4.1.1</span> <code>int·hello·=·'HELL';</code> 允许这样赋值吗?</h4>
+<div class="outline-text-4" id="text-4-1-1">
+<p>
+在int表示为32位的机子上时,这是可以的,因为单引号表示单个字符,每个ASCII字符占用8位,刚
+好4个字符都被占用了.(<b>不过并不推荐这样使用</b>)
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org14a2361" class="outline-3">
+<h3 id="org14a2361"><span class="section-number-3">4.2</span> 数组</h3>
+<div class="outline-text-3" id="text-4-2">
+</div>
+<div id="outline-container-orgcc3e001" class="outline-4">
+<h4 id="orgcc3e001"><span class="section-number-4">4.2.1</span> <code>int·nums[5]·=·"abcde";</code> 允许这样赋值吗?</h4>
+<div class="outline-text-4" id="text-4-2-1">
+<p>
+答案是不行,初始化应该遵循C语言的规则,int类型的数组初始化不能使用 <code>char</code> 类型的数
+组初始化方式.
+</p>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgc29320e" class="outline-2">
+<h2 id="orgc29320e"><span class="section-number-2">5</span> C的表达式</h2>
+<div class="outline-text-2" id="text-5">
+<blockquote>
+<p>
+计算器不能让我们学会算术，只会使我们忘记算术。
+</p>
+</blockquote>
+
+<p>
+表达式不同于语句，表达式会产生结果，可以与其他表达式结合一起使用。构造表达式的重
+要部分是运算符；当然，含有返回值的函数也是可以构成表达式的。
+</p>
+</div>
+
+<div id="outline-container-orgd2aa8e7" class="outline-3">
+<h3 id="orgd2aa8e7"><span class="section-number-3">5.1</span> 运算符</h3>
+<div class="outline-text-3" id="text-5-1">
+</div>
+<div id="outline-container-org952d5c6" class="outline-4">
+<h4 id="org952d5c6"><span class="section-number-4">5.1.1</span> 算术运算符</h4>
+<div class="outline-text-4" id="text-5-1-1">
+
+<div class="figure">
+<p><img src="./Material/Image/image-QN0Vkq20200901-155233.png" alt="image-QN0Vkq20200901-155233.png" />
+</p>
+</div>
+</div>
+
+<div id="outline-container-org41d1563" class="outline-5">
+<h5 id="org41d1563"><span class="section-number-5">5.1.1.1</span> <code>%</code> 与 <code>/</code> 运算符的使用注意</h5>
+<div class="outline-text-5" id="text-5-1-1-1">
+<ol class="org-ol">
+<li>当 <code>/</code> 的操作数都是整数类型时</li>
+<li><code>%</code> 运算符的操作数类型</li>
+<li>这两个运算符之间的操作数出现一个是0时</li>
+<li>这两个运算符之间的操作数其中一个是负数时</li>
+</ol>
+
+
+<div class="figure">
+<p><img src="./Material/Image/image-iGLvpo20200901-155258.png" alt="image-iGLvpo20200901-155258.png" />
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org2016799" class="outline-5">
+<h5 id="org2016799"><span class="section-number-5">5.1.1.2</span> 为什么C89与C99对于 <code>%</code> 为负数时规则那么复杂？</h5>
+<div class="outline-text-5" id="text-5-1-1-2">
+
+<div class="figure">
+<p><img src="./Material/Image/image-hTa07I20200901-155436.png" alt="image-hTa07I20200901-155436.png" />
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org47abe20" class="outline-5">
+<h5 id="org47abe20"><span class="section-number-5">5.1.1.3</span> 一元运算符 <code>+</code> 是什么时候被加上去的？</h5>
+<div class="outline-text-5" id="text-5-1-1-3">
+<p>
+在C90标准，C语言加上一元运算符 <code>+</code> ，使得下面的表达式合法。
+</p>
+<div class="org-src-container">
+<pre class="src src-C">int he = +30;
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org6a70f78" class="outline-5">
+<h5 id="org6a70f78"><span class="section-number-5">5.1.1.4</span> 如何对小数求余？</h5>
+<div class="outline-text-5" id="text-5-1-1-4">
+<p>
+使用 <code>fmod()</code> 函数
+</p>
+</div>
+</div>
+
+<div id="outline-container-org6cdec5d" class="outline-5">
+<h5 id="org6cdec5d"><span class="section-number-5">5.1.1.5</span> 求余运算符原理</h5>
+<div class="outline-text-5" id="text-5-1-1-5">
+<p>
+当操作数都是整数时：
+</p>
+<div class="org-src-container">
+<pre class="src src-C">a - (a/b)*b  // a%b
+</pre>
+</div>
+
+<p>
+对于一般情况：
+</p>
+<pre class="example">
+余数 = 被除数 - 商 × 除数
+</pre>
+</div>
+</div>
+<div id="outline-container-org22377dc" class="outline-5">
+<h5 id="org22377dc"><span class="section-number-5">5.1.1.6</span> 对运算结果的取整方向</h5>
+<div class="outline-text-5" id="text-5-1-1-6">
+<p>
+C语言整形的除法的结果需要取整，例如5 / 3 = 1。C语言中的取整方式是向零取整。
+</p>
+
+<p>
+取整风格共有3种：
+</p>
+<ul class="org-ul">
+<li>向零取整。即向坐标轴0的方向，取最近的整数 (-1.2 == -1)。</li>
+<li>向上取整。也就是向+∞取整，即取不小于结果的最小整数 (-1.2 == -2)。</li>
+<li>向下取整。也就是向-∞取整，即取不大于结果的最大整数 (-1.2 == -1)。</li>
+</ul>
+
+<p>
+所以，C语言中计算-5除以3，因为实数结果约为-1.67，向零取整，得到结果为-1。
+</p>
+</div>
+</div>
+<div id="outline-container-orgc85c275" class="outline-5">
+<h5 id="orgc85c275"><span class="section-number-5">5.1.1.7</span> 求余与求模的区别</h5>
+<div class="outline-text-5" id="text-5-1-1-7">
+<p>
+无论求余还是求模，都会进行如下计算：
+</p>
+<ol class="org-ol">
+<li>求得商  <code>c = a / b</code></li>
+<li>求模/求余 <code>r = a - c * b</code></li>
+</ol>
+
+<p>
+求模运算和求余运算在第一步不同: <b>求余</b> 运算在取c的值时，向0 方向舍入( <code>fix()</code> 函数)；
+而 <b>求模</b> 运算在计算c的值时，向无穷小方向舍入( <code>floor()</code> 函数)。
+</p>
+</div>
+</div>
+
+<div id="outline-container-org2263d2e" class="outline-5">
+<h5 id="org2263d2e"><span class="section-number-5">5.1.1.8</span> 使用移位运算进行除法计算</h5>
+<div class="outline-text-5" id="text-5-1-1-8">
+<p>
+关于除法，人们常常用向右移位的方式来快速计算一个数除以2的幂的结果，例如 <code>16 / 4
+ = 4</code> 就是把10000右移2位得到100，即4； <code>9 / 4 = 2</code> 就是把1001右移2位得到2。事实
+ 上，这种快速计算的方法，是一种向下取整的过程，所以它只适用于被除数为正数的情况。
+ 若被除数为负数，这种右移的快速计算方式就是错误的了。
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org43fc8e3" class="outline-4">
+<h4 id="org43fc8e3"><span class="section-number-4">5.1.2</span> 赋值运算符</h4>
+<div class="outline-text-4" id="text-5-1-2">
+</div>
+<div id="outline-container-org21289a6" class="outline-5">
+<h5 id="org21289a6"><span class="section-number-5">5.1.2.1</span> 不要交换复合运算符两个字符的位置</h5>
+<div class="outline-text-5" id="text-5-1-2-1">
+
+<div class="figure">
+<p><img src="./Material/Image/image-UqWvze20200901-155541.png" alt="image-UqWvze20200901-155541.png" />
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgcbe53a9" class="outline-5">
+<h5 id="orgcbe53a9"><span class="section-number-5">5.1.2.2</span> 为什么说当 <code>v</code> 有副作用时， <code>v+=e</code> 不等于 <code>v = v + e</code> ?</h5>
+<div class="outline-text-5" id="text-5-1-2-2">
+
+<div class="figure">
+<p><img src="./Material/Image/image-vxwCab20200901-155613.png" alt="image-vxwCab20200901-155613.png" />
+</p>
+</div>
+</div>
+</div>
+</div>
+
+
+<div id="outline-container-orgf0b3549" class="outline-4">
+<h4 id="orgf0b3549"><span class="section-number-4">5.1.3</span> 自增和自减</h4>
+<div class="outline-text-4" id="text-5-1-3">
+</div>
+<div id="outline-container-org25f0929" class="outline-5">
+<h5 id="org25f0929"><span class="section-number-5">5.1.3.1</span> 为什么C语言提供了 <code>++</code> 和 <code>--</code> 运算符？</h5>
+<div class="outline-text-5" id="text-5-1-3-1">
+
+<div class="figure">
+<p><img src="./Material/Image/image-xa3H9Z20200901-155634.png" alt="image-xa3H9Z20200901-155634.png" />
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orga1410ac" class="outline-5">
+<h5 id="orga1410ac"><span class="section-number-5">5.1.3.2</span> 何时执行后缀形式的 <code>++</code> 和 <code>--</code> 运算符？</h5>
+<div class="outline-text-5" id="text-5-1-3-2">
+
+<div class="figure">
+<p><img src="./Material/Image/image-ib1Ixq20200901-155659.png" alt="image-ib1Ixq20200901-155659.png" />
+</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+
+<div id="outline-container-org262202b" class="outline-3">
+<h3 id="org262202b"><span class="section-number-3">5.2</span> 副作用</h3>
+<div class="outline-text-3" id="text-5-2">
+<p>
+运算符做了一个除了返回值以外的另一件事，比如修改数据内容，在标准输出输出值等，这些动作被成为运算符的副作用。同理，并非单纯返回数值的函数也叫做含副作用的函数。
+<img src="./Material/Image/image-vfgUMB20200901-155727.png" alt="image-vfgUMB20200901-155727.png" />
+</p>
+</div>
+</div>
+
+<div id="outline-container-org6207f15" class="outline-3">
+<h3 id="org6207f15"><span class="section-number-3">5.3</span> 左值与右值</h3>
+<div class="outline-text-3" id="text-5-3">
+
+<div class="figure">
+<p><img src="./Material/Image/image-awNAqc20200901-155928.png" alt="image-awNAqc20200901-155928.png" />
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org0c1f430" class="outline-3">
+<h3 id="org0c1f430"><span class="section-number-3">5.4</span> 类型系统与运算符</h3>
+<div class="outline-text-3" id="text-5-4">
+<p>
+在具有类型系统的编程语言中，运算符也是具有返回类型的。其返回类型与操作数有关。
+</p>
+</div>
+<div id="outline-container-org07c4b7e" class="outline-4">
+<h4 id="org07c4b7e"><span class="section-number-4">5.4.1</span> 算术运算符与类型系统</h4>
+<div class="outline-text-4" id="text-5-4-1">
+<p>
+算术运算符返回的类型：对于整型，加减乘除求余的操作数类型比
+int还小时，返回int；否则返回操作数类型最大那个。
+</p>
+
+<p>
+对于小数，算术运算符返回的类型由最大类型的操作数决定。
+</p>
+
+<div class="org-src-container">
+<pre class="src src-C">#include &lt;stdio.h&gt;
+
+int main(int argc, char *argv[]){
+    short t1 = 12;
+    short t2 = 12;
+    printf("the sizeof(short) is %lu\n", sizeof(t1));
+    printf("the sizeof(t1 + t2) is %lu\n", sizeof(t1 + t2));
+
+    float t3 = 12.2;
+    float t4 = 12.5;
+    printf("the sizeof(float) is %lu\n",sizeof(float));
+    printf("the sizeof(double) is %lu\n",sizeof(double));
+    printf("the sizeof(t3 + t4 is) %lu\n",sizeof(t3+t4));
+}
+
+// output
+// the sizeof(short) is 2
+// the sizeof(t1 + t2) is 4
+// the sizeof(float) is 4
+// the sizeof(double) is 8
+// the sizeof(t3 + t4 is) 4
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org4a53bfb" class="outline-4">
+<h4 id="org4a53bfb"><span class="section-number-4">5.4.2</span> 赋值运算符与类型系统</h4>
+<div class="outline-text-4" id="text-5-4-2">
+<p>
+赋值运算符返回值的类型总是左值的类型。
+</p>
+</div>
+</div>
+</div>
+<div id="outline-container-org57323ec" class="outline-3">
+<h3 id="org57323ec"><span class="section-number-3">5.5</span> [Warn] 不要同时对操作数进行访问和修改</h3>
+<div class="outline-text-3" id="text-5-5">
+
+<div class="figure">
+<p><img src="./Material/Image/image-Y9vNZD20200901-160005.png" alt="image-Y9vNZD20200901-160005.png" />
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org110ea2c" class="outline-3">
+<h3 id="org110ea2c"><span class="section-number-3">5.6</span> 语句与表达式</h3>
+<div class="outline-text-3" id="text-5-6">
+<p>
+任何一个表达式都是一条语句，只需在后面加上一个分号 <code>;</code> 。
+</p>
+</div>
+</div>
+<div id="outline-container-org84de992" class="outline-3">
+<h3 id="org84de992"><span class="section-number-3">5.7</span> C语言的顺序点</h3>
+<div class="outline-text-3" id="text-5-7">
+<blockquote>
+<p>
+指程序执行过程中修改变量值的最晚时刻。
+</p>
+</blockquote>
+
+<p>
+C语言一般只有如下顺序点
+</p>
+<ol class="org-ol">
+<li>每个完整表达式结束后，即分号( <code>;</code> )后面</li>
+<li><code>&amp;&amp;</code> ， <code>||</code> ，三木运算符（ <code>?:</code> ），以及逗号表达式( <code>,</code> )
+的每一个运算对象计算之后</li>
+<li><b>函数</b> 调用中对所有实际参数的求值完成之后（进入函数体之前）</li>
+</ol>
+
+<p>
+对于具有副作用的运算符，应该在前一个顺序点到下一个顺序点之前对存储的操作数的值进行更新。
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgadc2a73" class="outline-2">
+<h2 id="orgadc2a73"><span class="section-number-2">6</span> C语言工具</h2>
+<div class="outline-text-2" id="text-6">
+</div>
+<div id="outline-container-org422b361" class="outline-3">
+<h3 id="org422b361"><span class="section-number-3">6.1</span> GCC错误选项</h3>
+<div class="outline-text-3" id="text-6-1">
+
+<div class="figure">
+<p><img src="./Material/Image/image-9APClI20200901-160046.png" alt="image-9APClI20200901-160046.png" />
+</p>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org45c6024" class="outline-2">
+<h2 id="org45c6024"><span class="section-number-2">7</span> 附录</h2>
+<div class="outline-text-2" id="text-7">
+</div>
+<div id="outline-container-org3f0b465" class="outline-3">
+<h3 id="org3f0b465"><span class="section-number-3">7.1</span> ASCII表</h3>
+<div class="outline-text-3" id="text-7-1">
+<p>
+<a href="Material/File/C语言程序设计——现代方法附录E.pdf">ASCII对照表</a>
+</p>
+</div>
+</div>
+<div id="outline-container-org7e68fd7" class="outline-3">
+<h3 id="org7e68fd7"><span class="section-number-3">7.2</span> C语言语法</h3>
+<div class="outline-text-3" id="text-7-2">
+<p>
+<a href="Material/File/C语言程序设计——现代方法附录A.pdf">C 语言语法</a>  <a id="org589598e"></a>
+</p>
+</div>
+</div>
+
+<div id="outline-container-org0cd29fd" class="outline-3">
+<h3 id="org0cd29fd"><span class="section-number-3">7.3</span> C语言运算符</h3>
+<div class="outline-text-3" id="text-7-3">
+<p>
+<a href="Material/File/C语言程序设计——现代方法附录B.pdf">C语言运算符</a>
+</p>
+</div>
+</div>
+<div id="outline-container-org50995b4" class="outline-3">
+<h3 id="org50995b4"><span class="section-number-3">7.4</span> 标准 C 与经典 C 的比较</h3>
+<div class="outline-text-3" id="text-7-4">
+<p>
+<a href="Material/File/C语言程序设计——现代方法附录C.pdf">标准 C 与经典 C 的比较</a>
+</p>
+</div>
+</div>
+<div id="outline-container-org7c8231a" class="outline-3">
+<h3 id="org7c8231a"><span class="section-number-3">7.5</span> 标准库函数</h3>
+<div class="outline-text-3" id="text-7-5">
+<p>
+<a href="Material/File/C语言程序设计——现代方法附录D.pdf">标准库函数</a>
+</p>
+</div>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="author">Author: JiangSan</p>
+<p class="date">Created: 2020-09-03 Thu 09:11</p>
+</div>
+</body>
+</html>

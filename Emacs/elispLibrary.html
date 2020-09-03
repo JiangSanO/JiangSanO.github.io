@@ -1,0 +1,299 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2020-09-03 Thu 09:11 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Elisp 标准库学习</title>
+<meta name="generator" content="Org mode" />
+<meta name="author" content="JiangSan" />
+
+<link rel='stylesheet'href='../static/org-manual.css' type='text/css'/>
+<script type='text/javascript' defer src='../static/org-manual.js'></script>
+<script type='text/javascript'>window.onload =  function () {init();  }</script>
+<meta name='viewport' content='width=device-width, initial-scale=1.0'>
+<script type="text/javascript">
+// @license magnet:?xt=urn:btih:1f739d935676111cfff4b4693e3816e664797050&amp;dn=gpl-3.0.txt GPL-v3-or-Later
+<!--/*--><![CDATA[/*><!--*/
+     function CodeHighlightOn(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(null != target) {
+         elem.cacheClassElem = elem.className;
+         elem.cacheClassTarget = target.className;
+         target.className = "code-highlighted";
+         elem.className   = "code-highlighted";
+       }
+     }
+     function CodeHighlightOff(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(elem.cacheClassElem)
+         elem.className = elem.cacheClassElem;
+       if(elem.cacheClassTarget)
+         target.className = elem.cacheClassTarget;
+     }
+    /*]]>*///-->
+// @license-end
+</script>
+</head>
+<body>
+<div id="content">
+<h1 class="title">Elisp 标准库学习</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#org095ba73">1. 谓词函数</a>
+<ul>
+<li><a href="#org8edb657">1.1. <code>integer-or-marker-p</code></a></li>
+<li><a href="#org2f844d4">1.2. &lt;,&gt;,&lt;=,&gt;=</a></li>
+</ul>
+</li>
+<li><a href="#org119f4d7">2. 输出函数</a>
+<ul>
+<li><a href="#orgda299ea">2.1. <code>message</code></a></li>
+</ul>
+</li>
+<li><a href="#org866adf6">3. 字符串函数</a>
+<ul>
+<li><a href="#orgf10f741">3.1. <code>concat</code></a></li>
+<li><a href="#orgdcec264">3.2. <code>substring</code></a></li>
+</ul>
+</li>
+<li><a href="#org5f52bd2">4. 缓冲区函数</a>
+<ul>
+<li><a href="#orge4ea352">4.1. buffer-name</a></li>
+<li><a href="#orgd7b9292">4.2. buffer-file-name</a></li>
+<li><a href="#org15657ae">4.3. current-buffer</a></li>
+<li><a href="#orgb390607">4.4. other-buffer</a></li>
+<li><a href="#orgce14b1e">4.5. switch-to-buffer</a></li>
+<li><a href="#orgecd62c2">4.6. set-buffer</a></li>
+<li><a href="#orgb184679">4.7. buffer-size</a></li>
+<li><a href="#orgf286021">4.8. point</a></li>
+<li><a href="#orga45a157">4.9. point-min</a></li>
+<li><a href="#orgbaa9e6d">4.10. point-max</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+
+
+<div id="outline-container-org095ba73" class="outline-2">
+<h2 id="org095ba73"><span class="section-number-2">1</span> 谓词函数</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+谓词函数(<i>predicate</i>)
+</p>
+</div>
+
+<div id="outline-container-org8edb657" class="outline-3">
+<h3 id="org8edb657"><span class="section-number-3">1.1</span> <code>integer-or-marker-p</code></h3>
+<div class="outline-text-3" id="text-1-1">
+<p>
+谓词函数以 p 结尾，判断传入的参数是否为正确的类型。 11M
+</p>
+
+<p>
+在 emacs 中，标记(<i>marker</i>)也是使用数字来保存的，可以使用
+命令 <code>C-@</code> 或者 <code>C-SPC</code> 来设置。 11M
+</p>
+</div>
+</div>
+
+<div id="outline-container-org2f844d4" class="outline-3">
+<h3 id="org2f844d4"><span class="section-number-3">1.2</span> &lt;,&gt;,&lt;=,&gt;=</h3>
+<div class="outline-text-3" id="text-1-2">
+<p>
+這些都是測試第一個數字的函數,用法和名稱一樣。
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org119f4d7" class="outline-2">
+<h2 id="org119f4d7"><span class="section-number-2">2</span> 输出函数</h2>
+<div class="outline-text-2" id="text-2">
+</div>
+<div id="outline-container-orgda299ea" class="outline-3">
+<h3 id="orgda299ea"><span class="section-number-3">2.1</span> <code>message</code></h3>
+<div class="outline-text-3" id="text-2-1">
+<p>
+message 函数主要将参数显示在回显区，并返回参数；参数第一
+个只能是字符串；是可变参数；允许向 C 语言的 printf 函数意义
+指定格式化字符串。 11L
+</p>
+
+<p>
+常见的格式化字符串
+</p>
+<ul class="org-ul">
+<li><code>%s</code> 接受字符串 12H</li>
+<li><code>%d</code> 接受数字 12H</li>
+</ul>
+
+<p>
+一个 message 的例子
+</p>
+<div class="org-src-container">
+<pre class="src src-elisp">  (message "He saw %d %s"
+           (- fill-column 34)
+           (concat "red "
+                   (substring
+                    "the quick brown foxes jumped." 16 21)
+                   " leaping"))
+</pre>
+</div>
+
+<p>
+当 message 被嵌入函数内部时，回显区的结果不会显示双引号；而单
+独使用时会。 25L
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org866adf6" class="outline-2">
+<h2 id="org866adf6"><span class="section-number-2">3</span> 字符串函数</h2>
+<div class="outline-text-2" id="text-3">
+</div>
+<div id="outline-container-orgf10f741" class="outline-3">
+<h3 id="orgf10f741"><span class="section-number-3">3.1</span> <code>concat</code></h3>
+<div class="outline-text-3" id="text-3-1">
+<p>
+该函数只接受字符串或数字，不能是符号，是可变参数，返回
+将参数连接后的结果。 9M,10H
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgdcec264" class="outline-3">
+<h3 id="orgdcec264"><span class="section-number-3">3.2</span> <code>substring</code></h3>
+<div class="outline-text-3" id="text-3-2">
+<p>
+函数返回字符串的子字符串，通过指定索引(从 0 开始)返回。 9L
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org5f52bd2" class="outline-2">
+<h2 id="org5f52bd2"><span class="section-number-2">4</span> 缓冲区函数</h2>
+<div class="outline-text-2" id="text-4">
+</div>
+<div id="outline-container-orge4ea352" class="outline-3">
+<h3 id="orge4ea352"><span class="section-number-3">4.1</span> buffer-name</h3>
+<div class="outline-text-3" id="text-4-1">
+<p>
+返回缓冲区的名字，一般为文件名
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgd7b9292" class="outline-3">
+<h3 id="orgd7b9292"><span class="section-number-3">4.2</span> buffer-file-name</h3>
+<div class="outline-text-3" id="text-4-2">
+<p>
+返回缓冲区的文件路径(包含文件名),若缓冲区未与任何文件相关联，
+返回 <code>nil</code> .
+</p>
+</div>
+</div>
+
+<div id="outline-container-org15657ae" class="outline-3">
+<h3 id="org15657ae"><span class="section-number-3">4.3</span> current-buffer</h3>
+<div class="outline-text-3" id="text-4-3">
+<p>
+获得当前缓冲区（不是缓冲区名），调用它的显示会像下面这样： 18L
+</p>
+<blockquote>
+<p>
+<code>(current-buffer)</code>
+</p>
+
+<p>
+#&lt;buffer elisp.org&gt;
+</p>
+</blockquote>
+</div>
+</div>
+
+<div id="outline-container-orgb390607" class="outline-3">
+<h3 id="orgb390607"><span class="section-number-3">4.4</span> other-buffer</h3>
+<div class="outline-text-3" id="text-4-4">
+<p>
+获得最近使用的缓冲区
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgce14b1e" class="outline-3">
+<h3 id="orgce14b1e"><span class="section-number-3">4.5</span> switch-to-buffer</h3>
+<div class="outline-text-3" id="text-4-5">
+<p>
+切换到指定的缓冲区，并将焦点也切换过去（若只有一个窗口，则将
+当前窗口切换到那个缓冲区） 19M
+</p>
+
+<div class="org-src-container">
+<pre class="src src-elisp">(switch-to-buffer (other-buffer))
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgecd62c2" class="outline-3">
+<h3 id="orgecd62c2"><span class="section-number-3">4.6</span> set-buffer</h3>
+<div class="outline-text-3" id="text-4-6">
+<p>
+切换到指定的缓冲区，仅仅将注意力切换过去，不将窗口焦点也切换。 19M
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgb184679" class="outline-3">
+<h3 id="orgb184679"><span class="section-number-3">4.7</span> buffer-size</h3>
+<div class="outline-text-3" id="text-4-7">
+<p>
+返回缓冲区的字符计数。 19L
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgf286021" class="outline-3">
+<h3 id="orgf286021"><span class="section-number-3">4.8</span> point</h3>
+<div class="outline-text-3" id="text-4-8">
+<p>
+返回当前光标所在位置的字符计数，从 1 开始。
+</p>
+</div>
+</div>
+
+<div id="outline-container-orga45a157" class="outline-3">
+<h3 id="orga45a157"><span class="section-number-3">4.9</span> point-min</h3>
+<div class="outline-text-3" id="text-4-9">
+<p>
+返回缓冲区中位点的最小值，若未使用“变窄”，则返回 1
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgbaa9e6d" class="outline-3">
+<h3 id="orgbaa9e6d"><span class="section-number-3">4.10</span> point-max</h3>
+<div class="outline-text-3" id="text-4-10">
+<p>
+返回缓冲区中位点的最大值
+</p>
+</div>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="author">Author: JiangSan</p>
+<p class="date">Created: 2020-09-03 Thu 09:11</p>
+</div>
+</body>
+</html>

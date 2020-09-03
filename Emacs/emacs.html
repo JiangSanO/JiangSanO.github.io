@@ -1,0 +1,1413 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2020-09-03 Thu 09:12 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>emacs学习笔记</title>
+<meta name="generator" content="Org mode" />
+<meta name="author" content="JiangSan" />
+
+<link rel='stylesheet'href='../static/org-manual.css' type='text/css'/>
+<script type='text/javascript' defer src='../static/org-manual.js'></script>
+<script type='text/javascript'>window.onload =  function () {init();  }</script>
+<meta name='viewport' content='width=device-width, initial-scale=1.0'>
+<script type="text/javascript">
+// @license magnet:?xt=urn:btih:1f739d935676111cfff4b4693e3816e664797050&amp;dn=gpl-3.0.txt GPL-v3-or-Later
+<!--/*--><![CDATA[/*><!--*/
+     function CodeHighlightOn(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(null != target) {
+         elem.cacheClassElem = elem.className;
+         elem.cacheClassTarget = target.className;
+         target.className = "code-highlighted";
+         elem.className   = "code-highlighted";
+       }
+     }
+     function CodeHighlightOff(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(elem.cacheClassElem)
+         elem.className = elem.cacheClassElem;
+       if(elem.cacheClassTarget)
+         target.className = elem.cacheClassTarget;
+     }
+    /*]]>*///-->
+// @license-end
+</script>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        displayAlign: "center",
+        displayIndent: "0em",
+
+        "HTML-CSS": { scale: 100,
+                        linebreaks: { automatic: "false" },
+                        webFont: "TeX"
+                       },
+        SVG: {scale: 100,
+              linebreaks: { automatic: "false" },
+              font: "TeX"},
+        NativeMML: {scale: 100},
+        TeX: { equationNumbers: {autoNumber: "AMS"},
+               MultLineWidth: "85%",
+               TagSide: "right",
+               TagIndent: ".8em"
+             }
+});
+</script>
+<script type="text/javascript"
+        src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS_HTML"></script>
+</head>
+<body>
+<div id="content">
+<h1 class="title">emacs学习笔记</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#org57e3202">1. Emacs 安装</a>
+<ul>
+<li><a href="#orgd932834">1.1. Linux (WSL)</a></li>
+</ul>
+</li>
+<li><a href="#org397ccab">2. Emacs 基础</a>
+<ul>
+<li><a href="#org8234fcf">2.1. 进入和退出 Emacs</a></li>
+<li><a href="#org8e0e628">2.2. 基本编辑</a>
+<ul>
+<li><a href="#orgc647ff9">2.2.1. 字符插入</a></li>
+<li><a href="#orgd4ff6b3">2.2.2. 光标移动</a></li>
+<li><a href="#org44b24cb">2.2.3. 文本删除 4.3  41L</a></li>
+<li><a href="#org380cbf4">2.2.4. 撤消编辑 4.4 42L</a></li>
+<li><a href="#org7f169b9">2.2.5. 帮助 4.6 43L</a></li>
+<li><a href="#orgd27e098">2.2.6. 空白行 4.7 43L</a></li>
+<li><a href="#org8e9b1b0">2.2.7. 光标位置信息 4.9 44L</a></li>
+</ul>
+</li>
+<li><a href="#orgd40d55a">2.3. emacs 的工作環境</a>
+<ul>
+<li><a href="#org95a6655">2.3.1. shell 命令</a></li>
+</ul>
+</li>
+<li><a href="#orgfa02248">2.4. 字符编码</a></li>
+<li><a href="#org24c6b74">2.5. 常用快捷键</a></li>
+<li><a href="#orge69e2c4">2.6. emacs 本地配置</a>
+<ul>
+<li><a href="#orgb81bb86">2.6.1. 全局显示行号</a></li>
+<li><a href="#orgcc79cc3">2.6.2. 自定义快捷键</a></li>
+<li><a href="#org5852d8c">2.6.3. 字体配置</a>
+<ul>
+<li><a href="#org3bf51fd">2.6.3.1. 配置1</a></li>
+<li><a href="#org37b4207">2.6.3.2. 配置2</a></li>
+<li><a href="#orgf26e7ea">2.6.3.3. 配置3</a></li>
+<li><a href="#org2870724">2.6.3.4. Doom的字体配置</a></li>
+</ul>
+</li>
+<li><a href="#orgc445187">2.6.4. Doom全屏启动</a></li>
+<li><a href="#org642cdef">2.6.5. 改变当前行背景色</a></li>
+<li><a href="#org4b34cb7">2.6.6. 使用pyim</a></li>
+<li><a href="#org600bf3b">2.6.7. 使用company-box</a></li>
+<li><a href="#orgd002a3f">2.6.8. 禁用空白字符高亮模式</a></li>
+<li><a href="#org19cf9c1">2.6.9. org基本配置</a>
+<ul>
+<li><a href="#orgee91279">2.6.9.1. 设置org笔记目录</a></li>
+<li><a href="#org93e2ca7">2.6.9.2. 取消导出时使用htmlize进行代码高亮</a></li>
+<li><a href="#org9262185">2.6.9.3. 设置本地时间</a></li>
+</ul>
+</li>
+<li><a href="#orgf59eb5a">2.6.10. org-publish</a></li>
+<li><a href="#orgae85995">2.6.11. org-download-clipboard</a></li>
+<li><a href="#org655a366">2.6.12. org-cdlatex</a></li>
+<li><a href="#org430e072">2.6.13. 设置doom的主题</a></li>
+<li><a href="#orgea9f244">2.6.14. 设置文件编码</a></li>
+<li><a href="#org38f5957">2.6.15. nov查看电子书</a></li>
+</ul>
+</li>
+<li><a href="#org0d14cd1">2.7. 插件管理</a>
+<ul>
+<li><a href="#org741478e">2.7.1. c-mode</a></li>
+<li><a href="#org2bf4137">2.7.2. company</a></li>
+<li><a href="#orgcd08ea7">2.7.3. cdlatex</a></li>
+<li><a href="#org6ae9556">2.7.4. docview</a></li>
+<li><a href="#orgb52bb9b">2.7.5. paredit</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#orgb851631">3. spacemacs 使用指南</a>
+<ul>
+<li><a href="#orgbb97057">3.1. 文本操作</a></li>
+<li><a href="#orgacc6d94">3.2. 常见快捷键</a>
+<ul>
+<li><a href="#org8ff071f">3.2.1. 配置文件</a></li>
+<li><a href="#org5c0cad2">3.2.2. 文件管理</a></li>
+<li><a href="#orgf464725">3.2.3. buffer 管理</a></li>
+<li><a href="#org654ee49">3.2.4. 窗口管理</a></li>
+<li><a href="#orgbc3e433">3.2.5. project 管理</a></li>
+<li><a href="#orge3f6c27">3.2.6. 缩进代码</a></li>
+<li><a href="#org2646869">3.2.7. shell 操作</a></li>
+<li><a href="#org249ef0e">3.2.8. 中断操作</a></li>
+<li><a href="#org57889e1">3.2.9. 显示动态行号</a></li>
+<li><a href="#orgc28dd6c">3.2.10. Magit</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-org57e3202" class="outline-2">
+<h2 id="org57e3202"><span class="section-number-2">1</span> Emacs 安装</h2>
+<div class="outline-text-2" id="text-1">
+<div class="org-center">
+<p>
+参考书目 <a href="Books/Emacs%E6%8C%87%E5%8D%97.pdf">Emacs 手册</a>
+</p>
+</div>
+
+<p>
+编译安装 emacs。
+</p>
+</div>
+<div id="outline-container-orgd932834" class="outline-3">
+<h3 id="orgd932834"><span class="section-number-3">1.1</span> Linux (WSL)</h3>
+<div class="outline-text-3" id="text-1-1">
+<p>
+安装依赖
+</p>
+<div class="org-src-container">
+<pre class="src src-shell">  sudo apt-get install --assume-yes build-essential libncurses5-dev
+  sudo apt-get install --assume-yes libgif-dev libxpm-dev
+  sudo apt-get install --assume-yes libtiff5-dev
+  sudo apt-get install --assume-yes libxml2-dev
+  sudo apt-get install --assume-yes libgnutls28-dev
+  sudo apt-get install --assume-yes gtk+-3.0
+</pre>
+</div>
+
+<p>
+然后进入如下命令：
+</p>
+<div class="org-src-container">
+<pre class="src src-shell">  ./autogen.sh;
+  ./configure --prefix=/usr/emacs --with-x-toolkit=gtk;
+  make;
+  make install;
+</pre>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org397ccab" class="outline-2">
+<h2 id="org397ccab"><span class="section-number-2">2</span> Emacs 基础</h2>
+<div class="outline-text-2" id="text-2">
+</div>
+<div id="outline-container-org8234fcf" class="outline-3">
+<h3 id="org8234fcf"><span class="section-number-3">2.1</span> 进入和退出 Emacs</h3>
+<div class="outline-text-3" id="text-2-1">
+<ul class="org-ul">
+<li><code>C-x C-c</code> <code>save-buffers-kill-terminal</code> 退出 emacs</li>
+<li><code>C-z</code> <code>suspend-frame</code> 在终端环境，暂停它；在 gui 环境，最小化</li>
+</ul>
+
+<p>
+若存在未保存的缓冲区，emacs 会询问是否保存；当存在子进程时，emacs 也会询问是否关闭。
+</p>
+
+<p>
+若 emacs 作为服务器使用，客户端按下 <code>C-x C-c</code> 只会关闭客户端进程。
+</p>
+
+<p>
+emacs 能够方便的记录某一个会话信息在你关闭它时。
+</p>
+
+<p>
+你可以配置变量 <code>confirm-kill-emacs</code> 来设置退出时的操作，变量接受一个谓
+词函数。若谓词函数返回 <code>nil</code> ，那么 emacs 会继续进行，否则退出。 <br />
+常见的谓词函数是: <code>yes-or-no-p</code> (一般谓词函数都以 <code>p</code> 结尾)
+</p>
+
+<p>
+若变量 <code>confirm-kill-processes</code> 的值是 <code>nil</code> ，那么在关闭 emacs 不会询问任何
+是否关闭子进程的信息，若为 t，则默认询问。
+</p>
+
+<p>
+更加高功能的自定义，请看
+<span class="underline">Section “Killing Emacs”
+in The GNU Emacs Lisp Reference Manual.</span>
+</p>
+
+<p>
+使用命令 <code>kill-emacs</code> 能够不在任何提示下关闭 emacs。
+</p>
+</div>
+</div>
+
+<div id="outline-container-org8e0e628" class="outline-3">
+<h3 id="org8e0e628"><span class="section-number-3">2.2</span> 基本编辑</h3>
+<div class="outline-text-3" id="text-2-2">
+</div>
+<div id="outline-container-orgc647ff9" class="outline-4">
+<h4 id="orgc647ff9"><span class="section-number-4">2.2.1</span> 字符插入</h4>
+<div class="outline-text-4" id="text-2-2-1">
+<p>
+使用命令 <code>(newline)</code> 即可插入新行。新行会根据当前的主要模式进行缩进。
+</p>
+
+<p>
+如果不想任何的自动缩进，可以按下 <code>C-j</code> ，它仅仅插入一个新行。
+</p>
+
+<p>
+你可以使用次要模式改变 emacs 的文本插入操作，例如自动换行模式 <code>auto-fill-mode</code>
+或者改写模式 <code>overwrite-mode</code>.
+</p>
+
+<p>
+当你想要插入其他的非图形字符，可以使用命令 <code>C-q</code> 加上对应的按键，比如
+<code>C-q DEL</code> 将插入字符 <code>DEL</code>, 在 emacs 以符号 <code>^?</code> 表示。<br />
+也可以使用任意多的八进制序列来插入字符，以非八进制数字作为结束，比如
+<code>C-q 1 0 1 B</code> 将插入 AB。<br />
+<b>不过对于非二进制的改写模式，输入八进制序列仅仅在光标处插入数字而已。</b>
+</p>
+
+<p>
+要想改变输入的进制序列，可以设置变量  <code>read-quoted-char-radix</code> 为 10 或 16.
+分别表示 10 进制和 16 进制。<br />
+当它是 16 进制时，那么字母 <code>a~f</code> 也作为数字表示，并且忽略大小写。
+</p>
+
+<p>
+一些常用的 Unicode 字符可以使用 <code>C-x 8</code> 来插入，比如 <code>C-x [</code> 插入全角左
+引号， <code>C-x 8 ]</code> 插入全角右单引号， <code>C-x 8 {</code> 插入全角左双引号， <code>C-x
+8 }</code> 则插入全角右双引号。<br />
+也可以使用 <code>Alt</code> 按键来快速输入，比如 <code>A-[</code> 等价于 <code>C-x 8 [</code>, 要查看关
+于 <code>C-x 8</code> 的所有短的快捷键，输入 <code>C-x 8 C-h</code>.
+</p>
+
+<p>
+你也可以使用 <code>C-x 8 RET</code> <code>(insert-char)</code> 来通过 Unicode 代码点或 Unicode
+字符名来输入,如果你键入名字， 该命令会为你进行补全，如果你键入代码点，
+要么使用十六进制（Unicode 的约定），或者使用指定进制的 elisp 合法格式，比
+如 <code>#o23072</code> 表示八进制。 <span class="underline">see Section “Integer Basics” in The Emacs
+Lisp Reference Manual.</span>
+</p>
+
+<p>
+可以使用前缀参数 <code>C-u</code> 到命令 <code>C-q</code> 或 <code>C-x 8</code>, 来指定需要插入多少个字
+符。不同命令的前缀参数完全不一样。
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgd4ff6b3" class="outline-4">
+<h4 id="orgd4ff6b3"><span class="section-number-4">2.2.2</span> 光标移动</h4>
+<div class="outline-text-4" id="text-2-2-2">
+<p>
+<code>M-r</code> <code>(move-to-window-line-top-bottom)</code> 循环将光标移到屏幕中间，屏幕
+顶部，屏幕底部。<br />
+若使用前缀参数，那么将移到指定“屏幕行”，屏幕行以 0 开始（表示顶部），
+负数表示从底部计数，从-1 开始。
+</p>
+
+<p>
+<code>M-g c</code>  读入一个数字，移动到指定的字符位置。 <code>(goto-char)</code>
+</p>
+
+<p>
+<code>M-g M-g</code> <code>M-g g</code> 读入一个数字，移动到指定行。可以指定一个前缀参数，获
+得移动的次数 <code>(goto-line)</code>
+</p>
+
+<p>
+<code>M-g TAB</code> 读入一个数字，移动到指定列。可以指定一个前缀参数，获得移动的
+次数。
+</p>
+
+<p>
+<code>C-x C-n</code> 设置临时的全局列位 <b>(the semipermanent goal column)</b> ，设置
+后，使用 <code>C-p</code> 或 <code>C-n</code> 移动时总是设法移动到该列。 <code>(set-goal-column)</code>
+</p>
+
+<p>
+<code>C-u C-x C-n</code> 取消设置全局列位。
+</p>
+</div>
+</div>
+
+<div id="outline-container-org44b24cb" class="outline-4">
+<h4 id="org44b24cb"><span class="section-number-4">2.2.3</span> 文本删除 4.3  41L</h4>
+<div class="outline-text-4" id="text-2-2-3">
+<p>
+在 emacs 中，向前（forward）表示有行尾方向走去，而向后（backward）表示往
+行首方向走去。
+</p>
+
+<p>
+在 emacs 文档中，DEL 键等价于按键 <code>backspacs</code> 而不是 <code>Delete</code> 键。
+</p>
+
+<p>
+在行尾使用 <code>C-k</code> <code>(kill-line)</code> 能够加入后一行到当前行。
+</p>
+</div>
+</div>
+
+<div id="outline-container-org380cbf4" class="outline-4">
+<h4 id="org380cbf4"><span class="section-number-4">2.2.4</span> 撤消编辑 4.4 42L</h4>
+<div class="outline-text-4" id="text-2-2-4">
+<p>
+<code>undo</code> 命令只能撤消文本的改变，无法还原光标位置的变化，不过当你还原时，
+光标会出现在改变前的位置。
+</p>
+</div>
+</div>
+
+<div id="outline-container-org7f169b9" class="outline-4">
+<h4 id="org7f169b9"><span class="section-number-4">2.2.5</span> 帮助 4.6 43L</h4>
+<div class="outline-text-4" id="text-2-2-5">
+<p>
+<code>C-h k</code> 表示查找快捷键的帮助。
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgd27e098" class="outline-4">
+<h4 id="orgd27e098"><span class="section-number-4">2.2.6</span> 空白行 4.7 43L</h4>
+<div class="outline-text-4" id="text-2-2-6">
+<p>
+<code>C-o</code> 插入一个空白行在当前光标之后，但不一移动光标。
+</p>
+
+<p>
+<code>C-x C-o</code> 删除所有的连续空行，但不包括其中一条，若光标位于非空行，那么
+将删除光标之下的所有空行。
+</p>
+</div>
+</div>
+
+<div id="outline-container-org8e9b1b0" class="outline-4">
+<h4 id="org8e9b1b0"><span class="section-number-4">2.2.7</span> 光标位置信息 4.9 44L</h4>
+<div class="outline-text-4" id="text-2-2-7">
+<ul class="org-ul">
+<li>当前光标位于哪一行</li>
+<li>在状态栏动态显示行号</li>
+<li>显示文本域的行数，单词数，字符数</li>
+<li>显示缓冲区的行数，单词数，字符数</li>
+<li>显示光标当前的字符信息（字符编码，位于缓冲区的位置等）</li>
+<li>突出当前行</li>
+<li>动态显示当前缓冲区大小</li>
+</ul>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgd40d55a" class="outline-3">
+<h3 id="orgd40d55a"><span class="section-number-3">2.3</span> emacs 的工作環境</h3>
+<div class="outline-text-3" id="text-2-3">
+</div>
+<div id="outline-container-org95a6655" class="outline-4">
+<h4 id="org95a6655"><span class="section-number-4">2.3.1</span> shell 命令</h4>
+<div class="outline-text-4" id="text-2-3-1">
+<p>
+Bard 
+Jiang
+Ada
+Java
+Helljo
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgfa02248" class="outline-3">
+<h3 id="orgfa02248"><span class="section-number-3">2.4</span> 字符编码</h3>
+<div class="outline-text-3" id="text-2-4">
+<p>
+改变文章编码方式： <code>M-x revert-buffer-with-coding-system</code>
+对应快捷键 <code>C-x RET r</code>
+</p>
+
+<p>
+保存的时候还可以指定文件的保存编码：
+<code>M-x set-buffer-file-coding-system</code>
+对应快捷键： <code>C-x RET f</code>
+</p>
+</div>
+</div>
+
+<div id="outline-container-org24c6b74" class="outline-3">
+<h3 id="org24c6b74"><span class="section-number-3">2.5</span> 常用快捷键</h3>
+<div class="outline-text-3" id="text-2-5">
+<p>
+<code>C-M-\</code> 格式化文本块
+</p>
+</div>
+</div>
+
+<div id="outline-container-orge69e2c4" class="outline-3">
+<h3 id="orge69e2c4"><span class="section-number-3">2.6</span> emacs 本地配置</h3>
+<div class="outline-text-3" id="text-2-6">
+<p>
+关于 emacs 的配置，可以参考 <a href="Material/File/Emacs/手把手教你学会 Emacs 定制_Java_后山人的专栏-CSDN博客.pdf">手把手教你学会 Emacs 定制</a> 
+</p>
+
+<p>
+基本配置 查看 <code>init.el</code> 文件。 <a href="Code/Material/Configure/.emacs.d/init.el">init.el</a>
+</p>
+</div>
+
+<div id="outline-container-orgb81bb86" class="outline-4">
+<h4 id="orgb81bb86"><span class="section-number-4">2.6.1</span> 全局显示行号</h4>
+<div class="outline-text-4" id="text-2-6-1">
+<p>
+行号显示,可以使用命令 <code>linum-mode</code> 显式开启或关闭
+</p>
+<div class="org-src-container">
+<pre class="src src-elisp">  ;; 左侧显示行号
+  ;; 命令 (linum-mode)
+  (global-linum-mode 1)
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgcc79cc3" class="outline-4">
+<h4 id="orgcc79cc3"><span class="section-number-4">2.6.2</span> 自定义快捷键</h4>
+<div class="outline-text-4" id="text-2-6-2">
+<div class="org-src-container">
+<pre class="src src-elisp">  ;; 自定义快捷键
+  (global-set-key (kbd "M-G") 'goto-line) ;; 跳转到指定行
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org5852d8c" class="outline-4">
+<h4 id="org5852d8c"><span class="section-number-4">2.6.3</span> 字体配置</h4>
+<div class="outline-text-4" id="text-2-6-3">
+</div>
+<div id="outline-container-org3bf51fd" class="outline-5">
+<h5 id="org3bf51fd"><span class="section-number-5">2.6.3.1</span> 配置1</h5>
+<div class="outline-text-5" id="text-2-6-3-1">
+<div class="org-src-container">
+<pre class="src src-elisp">(defun my--set-font (&amp;optional frame)
+  (with-selected-frame (or frame (selected-frame))
+    (if (string-equal system-type "windows-nt")
+        ;; 下面是用于Windows的配置。
+        (progn
+          ;; 设置英文字体为Inconsolata，并指定字号18。
+          ;; 因为不同操作系统下字体显示的大小不一样(DPI的问题)，所以分开设置。
+          (set-face-attribute 'default nil :font "mononoki Nerd Font 12")
+          ;; 给相应的字符集设置中文字体，这里的字体是冬青黑体简体中文 W3。
+          (dolist (charset '(han cjk-misc chinese-gbk))
+            (set-fontset-font "fontset-default"
+                              charset (font-spec :family "Microsoft YaHei UI")))
+          ;; 设置默认字体和用于显示特殊符号的字体，如果不需要下面三句可以删除。
+          (set-fontset-font "fontset-default"
+                            'unicode "Segoe UI Symbol" nil 'append)
+          (set-fontset-font "fontset-default"
+                            '(#x1F600 . #x1F64F) "Segoe UI Symbol") ; Emoji
+          (set-fontset-font "fontset-default"
+                            '(#xE000 . #xF8FF) "STIX")) ; Private Use Areas
+      ;; 下面是Linux的配置，道理类似。
+      (set-face-attribute
+       'default nil :font "mononoki Nerd Font 14")
+      (dolist (charset '(kana han cjk-misc bopomofo))
+        (set-fontset-font "fontset-default"
+                          charset (font-spec :name "Microsoft YaHei UI GB")))))
+
+  ;; 对于特定的符号设置字体，不分操作系统。我的个人爱好，可以删除。
+  (set-fontset-font "fontset-default" ?– "Symbola")
+  (set-fontset-font "fontset-default" ?— "Symbola")
+  (set-fontset-font "fontset-default" ?′ "Symbola")
+  (set-fontset-font "fontset-default" ?″ "Symbola"))
+
+;; 运行一下立即设置字体。
+(my--set-font)
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org37b4207" class="outline-5">
+<h5 id="org37b4207"><span class="section-number-5">2.6.3.2</span> 配置2</h5>
+<div class="outline-text-5" id="text-2-6-3-2">
+<div class="org-src-container">
+<pre class="src src-elisp">(defun +my/better-font(font-size)
+  (interactive)
+  ;; english font
+  (if (display-graphic-p)
+      (progn
+        (set-face-attribute 'default nil :font (format "%s:pixelsize=%d" "Recursive Mn Csl St" font-size)) ;; 11 13 17 19 23
+        ;; chinese font
+        (dolist (charset '(kana han symbol cjk-misc bopomofo))
+          (set-fontset-font (frame-parameter nil 'font)
+                            charset
+                            (font-spec :family "Microsoft YaHei UI")))) ;; 14 16 20 22 28
+    ))
+(if (string-equal system-type "windows-nt")
+    (let ((font-size 20))
+      (defun +my|init-font(frame)
+        (with-selected-frame frame
+          (if (display-graphic-p)
+              (+my/better-font font-size))))
+
+      (if (and (fboundp 'daemonp) (daemonp))
+          (add-hook 'after-make-frame-functions #'+my|init-font)
+        (+my/better-font font-size))
+      )
+  (let ((font-size 16))
+    (defun +my|init-font(frame)
+      (with-selected-frame frame
+        (if (display-graphic-p)
+            (+my/better-font font-size))))
+
+    (if (and (fboundp 'daemonp) (daemonp))
+        (add-hook 'after-make-frame-functions #'+my|init-font)
+      (+my/better-font font-size))
+
+    )
+  )
+</pre>
+</div>
+
+<p>
+使用 <code>set-face-attribute</code> 函数来配置字体会使得某些字体无法完全显示出来.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgf26e7ea" class="outline-5">
+<h5 id="orgf26e7ea"><span class="section-number-5">2.6.3.3</span> 配置3</h5>
+<div class="outline-text-5" id="text-2-6-3-3">
+<div class="org-src-container">
+<pre class="src src-elisp">(when (display-graphic-p)
+  (defun set-font (english chinese english-size chinese-size)
+    (set-face-attribute 'default nil :font
+                        (format   "%s:pixelsize=%d"  english english-size))
+    (dolist (charset '(kana han symbol cjk-misc bopomofo))
+      (set-fontset-font (frame-parameter nil 'font) charset
+                        (font-spec :family chinese :size chinese-size))))
+  (set-font "Hurmit NF"  "Microsoft YaHei UI" 20 18)) ;; Code New Roman "HYQiHei" "冬青黑体简体中文 W4"
+
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org2870724" class="outline-5">
+<h5 id="org2870724"><span class="section-number-5">2.6.3.4</span> Doom的字体配置</h5>
+<div class="outline-text-5" id="text-2-6-3-4">
+<p>
+使用doom字体会使得emacs变得卡顿
+</p>
+<div class="org-src-container">
+<pre class="src src-elisp">;;; set my font
+(setq doom-font (font-spec :family "Recursive Mn Csl St" :size 18)
+      doom-variable-pitch-font (font-spec :family "Segoe UI")
+      ;; doom-serif-font (font-spec :family "Microsoft YaHei UI")
+      doom-big-font (font-spec :family "Segoe UI")
+      doom-unicode-font (font-spec :family "Microsoft YaHei UI"));
+</pre>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgc445187" class="outline-4">
+<h4 id="orgc445187"><span class="section-number-4">2.6.4</span> Doom全屏启动</h4>
+<div class="outline-text-4" id="text-2-6-4">
+<div class="org-src-container">
+<pre class="src src-elisp">;;; 启动时全屏
+(if (eq initial-window-system 'x)                 ; if started by emacs command or desktop file
+    (toggle-frame-maximized)
+  (toggle-frame-fullscreen))
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org642cdef" class="outline-4">
+<h4 id="org642cdef"><span class="section-number-4">2.6.5</span> 改变当前行背景色</h4>
+<div class="outline-text-4" id="text-2-6-5">
+<div class="org-src-container">
+<pre class="src src-elisp">;; change current line background
+(custom-set-faces
+   '(solaire-hl-line-face ((t (:inherit hl-line :background "#0D343E"))))
+;; ）
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org4b34cb7" class="outline-4">
+<h4 id="org4b34cb7"><span class="section-number-4">2.6.6</span> 使用pyim</h4>
+<div class="outline-text-4" id="text-2-6-6">
+<div class="org-src-container">
+<pre class="src src-elisp">;;; pyim
+(when (not (string-equal system-type "windows-nt") )
+  (use-package pyim
+    :ensure t
+    :demand t
+    :config
+    ;; 激活 basedict 拼音词库，五笔用户请继续阅读 README
+    (use-package pyim-basedict
+      :ensure nil
+      :config (pyim-basedict-enable))
+
+
+    (setq default-input-method "pyim")
+
+    ;; 我使用全拼
+    ;; (setq pyim-default-scheme 'quanpin)
+
+    ;; 使用rime引擎
+    ;; (add-to-list 'load-path "~/.doom.d/liberime/build/")
+    ;; (require 'liberime nil t)
+    ;; (liberime-start "/usr/share/rime-data/"
+    ;;                 (file-truename "~/.emacs.d/pyim/rime/"))
+    (setq pyim-default-scheme 'rime-quanpin)
+
+    ;; 设置 pyim 探针设置，这是 pyim 高级功能设置，可以实现 *无痛* 中英文切换 :-
+    ;; 光标只有在注释里面时，才可以输入中文。
+    ;; 2. 光标前是汉字字符时，才能输入中文。
+    ;; 3. 使用 M-j 快捷键，强制将光标前的拼音字符串转换为中文。
+    ;; (setq-default pyim-english-input-switch-functions
+    ;;               '(pyim-probe-dynamic-english
+    ;;                 pyim-probe-isearch-mode
+    ;;                 pyim-probe-program-mode
+    ;;                 pyim-probe-org-structure-template))
+
+    ;; (setq-default pyim-punctuation-half-width-functions
+    ;;               '(pyim-probe-punctuation-line-beginning
+    ;;                 pyim-probe-punctuation-after-punctuation))
+
+    ;; 开启拼音搜索功能
+    ;; (pyim-isearch-mode 1)
+
+    ;; 使用 popup-el 来绘制选词框, 如果用 emacs26, 建议设置
+    ;; 为 'posframe, 速度很快并且菜单不会变形，不过需要用户
+    ;; 手动安装 posframe 包。
+    (setq pyim-page-tooltip 'posframe)
+
+    ;; 选词框显示5个候选词
+    (setq pyim-page-length 5)
+
+    :bind
+    (("M-j" . pyim-convert-string-at-point) ;与 pyim-probe-dynamic-english 配合
+     ("C-;" . pyim-delete-word-from-personal-buffer))) )
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org600bf3b" class="outline-4">
+<h4 id="org600bf3b"><span class="section-number-4">2.6.7</span> 使用company-box</h4>
+<div class="outline-text-4" id="text-2-6-7">
+<div class="org-src-container">
+<pre class="src src-elisp">(use-package company-box
+  :hook (company-mode . company-box-mode))
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-orgd002a3f" class="outline-4">
+<h4 id="orgd002a3f"><span class="section-number-4">2.6.8</span> 禁用空白字符高亮模式</h4>
+<div class="outline-text-4" id="text-2-6-8">
+<div class="org-src-container">
+<pre class="src src-elisp">(global-whitespace-mode nil)
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org19cf9c1" class="outline-4">
+<h4 id="org19cf9c1"><span class="section-number-4">2.6.9</span> org基本配置</h4>
+<div class="outline-text-4" id="text-2-6-9">
+</div>
+<div id="outline-container-orgee91279" class="outline-5">
+<h5 id="orgee91279"><span class="section-number-5">2.6.9.1</span> 设置org笔记目录</h5>
+<div class="outline-text-5" id="text-2-6-9-1">
+<div class="org-src-container">
+<pre class="src src-elisp">(setq org-directory "~/org/journal/")
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org93e2ca7" class="outline-5">
+<h5 id="org93e2ca7"><span class="section-number-5">2.6.9.2</span> 取消导出时使用htmlize进行代码高亮</h5>
+<div class="outline-text-5" id="text-2-6-9-2">
+<div class="org-src-container">
+<pre class="src src-elisp">(setq org-html-htmlize-output-type nil) ; 设置不启动htmlize进行代码高亮
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org9262185" class="outline-5">
+<h5 id="org9262185"><span class="section-number-5">2.6.9.3</span> 设置本地时间</h5>
+<div class="outline-text-5" id="text-2-6-9-3">
+<p>
+为什么需要设置本地时间呢?在Windows系统下,本地时间的文件编码为 <code>gb18030</code> 若不设置
+它的话,会出现转义字符,并且每次保存都需要重新设置编码.
+</p>
+<div class="org-src-container">
+<pre class="src src-elisp">(set 'system-time-locale "C") ; 设置本地时间为美国区域设置
+</pre>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-orgf59eb5a" class="outline-4">
+<h4 id="orgf59eb5a"><span class="section-number-4">2.6.10</span> org-publish</h4>
+<div class="outline-text-4" id="text-2-6-10">
+<div class="org-src-container">
+<pre class="src src-elisp">;; org-publish
+(use-package ox-publish
+  :config
+  (setq org-publish-project-alist
+        '(
+          ("org-source"                         ;org-source files to be
+                                                ;transformed into html files
+           :base-directory "~/org/note/"
+           :base-extension "org"
+           :publishing-directory "~/org/out/"
+           :auto-sitemap t
+           :sitemap-title "JiangSanLibrary"
+           :recursive t
+           :publishing-function org-html-publish-to-html
+           :table-of-contents  t              ;nil fail, generated TOC
+      ;;      :style "&lt;link rel=\"stylesheet\"
+      ;; href=\"../static/org-manual.css\"
+      ;; type=\"text/css\"/&gt;"            ;style fail, no style link was generated
+           :html-head "
+&lt;link rel='stylesheet'href='../static/org-manual.css' type='text/css'/&gt;
+&lt;script type='text/javascript' defer src='../static/org-manual.js'&gt;&lt;/script&gt;
+&lt;script type='text/javascript'&gt;window.onload =  function () {init();  }&lt;/script&gt;
+&lt;meta name='viewport' content='width=device-width, initial-scale=1.0'&gt;
+"
+
+                                        ;properties listed in left column of
+                                        ;https://orgmode.org/manual/Publishing-options.html
+           :with-toc t                       ;nil pass, did not generate TOC
+           :headline-levels 8
+           :section-numbers  t                ;nil pass, generated headings
+                                              ;without sections numbers
+           :html-head-include-default-style nil ;nil pass, did not generate
+                                                ;160-lines of commented style
+           :org-html-postamble nil              ;nil fail, postamble was
+                                                ;generated
+           )
+          ("org-static"
+           :base-directory "~/org/note/"
+           :base-extension "css\\|js\\|png\\|jpg\\|gif\\|pdf\\|mp3\\|ogg\\|swf"
+           :publishing-directory "~/org/out/"
+           :recursive t
+           :publishing-function org-publish-attachment
+           )
+          ("org-all" :components ("org-source" "org-static"))
+          )))
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-orgae85995" class="outline-4">
+<h4 id="orgae85995"><span class="section-number-4">2.6.11</span> org-download-clipboard</h4>
+<div class="outline-text-4" id="text-2-6-11">
+<div class="org-src-container">
+<pre class="src src-elisp">;;; org-download from clipborad
+(defun org-download-clipboard (&amp;optional captionp)
+  "Save the captured image from clipboard to file, and insert into buffer. Or org-download-yank.
+1. 使用任何应用软件截屏或者复制图片到剪贴板，在org-mode里粘贴即可。图片会自动保存到当前文件目录下的images文件夹里。
+2. 该函数支持粘贴剪贴板的文字和图片，所以你可以将Ctrl-y绑定到该函数上，然后如粘贴文字一样粘贴图片，当然文字也OK。
+3. Ctrl-u Ctrl-y会提示为图片命名，并在文档中引用该图片，同时会提示为图片插入caption。
+4. 在org capture buffer中粘贴时，该函数会找到目标文件的目录，并将图片保存到该目录中。"
+  (interactive "P")
+  (let* ((image-dir
+          (if (not (buffer-file-name))
+              (cond ((string-prefix-p "CAPTURE-[0-9]" (buffer-name))
+                     (let ((buffer-name (replace-regexp-in-string "CAPTURE-[0-9-]*" "" (buffer-name))))
+                       (concat (file-name-directory (buffer-file-name (get-file-buffer buffer-name))) "./Material/Image")))
+                    (t (yank) (error "")))
+            "./Material/Image"))
+         (fname (concat (make-temp-name "image-") (format-time-string "%Y%m%d-%H%M%S")))
+         (image-file (concat image-dir "/" fname ".png"))
+         (exit-status
+          (call-process "convert" nil nil nil
+                        "clipboard:" image-file)))
+    (if (zerop exit-status)
+        (progn
+          (unless (file-exists-p image-dir) (make-directory image-dir))
+          (if captionp
+              (let ((rename (read-string "Filename to rename the temp images: ")))
+                (rename-file image-file (concat image-dir "/" rename ".png") t)
+                (insert (format "#+CAPTION: %s label:fig:%s\n" (read-string "Caption: ") rename))
+                (kill-new (format "Fig. ref:fig:%s " rename)))
+            (insert (format "[[file:%s]]" image-file))
+            (org-display-inline-images)))
+      (when captionp (user-error "No images in clipboard."))
+      (yank))))
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org655a366" class="outline-4">
+<h4 id="org655a366"><span class="section-number-4">2.6.12</span> org-cdlatex</h4>
+<div class="outline-text-4" id="text-2-6-12">
+<p>
+doom-emacs
+需要在 <code>init.el</code> 安装 latex.
+</p>
+<div class="org-src-container">
+<pre class="src src-elisp">(latex +lsp +fold +latexmk +cdlatex)             ; writing papers in Emacs has never been so fun
+</pre>
+</div>
+
+<p>
+然后再config.el写上
+</p>
+<div class="org-src-container">
+<pre class="src src-elisp">;;; org-cdlatex
+(with-eval-after-load "org"
+  ;; (add-to-list 'load-path "~/.doom.d/package/")
+  ;; (require 'cdlatex)
+  (add-hook 'org-mode-hook 'turn-on-org-cdlatex))
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org430e072" class="outline-4">
+<h4 id="org430e072"><span class="section-number-4">2.6.13</span> 设置doom的主题</h4>
+<div class="outline-text-4" id="text-2-6-13">
+<p>
+可以通过快捷键 <code>Spc h t</code> 来查看已存在的主题.
+</p>
+<div class="org-src-container">
+<pre class="src src-elisp">(setq doom-theme 'doom-one)
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-orgea9f244" class="outline-4">
+<h4 id="orgea9f244"><span class="section-number-4">2.6.14</span> 设置文件编码</h4>
+<div class="outline-text-4" id="text-2-6-14">
+<div class="org-src-container">
+<pre class="src src-elisp">;;; 设置文件编码
+(prefer-coding-system 'utf-8) ; 设置默认读入文件编码
+(setq default-buffer-file-coding-system 'utf-8) ; 设置写入文件编码
+;; (set-terminal-coding-system 'gb18030) ; 设置终端文件编码
+;; (set-keyboard-coding-system 'gb18030) ; 设置键盘文件编码
+;; (set-selection-coding-system 'gb18030)
+;; (setq locale-coding-system 'gb18030) ; 设置本地文件格式编码
+
+;; (prefer-coding-system 'gb18030)
+;; (prefer-coding-system 'gb18030)
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org38f5957" class="outline-4">
+<h4 id="org38f5957"><span class="section-number-4">2.6.15</span> nov查看电子书</h4>
+<div class="outline-text-4" id="text-2-6-15">
+<div class="org-src-container">
+<pre class="src src-elisp">;; nov epub mode
+(add-to-list 'auto-mode-alist '("\\.epub\\'" . nov-mode))
+(with-eval-after-load "nov"
+  (when (string-equal system-type "windows-nt")
+    (setq process-coding-system-alist
+          (cons `(,nov-unzip-program . (gbk . gbk))
+                process-coding-system-alist))))
+
+;; FIXME: errors while opening `nov' files with Unicode characters
+(with-no-warnings
+  (defun my-nov-content-unique-identifier (content)
+    "Return the the unique identifier for CONTENT."
+    (when-let* ((name (nov-content-unique-identifier-name content))
+                (selector (format "package&gt;metadata&gt;identifier[id='%s']"
+                                  (regexp-quote name)))
+                (id (car (esxml-node-children (esxml-query selector content)))))
+      (intern id)))
+  (advice-add #'nov-content-unique-identifier :override #'my-nov-content-unique-identifier))
+</pre>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org0d14cd1" class="outline-3">
+<h3 id="org0d14cd1"><span class="section-number-3">2.7</span> 插件管理</h3>
+<div class="outline-text-3" id="text-2-7">
+</div>
+<div id="outline-container-org741478e" class="outline-4">
+<h4 id="org741478e"><span class="section-number-4">2.7.1</span> c-mode</h4>
+<div class="outline-text-4" id="text-2-7-1">
+<p>
+M-x c-beginning-of-defun <br />
+M-x c-end-of-defun <br />
+光标调到函数头或尾
+</p>
+
+<p>
+C-c C-u <br />
+C-c C-p <br />
+C-c C-n <br />
+</p>
+
+<p>
+M-a
+最内层的 C 声明，可加前缀 N，调到 N-1 声明
+</p>
+
+<p>
+M-e
+最后一个 C 声明或者语句。和 M-a 相反方向。
+</p>
+
+<p>
+C-c C-l <br />
+c-toggle-electric-state  可有前缀参数
+</p>
+
+<p>
+C-c C-a <br />
+c-toggle-auto-newline 前缀
+</p>
+
+<p>
+hungry delete:<br />
+C-c C-&lt;DEL&gt;<br />
+C-c &lt;DEL&gt;<br />
+c-hungry-delete-backwards
+</p>
+
+<p>
+C-c C-d <br />
+C-c C-&lt;DELETE&gt; <br />
+C-c &lt;DELETE&gt; <br />
+c-hungry-delete-forward
+</p>
+
+<p>
+c-toggle-hungry-state 开启删除
+</p>
+
+<p>
+C-c C-w <br />
+M-x c-subword-mode <br />
+开始 subword 模式，就是那种大小写交叉的模式。
+</p>
+
+<p>
+M-x c-context-line-break
+新行和缩进，正常编码是：C-j(newline-and-indent),预处理和注释是 M-j(c-intent-new-comment-line),这里需要自己配置绑定。绑定方法：
+(defun my-bind-clb()
+  (define-key c-mode-base-map &ldquo;\C-j&rdquo; &rsquo;c-context-line-break))
+(add-hook &rsquo;c-initialization-hook &rsquo;my-bind-clb)
+</p>
+
+<p>
+C-M-h
+标记函数的结尾，光标置于函数头。
+</p>
+
+<p>
+M-q
+处理 C／C＋＋注释的时候填充参数.c-fill-paragraph
+</p>
+
+<p>
+C-c C-e
+运行 C 预处理，显示结果，包括 c-macro-expand
+</p>
+
+<p>
+C-c C-\
+c-backslash-region
+</p>
+
+<p>
+<code>M-x cpp-highlight-buffer</code>
+根据预处理条件高亮部分文本
+</p>
+
+<p>
+<code>C-c C-s</code>
+ 显示同步信息,c-show-syntactic-infomation,这里的信息显示了该行怎么被缩进。
+</p>
+
+<p>
+<code>M-x cwarn-mode</code>
+<code>M-x global-cwarn-mode</code>
+显示可疑代码
+</p>
+
+<p>
+<code>M-x hide-ifdef-mode</code>
+隐藏选中的代码，这些代码位于预处理代码中的#if or #ifdef 块中。如果用 hide-ifdef-shadow 置为 t 来隐藏代码，会有凸起。
+</p>
+
+<p>
+<code>M-x ff-find-related-file</code>
+查找相关文件，典型的如头文件。变量 ff-related-file-alist 规定了怎么样寻找相关文件。
+</p>
+</div>
+</div>
+
+<div id="outline-container-org2bf4137" class="outline-4">
+<h4 id="org2bf4137"><span class="section-number-4">2.7.2</span> company</h4>
+<div class="outline-text-4" id="text-2-7-2">
+<div class="org-src-container">
+<pre class="src src-elisp">  ;; company
+  (add-hook 'after-init-hook 'global-company-mode) ;;; 在初始化后加载
+  '(company-show-numbers t) ;;; 候选名单显示行号
+  '(company-minimum-prefix-length 2) ;;; 设置输入几个单词后进入补全
+  '(company-idle-delay t) ;;; 设置补全时延
+  ;; 设置当进入补全后的按键设置
+  (with-eval-after-load 'company
+    (define-key company-active-map (kbd "M-n") nil)
+    (define-key company-active-map (kbd "M-p") nil)
+    (define-key company-active-map (kbd "C-n") 'company-select-next)
+    (define-key company-active-map (kbd "C-p") 'company-select-previous))
+</pre>
+</div>
+<p>
+经过一段时间(通过 <code>company-idle-delay</code> 设置，默认 0.7 秒，设置为 nil 会禁用自
+动补全，设置为 t 表示马上补全)会自动调用补全。
+</p>
+
+<p>
+别人的配置
+</p>
+<div class="org-src-container">
+<pre class="src src-elisp">  company integrate with yasnippet
+  (advice-add ‘company-complete-common :before (lambda ()
+                                                 (setq my-company-point (point))))
+  (advice-add ‘company-complete-common :after (lambda ()
+                                                (when (equal my-company-point (point))
+                                                  (yas-expand))))
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgcd08ea7" class="outline-4">
+<h4 id="orgcd08ea7"><span class="section-number-4">2.7.3</span> cdlatex</h4>
+<div class="outline-text-4" id="text-2-7-3">
+<div class="org-src-container">
+<pre class="src src-elisp">  ;; cdlatex
+  (add-to-list 'load-path "~/.emacs.d/lisp/") ;; 这是cdlatex.el的存放位置
+  (require 'cdlatex)
+</pre>
+</div>
+
+
+
+<p>
+自定义快捷键
+</p>
+<div class="org-src-container">
+<pre class="src src-elisp">  ;; 自定义快捷键
+  (global-set-key (kbd "M-G") 'goto-line) ;; 跳转到指定行
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org6ae9556" class="outline-4">
+<h4 id="org6ae9556"><span class="section-number-4">2.7.4</span> docview</h4>
+<div class="outline-text-4" id="text-2-7-4">
+<p>
+必备条件：xpdf，Ghostscript
+</p>
+<ul class="org-ul">
+<li><a href="http://www.xpdfreader.com/download.html">http://www.xpdfreader.com/download.html</a></li>
+<li><a href="https://ghostscript.com/download/gsdnld.html">https://ghostscript.com/download/gsdnld.html</a></li>
+</ul>
+
+<p>
+可在本地路径 <code>bin</code> 中找到 Windows 版本！
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgb52bb9b" class="outline-4">
+<h4 id="orgb52bb9b"><span class="section-number-4">2.7.5</span> paredit</h4>
+<div class="outline-text-4" id="text-2-7-5">
+<div class="org-src-container">
+<pre class="src src-elisp">  ;; paredit
+  (require 'paredit)
+  (dolist (hook (list
+                 'c-mode-common-hook
+                 'c-mode-hook
+                 'c++-mode-hook
+                 'org-mode-hook
+                 'java-mode-hook
+                 'haskell-mode-hook
+                 'emacs-lisp-mode-hook
+                 'lisp-interaction-mode-hook
+                 'lisp-mode-hook
+                 'maxima-mode-hook
+                 'ielm-mode-hook
+                 'sh-mode-hook
+                 'makefile-gmake-mode-hook
+                 'php-mode-hook
+                 'python-mode-hook
+                 'js-mode-hook
+                 'go-mode-hook
+                 'qml-mode-hook
+                 'jade-mode-hook
+                 'css-mode-hook
+                 'ruby-mode-hook
+                 'coffee-mode-hook
+                 'rust-mode-hook
+                 'qmake-mode-hook
+                 'lua-mode-hook
+                 'swift-mode-hook
+                 'minibuffer-inactive-mode-hook
+                 ))
+    (add-hook hook '(lambda () (paredit-mode 1))))
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgb851631" class="outline-2">
+<h2 id="orgb851631"><span class="section-number-2">3</span> spacemacs 使用指南</h2>
+<div class="outline-text-2" id="text-3">
+</div>
+<div id="outline-container-orgbb97057" class="outline-3">
+<h3 id="orgbb97057"><span class="section-number-3">3.1</span> 文本操作</h3>
+<div class="outline-text-3" id="text-3-1">
+<p>
+字符计数 <code>space x c</code> 对文本块内的字符进行计数,他会区分中文字符和英文字符.
+</p>
+</div>
+</div>
+<div id="outline-container-orgacc6d94" class="outline-3">
+<h3 id="orgacc6d94"><span class="section-number-3">3.2</span> 常见快捷键</h3>
+<div class="outline-text-3" id="text-3-2">
+</div>
+<div id="outline-container-org8ff071f" class="outline-4">
+<h4 id="org8ff071f"><span class="section-number-4">3.2.1</span> 配置文件</h4>
+<div class="outline-text-4" id="text-3-2-1">
+<p>
+SPC f e d 快速打开配置文件
+</p>
+
+<p>
+SPC f e R 同步配置文件
+</p>
+
+<p>
+SPC q q 退出 Emacs
+</p>
+
+<p>
+SPC q R 重启 Emacs
+</p>
+</div>
+</div>
+<div id="outline-container-org5c0cad2" class="outline-4">
+<h4 id="org5c0cad2"><span class="section-number-4">3.2.2</span> 文件管理</h4>
+<div class="outline-text-4" id="text-3-2-2">
+<p>
+SPC f f 打开文件
+</p>
+
+<p>
+SPC f t neotree 方式显示文件路径
+</p>
+
+<p>
+Ctrl s 搜索当前文件（需安装 ivy layer）
+</p>
+
+<ul class="org-ul">
+<li>另一种搜索文件的姿势（需将光标置于需搜索的单词处）
+<ul class="org-ul">
+<li>n 下一个匹配</li>
+<li>N/p 前一个匹配</li>
+<li>r 改变范围：当前屏幕，当前函数，当前 buffer</li>
+<li>e 编辑所有匹配（类似于替换）</li>
+<li>/ 在当前 project 搜索</li>
+<li>SPC s c 清除搜索高亮</li>
+</ul></li>
+</ul>
+
+<p>
+SPC f R 重命名当前文件
+</p>
+
+<p>
+SPC f E 使用 sudo 来编辑文件（当某些文件的权限是只读的时候）
+</p>
+
+<p>
+SPC f D 删除当前文件
+</p>
+
+<p>
+SPC f r 打开最近文件列表（需安装 ivy layer）
+</p>
+
+<p>
+SPC f y 复制当前文件的绝对路径
+</p>
+
+<p>
+SPC f c 复制文件
+</p>
+</div>
+</div>
+<div id="outline-container-orgf464725" class="outline-4">
+<h4 id="orgf464725"><span class="section-number-4">3.2.3</span> buffer 管理</h4>
+<div class="outline-text-4" id="text-3-2-3">
+<p>
+SPC b b 显示已经打开的 buffer
+</p>
+
+<p>
+SPC b d 关闭当前 buffer
+</p>
+
+<p>
+SPC b h 进入 Spacemacs 初始界面
+</p>
+
+<p>
+SPC b N 新建一个 buffer
+</p>
+
+<p>
+SPC b R 从自动备份的文件中恢复
+</p>
+
+<p>
+SPC b Y 复制整个 buffer 的内容
+</p>
+
+<p>
+SPC b P 将剪贴板的内容粘贴到整个 buffer
+</p>
+
+<p>
+SPC Tab 切换至上一个 buffer
+</p>
+</div>
+</div>
+<div id="outline-container-org654ee49" class="outline-4">
+<h4 id="org654ee49"><span class="section-number-4">3.2.4</span> 窗口管理</h4>
+<div class="outline-text-4" id="text-3-2-4">
+<p>
+SPC n(number) 跳转至第 n 号窗口
+</p>
+
+<p>
+SPC 0 跳转至 neotree 侧边栏
+</p>
+
+<p>
+SPC w m 当前窗口最大化
+</p>
+
+<p>
+SPC w s 或 SPC w - 水平分割窗口
+</p>
+
+<p>
+SPC w v 或 SPC w / 竖直分割窗口
+</p>
+
+<p>
+SPC w = 平衡窗口
+</p>
+
+<p>
+SPC w d 删除当前窗口
+</p>
+
+<p>
+SPC w o 切换至其他窗口
+</p>
+
+<p>
+SPC t g 将当前窗口与其他窗口 黄金分割
+</p>
+</div>
+</div>
+<div id="outline-container-orgbc3e433" class="outline-4">
+<h4 id="orgbc3e433"><span class="section-number-4">3.2.5</span> project 管理</h4>
+<div class="outline-text-4" id="text-3-2-5">
+<p>
+SPC p f 在当前 project 中查找文件
+</p>
+
+<p>
+SPC p p 切换项目
+</p>
+
+<p>
+SPC / 在该项目中搜索字符串
+</p>
+
+<p>
+SPC p R 在项目中替换字符串，先输入「匹配」的，再输入「替换」的字符串（我一般不使
+用这种方式，我用*来替换）
+</p>
+</div>
+</div>
+<div id="outline-container-orge3f6c27" class="outline-4">
+<h4 id="orge3f6c27"><span class="section-number-4">3.2.6</span> 缩进代码</h4>
+<div class="outline-text-4" id="text-3-2-6">
+<p>
+SPC j = 自动对齐
+</p>
+</div>
+</div>
+
+<div id="outline-container-org2646869" class="outline-4">
+<h4 id="org2646869"><span class="section-number-4">3.2.7</span> shell 操作</h4>
+<div class="outline-text-4" id="text-3-2-7">
+<p>
+SPC &rsquo; 打开/关闭 Eshell（需安装 shell layer）
+</p>
+
+<p>
+SPC a s 打开其它种类的 Shell
+</p>
+</div>
+</div>
+
+<div id="outline-container-org249ef0e" class="outline-4">
+<h4 id="org249ef0e"><span class="section-number-4">3.2.8</span> 中断操作</h4>
+<div class="outline-text-4" id="text-3-2-8">
+<p>
+C g 输错命令时，可取消该次输入
+</p>
+</div>
+</div>
+
+<div id="outline-container-org57889e1" class="outline-4">
+<h4 id="org57889e1"><span class="section-number-4">3.2.9</span> 显示动态行号</h4>
+<div class="outline-text-4" id="text-3-2-9">
+<p>
+将 dotspacemacs-line-numbers 的值改为 ‘relative
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgc28dd6c" class="outline-4">
+<h4 id="orgc28dd6c"><span class="section-number-4">3.2.10</span> Magit</h4>
+</div>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="author">Author: JiangSan</p>
+<p class="date">Created: 2020-09-03 Thu 09:12</p>
+</div>
+</body>
+</html>

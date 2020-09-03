@@ -1,0 +1,736 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2020-09-03 Thu 09:11 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>&lrm;</title>
+<meta name="generator" content="Org mode" />
+<meta name="author" content="JiangSan" />
+
+<link rel='stylesheet'href='../static/org-manual.css' type='text/css'/>
+<script type='text/javascript' defer src='../static/org-manual.js'></script>
+<script type='text/javascript'>window.onload =  function () {init();  }</script>
+<meta name='viewport' content='width=device-width, initial-scale=1.0'>
+<script type="text/javascript">
+// @license magnet:?xt=urn:btih:1f739d935676111cfff4b4693e3816e664797050&amp;dn=gpl-3.0.txt GPL-v3-or-Later
+<!--/*--><![CDATA[/*><!--*/
+     function CodeHighlightOn(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(null != target) {
+         elem.cacheClassElem = elem.className;
+         elem.cacheClassTarget = target.className;
+         target.className = "code-highlighted";
+         elem.className   = "code-highlighted";
+       }
+     }
+     function CodeHighlightOff(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(elem.cacheClassElem)
+         elem.className = elem.cacheClassElem;
+       if(elem.cacheClassTarget)
+         target.className = elem.cacheClassTarget;
+     }
+    /*]]>*///-->
+// @license-end
+</script>
+</head>
+<body>
+<div id="content">
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#orgf48cf13">1. Lisp基本概念</a>
+<ul>
+<li><a href="#org7d67085">1.1. 列表与原子</a>
+<ul>
+<li><a href="#org22bc087">1.1.1. 什么是列表？（列表由什么组成？）</a></li>
+<li><a href="#org1b0b857">1.1.2. 对列表进行排版</a></li>
+<li><a href="#orgc64d873">1.1.3. 空列表</a></li>
+<li><a href="#org108c1fe">1.1.4. S-表达式</a></li>
+<li><a href="#orgca9f509">1.1.5. 原子</a>
+<ul>
+<li><a href="#org1f66112">1.1.5.1. 原子的种类。</a></li>
+<li><a href="#org4ee0281">1.1.5.2. 求值原子</a></li>
+<li><a href="#org1385c00">1.1.5.3. 符号</a></li>
+</ul>
+</li>
+<li><a href="#org7930837">1.1.6. 运行列表</a></li>
+<li><a href="#orga408a66">1.1.7. 局部变量let</a></li>
+</ul>
+</li>
+<li><a href="#orgced7bd2">1.2. 注释</a>
+<ul>
+<li><a href="#org871de34">1.2.1. 单个分号构成的注释</a></li>
+<li><a href="#orgb572f2c">1.2.2. 两个分号的注释</a></li>
+<li><a href="#orgdd8dab0">1.2.3. 三个分号的注释</a></li>
+<li><a href="#orgd97c70d">1.2.4. 四个分号的注释</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#org2b69229">2. Lisp数据结构</a>
+<ul>
+<li><a href="#orga8d664f">2.1. Lisp对象是什么?</a></li>
+<li><a href="#org31c106c">2.2. Lisp对象只能是一个类型吗?</a></li>
+<li><a href="#orgb139ef8">2.3. 基本类型(<i>primitive types</i>)</a>
+<ul>
+<li><a href="#org9d9f2ac">2.3.1. Lisp有哪些基本类型?</a></li>
+<li><a href="#org8ef8930">2.3.2. 基本类型如何检查对象是否属于它?</a></li>
+<li><a href="#org209259b">2.3.3. Lisp如何分辨一个对象的类型?</a></li>
+</ul>
+</li>
+<li><a href="#orgfbd24e3">2.4. 打印表达式和读入语法</a>
+<ul>
+<li><a href="#org5ea6a48">2.4.1. 什么是打印表达式?</a></li>
+<li><a href="#org91f2111">2.4.2. 什么是读入语法?</a></li>
+<li><a href="#orga0e397f">2.4.3. 哪些类型具有打印表达式,哪些具有读入语法?</a></li>
+<li><a href="#org1e8fd7c">2.4.4. 一个Lisp表达式</a></li>
+<li><a href="#org095ee73">2.4.5. 对一个Lisp表达式求值</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#org362eec7">3. 表达式</a>
+<ul>
+<li><a href="#orgce40b57">3.1. 函数</a>
+<ul>
+<li><a href="#orgd48ae83">3.1.1. 参数</a>
+<ul>
+<li><a href="#orgdd902a6">3.1.1.1. 数目可变的参数</a></li>
+</ul>
+</li>
+<li><a href="#orge9323e9">3.1.2. 函数的定义</a></li>
+<li><a href="#org66910d1">3.1.3. 交互式函数</a></li>
+</ul>
+</li>
+<li><a href="#org5e1cbbd">3.2. 变量</a></li>
+<li><a href="#org9f9b13b">3.3. if 特殊表</a></li>
+<li><a href="#org7e1c9db">3.4. save-excursion 函數</a></li>
+</ul>
+</li>
+<li><a href="#org5739bf9">4. Lisp 解释器</a>
+<ul>
+<li><a href="#org71ec38f">4.1. 求值</a>
+<ul>
+<li><a href="#orgb0e8edc">4.1.1. 为什么需要对最内部的表达式先求值？</a></li>
+<li><a href="#org6da5be7">4.1.2. 对符号求值与对数字，字符串求值的区别？</a></li>
+</ul>
+</li>
+<li><a href="#org05dc3ef">4.2. 编译</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-orgf48cf13" class="outline-2">
+<h2 id="orgf48cf13"><span class="section-number-2">1</span> Lisp基本概念</h2>
+<div class="outline-text-2" id="text-1">
+</div>
+<div id="outline-container-org7d67085" class="outline-3">
+<h3 id="org7d67085"><span class="section-number-3">1.1</span> 列表与原子</h3>
+<div class="outline-text-3" id="text-1-1">
+</div>
+<div id="outline-container-org22bc087" class="outline-4">
+<h4 id="org22bc087"><span class="section-number-4">1.1.1</span> 什么是列表？（列表由什么组成？）</h4>
+<div class="outline-text-4" id="text-1-1-1">
+<p>
+列表的精彩之处在于，它不仅仅是Lisp中的一种数据结构，它也是Lisp语言的构成部分，Lisp语言中的所有语句都是一个列表。
+</p>
+
+<p>
+列表的组成:
+</p>
+<ol class="org-ol">
+<li>括号和由空格分隔的原子</li>
+<li>括号的其他列表</li>
+<li>仅仅括号 (空列表)</li>
+</ol>
+
+
+<p>
+列表原子间的空格数量有限制吗，除了空格外，还可以使用什么分割原子？（所有的空白字
+符）.
+</p>
+</div>
+</div>
+<div id="outline-container-org1b0b857" class="outline-4">
+<h4 id="org1b0b857"><span class="section-number-4">1.1.2</span> 对列表进行排版</h4>
+<div class="outline-text-4" id="text-1-1-2">
+<p>
+列表的排版缩进命令？ (<code>M-C-\</code>)
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgc64d873" class="outline-4">
+<h4 id="orgc64d873"><span class="section-number-4">1.1.3</span> 空列表</h4>
+<div class="outline-text-4" id="text-1-1-3">
+<p>
+空列表既是原子也是列表
+</p>
+</div>
+</div>
+
+<div id="outline-container-org108c1fe" class="outline-4">
+<h4 id="org108c1fe"><span class="section-number-4">1.1.4</span> S-表达式</h4>
+<div class="outline-text-4" id="text-1-1-4">
+<p>
+原子与列表的组成也叫表达式(<i>symbolic expression | s-expression</i>)。
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgca9f509" class="outline-4">
+<h4 id="orgca9f509"><span class="section-number-4">1.1.5</span> 原子</h4>
+<div class="outline-text-4" id="text-1-1-5">
+<p>
+在Lisp中,原子代表一种不可再分的数据结构,也就是Lisp组成的最小单元.
+</p>
+
+<p>
+涉及列表操作的原子都是不可分的。
+</p>
+</div>
+
+<div id="outline-container-org1f66112" class="outline-5">
+<h5 id="org1f66112"><span class="section-number-5">1.1.5.1</span> 原子的种类。</h5>
+<div class="outline-text-5" id="text-1-1-5-1">
+<ul class="org-ul">
+<li>数字</li>
+<li>符号</li>
+<li>字符串</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-org4ee0281" class="outline-5">
+<h5 id="org4ee0281"><span class="section-number-5">1.1.5.2</span> 求值原子</h5>
+<div class="outline-text-5" id="text-1-1-5-2">
+<p>
+当对原子进行求值操作(按下 <code>C-x C-e</code> )时,emacs会将原子看成一个变量,试图从中获取一个值.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org1385c00" class="outline-5">
+<h5 id="org1385c00"><span class="section-number-5">1.1.5.3</span> 符号</h5>
+<div class="outline-text-5" id="text-1-1-5-3">
+<p>
+符号是原子一种,它有两种特殊的用途:存放数值;存放函数.函数和数值可以同时放入一个符
+号中,它们互不影响,emacs会根据表达式来判断其表示的是变量还是函数.
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org7930837" class="outline-4">
+<h4 id="org7930837"><span class="section-number-4">1.1.6</span> 运行列表</h4>
+<div class="outline-text-4" id="text-1-1-6">
+<p>
+任何的一个列表都是一个准备运行的程序,解释器会将列表的第一个符号解释为命令,执行它,若
+执行过程中出现错误,那么会返回一些错误信息.
+</p>
+
+<p>
+有一种特殊情况,当列表像下面这样,它并不运行,而是仅仅返回列表本身.
+</p>
+<div class="org-src-container">
+<pre class="src src-elisp">'(hello I am a lisper)
+</pre>
+</div>
+
+<p>
+它等价于调用命令 <code>quote</code>
+</p>
+<div class="org-src-container">
+<pre class="src src-elisp">(quote hello I am a lisper)
+</pre>
+</div>
+
+<p>
+在圆括号后面按下 <code>C-x C-e</code> emacs就会运行这个命令.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orga408a66" class="outline-4">
+<h4 id="orga408a66"><span class="section-number-4">1.1.7</span> 局部变量let</h4>
+<div class="outline-text-4" id="text-1-1-7">
+<p>
+由 let 绑定的局部变量只能在 let 内部使用。 27N
+</p>
+
+<p>
+let 返回值是什么？（body 中最后一个的表达式的返回值） 27L
+</p>
+
+<p>
+let 表达式的结构。 28H
+</p>
+<div class="org-src-container">
+<pre class="src src-elisp">  (let ((variable1 value)
+        (variable2 value)
+        ...)
+    body...)
+</pre>
+</div>
+
+<p>
+未初始化的变量名是什么值？ 29H
+</p>
+</div>
+</div>
+</div>
+<div id="outline-container-orgced7bd2" class="outline-3">
+<h3 id="orgced7bd2"><span class="section-number-3">1.2</span> 注释</h3>
+<div class="outline-text-3" id="text-1-2">
+<p>
+注释以 <code>;</code> 开头,一直到行尾.
+</p>
+</div>
+<div id="outline-container-org871de34" class="outline-4">
+<h4 id="org871de34"><span class="section-number-4">1.2.1</span> 单个分号构成的注释</h4>
+<div class="outline-text-4" id="text-1-2-1">
+<p>
+适合放在代码后面,并且能够更好在右边进行右对齐.主要目的是说明位于改行的代码的具体
+含义.
+</p>
+<div class="org-src-container">
+<pre class="src src-elisp">(setq base-version-list                ; There was a base
+      (assoc (substring fn 0 start-vn) ; version to which
+             file-version-assoc-list)) ; this looks like
+                                       ; a subversion.
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-orgb572f2c" class="outline-4">
+<h4 id="orgb572f2c"><span class="section-number-4">1.2.2</span> 两个分号的注释</h4>
+<div class="outline-text-4" id="text-1-2-2">
+<p>
+这种注释与下一行代码具有相同的缩进等级,可以更好的描述下一行代码的含义或者程序允
+许到该位置的状态.
+</p>
+<div class="org-src-container">
+<pre class="src src-elisp">(prog1 (setq auto-fill-function
+             ...
+             ...
+    ;; Update mode line.
+    (force-mode-line-update)))
+</pre>
+</div>
+
+<p>
+还有一种使用方式:放在函数头,这是为了说明一个没有文档的函数的工作状态.
+</p>
+<div class="org-src-container">
+<pre class="src src-elisp">;; This Lisp code is run in Emacs when it is to operate as
+;; a server for other processes.
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-orgdd8dab0" class="outline-4">
+<h4 id="orgdd8dab0"><span class="section-number-4">1.2.3</span> 三个分号的注释</h4>
+<div class="outline-text-4" id="text-1-2-3">
+<pre class="example">
+Comments that start with three semicolons, ‘;;;’, should start at the left
+margin. We use them for comments which should be considered a heading by
+Outline minor mode. By default, comments starting with at least three
+semicolons (followed by a single space and a non-whitespace character) are
+considered headings, comments starting with two or fewer are not. Historically,
+triple-semicolon comments have also been used for commenting out lines within a
+function, but this use is discouraged.
+</pre>
+
+<p>
+以三个分号&rsquo;;;;&rsquo;开头的注释应从左边开始。我们将其用于应被视为大纲小模式标题的注释。
+默认情况下，至少以三个分号开头的注释是(后面是一个空格和一个非空格字符)被认为是标
+题，而以两个或更少的字符开头的注释则不被认为是标题。历史上，三分号注释也曾用于注
+释函数中的行，但不鼓励使用。
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgd97c70d" class="outline-4">
+<h4 id="orgd97c70d"><span class="section-number-4">1.2.4</span> 四个分号的注释</h4>
+<div class="outline-text-4" id="text-1-2-4">
+<p>
+以四个分号 <code>;;;;</code> 开头的注释应向左边缘对齐，用于程序主要部分的标题。
+</p>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org2b69229" class="outline-2">
+<h2 id="org2b69229"><span class="section-number-2">2</span> Lisp数据结构</h2>
+<div class="outline-text-2" id="text-2">
+</div>
+<div id="outline-container-orga8d664f" class="outline-3">
+<h3 id="orga8d664f"><span class="section-number-3">2.1</span> Lisp对象是什么?</h3>
+<div class="outline-text-3" id="text-2-1">
+<p>
+Lisp对象就是被Lisp程序操作和使用的数据部分.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org31c106c" class="outline-3">
+<h3 id="org31c106c"><span class="section-number-3">2.2</span> Lisp对象只能是一个类型吗?</h3>
+<div class="outline-text-3" id="text-2-2">
+<p>
+Every object belongs to at least one type. Objects of the same type have similar
+structures and may usually be used in the same contexts. Types can overlap, and
+objects can belong to two or more types. Consequently, we can ask whether an
+object belongs to a particular type, but not for the type of an object.
+</p>
+
+<p>
+Lisp对象只能是一个基本类型.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgb139ef8" class="outline-3">
+<h3 id="orgb139ef8"><span class="section-number-3">2.3</span> 基本类型(<i>primitive types</i>)</h3>
+<div class="outline-text-3" id="text-2-3">
+<pre class="example">
+These, from which all other types are constructed, are called /primitive types/.
+这些，所有其他类型都是由这些类型构造出来的，被称为基元类型。
+</pre>
+</div>
+
+<div id="outline-container-org9d9f2ac" class="outline-4">
+<h4 id="org9d9f2ac"><span class="section-number-4">2.3.1</span> Lisp有哪些基本类型?</h4>
+<div class="outline-text-4" id="text-2-3-1">
+<p>
+integer, float, cons, symbol, string, vector, hash-table, subr, byte-code
+function, record, <b>Editor type</b>
+</p>
+</div>
+</div>
+
+<div id="outline-container-org8ef8930" class="outline-4">
+<h4 id="org8ef8930"><span class="section-number-4">2.3.2</span> 基本类型如何检查对象是否属于它?</h4>
+<div class="outline-text-4" id="text-2-3-2">
+<p>
+每个基本类型都有一个对应的Lisp函数，用于检查一个对象是否是该类型的成员。
+</p>
+</div>
+</div>
+
+<div id="outline-container-org209259b" class="outline-4">
+<h4 id="org209259b"><span class="section-number-4">2.3.3</span> Lisp如何分辨一个对象的类型?</h4>
+<div class="outline-text-4" id="text-2-3-3">
+<p>
+创建一个Lisp对象时不像其他语言一样需要显示定义它的类型,因此Lisp通过对象的初始值
+来判断它是什么类型.
+</p>
+</div>
+</div>
+</div>
+<div id="outline-container-orgfbd24e3" class="outline-3">
+<h3 id="orgfbd24e3"><span class="section-number-3">2.4</span> 打印表达式和读入语法</h3>
+<div class="outline-text-3" id="text-2-4">
+<p>
+每个类型都具有其表现形式(打印表达式)和被识别的形式(读入语法).
+</p>
+</div>
+
+<div id="outline-container-org5ea6a48" class="outline-4">
+<h4 id="org5ea6a48"><span class="section-number-4">2.4.1</span> 什么是打印表达式?</h4>
+<div class="outline-text-4" id="text-2-4-1">
+<p>
+打印表达式是Lisp打印程序(例如 <code>print1</code>)输出对象的一个呈现形式.
+</p>
+
+<p>
+每个对象都具备唯一的打印表达式.
+</p>
+</div>
+</div>
+<div id="outline-container-org91f2111" class="outline-4">
+<h4 id="org91f2111"><span class="section-number-4">2.4.2</span> 什么是读入语法?</h4>
+<div class="outline-text-4" id="text-2-4-2">
+<p>
+读入语法是Lisp读入程序读入一个对象时能够识别出其类型的语法格式.
+</p>
+
+<p>
+一个对象(所属的类型)不仅仅有一个读入语法.
+</p>
+</div>
+</div>
+<div id="outline-container-orga0e397f" class="outline-4">
+<h4 id="orga0e397f"><span class="section-number-4">2.4.3</span> 哪些类型具有打印表达式,哪些具有读入语法?</h4>
+<div class="outline-text-4" id="text-2-4-3">
+<pre class="example">
+since it does not make sense to enter objects of these types as constants in a
+Lisp program.
+                                                make sense 有意义的
+因为在Lisp程序中把这些类型的对象作为常量输入是没有意义的。
+</pre>
+
+<p>
+每个类型都具备打印表达式,而只有那些需要作为常量在Lisp程序中被使用的类型才具有读
+入语法.
+</p>
+
+<p>
+那些没有读入语法的类型的打印表达式都是以一种叫做散列符号(<i>hash notation</i>)的形式
+被打印出来.例如:
+</p>
+<pre class="example">
+(current-buffer)
+⇒ #&lt;buffer objects.texi&gt;
+</pre>
+
+<p>
+当试图读入散列符号时(以 <code>#&lt;</code> 开头的序列),Lisp读入程序会被触发
+<code>invalid-read-syntax</code> 的错误.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org1e8fd7c" class="outline-4">
+<h4 id="org1e8fd7c"><span class="section-number-4">2.4.4</span> 一个Lisp表达式</h4>
+<div class="outline-text-4" id="text-2-4-4">
+<pre class="example">
+In other languages, an expression is text; it has no other form. In Lisp, an
+expression is primarily a Lisp object and only secondarily the text that is the
+object’s read syntax.
+</pre>
+
+<p>
+在其他语言中，表达式就是文本；它没有其他形式。在Lisp中，一个表达式主要是一个Lisp
+对象，其次才是对象的读语法的文本。
+</p>
+</div>
+</div>
+
+<div id="outline-container-org095ee73" class="outline-4">
+<h4 id="org095ee73"><span class="section-number-4">2.4.5</span> 对一个Lisp表达式求值</h4>
+<div class="outline-text-4" id="text-2-4-5">
+<p>
+当我们对一个Lisp进行求值时,Lisp读入程序会从文本中读入它,然后产生一个Lisp对象,当
+没有任何错误被发现时,Lisp返回这个对象的值.
+</p>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org362eec7" class="outline-2">
+<h2 id="org362eec7"><span class="section-number-2">3</span> 表达式</h2>
+<div class="outline-text-2" id="text-3">
+</div>
+<div id="outline-container-orgce40b57" class="outline-3">
+<h3 id="orgce40b57"><span class="section-number-3">3.1</span> 函数</h3>
+<div class="outline-text-3" id="text-3-1">
+</div>
+<div id="outline-container-orgd48ae83" class="outline-4">
+<h4 id="orgd48ae83"><span class="section-number-4">3.1.1</span> 参数</h4>
+<div class="outline-text-4" id="text-3-1-1">
+</div>
+<div id="outline-container-orgdd902a6" class="outline-5">
+<h5 id="orgdd902a6"><span class="section-number-5">3.1.1.1</span> 数目可变的参数</h5>
+</div>
+</div>
+
+<div id="outline-container-orge9323e9" class="outline-4">
+<h4 id="orge9323e9"><span class="section-number-4">3.1.2</span> 函数的定义</h4>
+<div class="outline-text-4" id="text-3-1-2">
+<p>
+使用 <code>defun</code> (<i>define function</i>)特殊表。 21L
+</p>
+
+<p>
+函数定义的五大部分。 21L
+</p>
+<div class="org-src-container">
+<pre class="src src-elisp">  (defun funtion-name (args)
+    "optional-documenttation..."
+    (interactive args-para-info)
+    (body...))
+</pre>
+</div>
+
+<p>
+参数列表的符号能被函数外部知道吗？ 22M
+</p>
+
+<p>
+帮助文档会在哪里被显示？ 22L
+</p>
+
+<p>
+安装函数定义。 23H
+</p>
+
+<p>
+如何永久安装函数定义？ 27H
+</p>
+
+<p>
+如何安装函数的最新版本？ 23L
+</p>
+
+<p>
+elisp 的注释？ 24H
+</p>
+
+<p>
+elisp 编写程序的一般行为。 24H
+</p>
+</div>
+</div>
+
+<div id="outline-container-org66910d1" class="outline-4">
+<h4 id="org66910d1"><span class="section-number-4">3.1.3</span> 交互式函数</h4>
+<div class="outline-text-4" id="text-3-1-3">
+<p>
+交互式函数可以被命令 <code>M-x</code> 执行或被按键绑定。 24ML
+</p>
+
+<p>
+向交互式函数传入前缀参数。 25H
+</p>
+
+<p>
+交互式函数获取获取参数。 25M,26N
+</p>
+<dl class="org-dl">
+<dt>p</dt><dd>获取前缀参数 24M</dd>
+<dt>B</dt><dd>获取缓冲区参数，会提示用户输入缓冲区名,该参数可以接
+受一个字符串前缀 26M</dd>
+<dt>r</dt><dd>使 Emacs 将位点所在区域的开始值和结束值作为参数传入。 26M</dd>
+</dl>
+
+<hr />
+
+<dl class="org-dl">
+<dt>如何同时传入多个参数？ 26M</dt><dd>使用 <code>\n</code> 作为分隔符，比如
+<code>"BAppend to buffer: \nr"</code> 将同时使用 &ldquo;B&rdquo; 和 &ldquo;r&rdquo; 作为参数传入</dd>
+</dl>
+
+<p>
+不使用参数的 <code>interactive</code> 函数？ 26L
+</p>
+
+<p>
+如何自定义 <code>interactive</code> 的参数列表？ 26L
+</p>
+</div>
+</div>
+</div>
+<div id="outline-container-org5e1cbbd" class="outline-3">
+<h3 id="org5e1cbbd"><span class="section-number-3">3.2</span> 变量</h3>
+<div class="outline-text-3" id="text-3-2">
+<p>
+Lisp是弱类型语言,当你定义一个变量时,它能够存储任何类型的数值.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org9f9b13b" class="outline-3">
+<h3 id="org9f9b13b"><span class="section-number-3">3.3</span> if 特殊表</h3>
+<div class="outline-text-3" id="text-3-3">
+<p>
+if 用于判断真假，然后运行对应的语句块。 29L
+</p>
+
+<p>
+if 表达式的 than 结构，若没有 else 部分，则在 else 部分返回 nil。 30H
+</p>
+
+<p>
+equal 函数用于判断给定的两个参量是否相等。 31M
+</p>
+
+<p>
+if-than-else 整体结构。 32H
+</p>
+
+<p>
+在 Lisp 中，什么是真？什么是假？ 32L
+</p>
+</div>
+</div>
+<div id="outline-container-org7e1c9db" class="outline-3">
+<h3 id="org7e1c9db"><span class="section-number-3">3.4</span> save-excursion 函數</h3>
+<div class="outline-text-3" id="text-3-4">
+<p>
+將當前位點和標記保存起來，執行函數體，然後，如果位點或標記發生改變就將位點和標記
+恢復到原來的值。 33L
+</p>
+
+<p>
+什麼是位點？ 33L
+</p>
+
+<p>
+什麼是標記？ 33L
+</p>
+
+<p>
+什麼和什麼構成區域？ 34H
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org5739bf9" class="outline-2">
+<h2 id="org5739bf9"><span class="section-number-2">4</span> Lisp 解释器</h2>
+<div class="outline-text-2" id="text-4">
+<p>
+Lisp 解释器对于执行一个列表的工作过程？
+</p>
+<ol class="org-ol">
+<li>判断是否引用</li>
+<li>判断第一个符号是否命令(函数)</li>
+<li>以上都不是——&gt;打印错误消息</li>
+</ol>
+</div>
+
+<div id="outline-container-org71ec38f" class="outline-3">
+<h3 id="org71ec38f"><span class="section-number-3">4.1</span> 求值</h3>
+<div class="outline-text-3" id="text-4-1">
+<p>
+任何一个表达式都必须返回一个值，某些表达式除了返回一个值，还可能产生一个附带效果
+<i>side effect</i> ,或者表达式会返回一个错误信息。
+</p>
+</div>
+
+<div id="outline-container-orgb0e8edc" class="outline-4">
+<h4 id="orgb0e8edc"><span class="section-number-4">4.1.1</span> 为什么需要对最内部的表达式先求值？</h4>
+</div>
+
+<div id="outline-container-org6da5be7" class="outline-4">
+<h4 id="org6da5be7"><span class="section-number-4">4.1.2</span> 对符号求值与对数字，字符串求值的区别？</h4>
+</div>
+</div>
+
+<div id="outline-container-org05dc3ef" class="outline-3">
+<h3 id="org05dc3ef"><span class="section-number-3">4.2</span> 编译</h3>
+<div class="outline-text-3" id="text-4-2">
+<p>
+使用命令 <code>byte-compile-file</code> 用于对 el 文件编译成 elc
+字节码文件,这个过程叫做字节编译 <i>byte compiled</i> 6H
+</p>
+</div>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="author">Author: JiangSan</p>
+<p class="date">Created: 2020-09-03 Thu 09:11</p>
+</div>
+</body>
+</html>
